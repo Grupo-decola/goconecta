@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36221.1 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "app-goconecta.client", "app-goconecta.client\app-goconecta.client.esproj", "{D8D0156E-264E-765E-6894-BC4AC476E450}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "app-goconecta.Server", "app-goconecta.Server\app-goconecta.Server.csproj", "{DF0F1C17-8272-4744-A82F-126C9EA2BAE1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D8D0156E-264E-765E-6894-BC4AC476E450}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D0156E-264E-765E-6894-BC4AC476E450}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D0156E-264E-765E-6894-BC4AC476E450}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D8D0156E-264E-765E-6894-BC4AC476E450}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D0156E-264E-765E-6894-BC4AC476E450}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D0156E-264E-765E-6894-BC4AC476E450}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{DF0F1C17-8272-4744-A82F-126C9EA2BAE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF0F1C17-8272-4744-A82F-126C9EA2BAE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF0F1C17-8272-4744-A82F-126C9EA2BAE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF0F1C17-8272-4744-A82F-126C9EA2BAE1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {96EFDAD1-0574-4D33-83BC-172B959EA897}
+	EndGlobalSection
+EndGlobal
