@@ -1,0 +1,6 @@
+@app_goconecta.Server_HostAddress = http://localhost:5062
+
+GET {{app_goconecta.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
