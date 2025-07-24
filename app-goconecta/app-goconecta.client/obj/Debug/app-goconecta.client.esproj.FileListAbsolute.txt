@@ -1,0 +1,1 @@
+C:\Users\p.ghiotti.martins\development\workspace\impacta\goconecta\app-goconecta\app-goconecta.client\obj\Debug\app-goconecta.client.esproj.CoreCompileInputs.cache

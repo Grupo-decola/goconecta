@@ -1,0 +1,10 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:51808",
+"RedirectUrl": "",
+"LaunchCommand": "npm run dev",
+"WorkingDirectory": "C:\\Users\\p.ghiotti.martins\\development\\workspace\\impacta\\goconecta\\app-goconecta\\app-goconecta.Server\\..\\app-goconecta.client",
+"MaxTimeoutInSeconds": "120",
+"KeepRunning": "false"
+}
+}
