@@ -1,0 +1,72 @@
+erDiagram
+    USUARIO ||--o{ RESERVA : "faz"
+    USUARIO ||--o{ AVALIACAO : "escreve"
+    PACOTE_VIAGEM ||--o{ RESERVA : "contem"
+    PACOTE_VIAGEM ||--o{ AVALIACAO : "recebe"
+    PACOTE_VIAGEM ||--o{ SOLICITACAO_PERSONALIZACAO : "referencia"
+    RESERVA ||--o{ PAGAMENTO : "tem"
+    SOLICITACAO_PERSONALIZACAO ||--o{ ORCAMENTO_PERSONALIZACAO : "gera"
+    USUARIO {
+        int Id PK
+        string Nome
+        string Email UK
+        string SenhaHash
+        string Telefone
+        string CPFPassaporte
+        string Perfil
+    }
+    PACOTE_VIAGEM {
+        int Id PK
+        string Titulo
+        string Descricao
+        string Destino
+        int DuracaoDias
+        date DataDisponivelInicio
+        date DataDisponivelFim
+        decimal Valor
+        string ImagensURLs
+        string VideosURLs
+    }
+    RESERVA {
+        int Id PK
+        int IdUsuario FK
+        int IdPacoteViagem FK
+        date DataReserva
+        string Status
+        string NumeroReserva
+        decimal ValorTotal
+    }
+    PAGAMENTO {
+        int Id PK
+        int IdReserva FK
+        string GatewayTransacaoId
+        string MetodoPagamento
+        decimal ValorPago
+        date DataPagamento
+        string StatusPagamento
+        string ComprovanteURL
+    }
+    AVALIACAO {
+        int Id PK
+        int IdUsuario FK
+        int IdPacoteViagem FK
+        int Nota
+        string Comentario
+        date DataAvaliacao
+    }
+    SOLICITACAO_PERSONALIZACAO {
+        int Id PK
+        int IdUsuario FK
+        int IdPacoteViagem FK
+        string DescricaoModificacoes
+        string Status
+        date DataSolicitacao
+    }
+    ORCAMENTO_PERSONALIZACAO {
+        int Id PK
+        int IdSolicitacaoPersonalizacao FK
+        decimal ValorProposto
+        string DetalhesOrcamento
+        date DataValidade
+        string Status
+    }
