@@ -2,5 +2,5 @@ node_modules/
 .vs/
 .idea/
 *bin/
-appsettings.json
+appsettings.Development.json
 **/obj
