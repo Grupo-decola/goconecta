@@ -143,4 +143,6 @@ public class AppDbContext : DbContext
         //         .OnDelete(DeleteBehavior.Cascade);
         // });
     }
+
+public DbSet<app_goconecta.Server.Models.Hotel> Hotel { get; set; } = default!;
 }
