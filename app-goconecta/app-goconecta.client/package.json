@@ -11,9 +11,15 @@
   },
   "dependencies": {
     "@mantine/core": "^8.2.1",
+
+    "@mantine/form": "^8.2.1",
     "@mantine/hooks": "^8.2.1",
+    "@material-tailwind/react": "^2.1.10",
+    "antd": "^5.26.6",
+
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.7.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.31.0",
