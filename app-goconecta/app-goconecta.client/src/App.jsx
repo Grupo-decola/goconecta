@@ -1,12 +1,15 @@
-import './App.css';
-import '@mantine/core/styles.css';
+import "@mantine/carousel/styles.css";
+import { MantineProvider } from "@mantine/core";
+import "@mantine/core/styles.css";
+import "./App.css";
+import InfoPage from "./Pages/InfoPage/InfoPage";
 
-import { MantineProvider } from '@mantine/core';
-
-
-function App()
-{
-    return <MantineProvider>{ }</MantineProvider>;
+function App() {
+  return (
+    <MantineProvider>
+      <InfoPage />
+    </MantineProvider>
+  );
 }
 
 export default App;
