@@ -1,26 +1,17 @@
-import './App.css';
-import '@mantine/core/styles.css';
+import { MantineProvider } from "@mantine/core";
+import InfoPage from "./Pages/InfoPage/InfoPage";
+import { theme } from "./theme";
+import "@mantine/core/styles.css";
+import "@mantine/carousel/styles.css";
+import "@mantine/dates/styles.css";
+import "./App.css";
 
-import { MantineProvider } from '@mantine/core';
-
-import CadastroFormulario from './Components/cadastro-formulario/CadastroFormulario';
-import Login from './Components/login-formulario/LoginForm';
-import LoginForm from './Components/LoginSenha';
-
-
-
-function App()
-{
-
-    return <MantineProvider>
-    <CadastroFormulario></CadastroFormulario>
-
-    <h2>Olá, Faça seu Login</h2>
-    <LoginForm></LoginForm>
-    </MantineProvider>;
-
-    return <MantineProvider>{ }</MantineProvider>;
-
+function App() {
+  return (
+    <MantineProvider theme={theme}>
+      <InfoPage />
+    </MantineProvider>
+  );
 }
 
 export default App;
