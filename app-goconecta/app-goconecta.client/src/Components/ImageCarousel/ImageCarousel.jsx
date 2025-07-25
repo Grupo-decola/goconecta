@@ -13,12 +13,15 @@ const images = [
 export default function ImageCarousel() {
   const slides = images.map((url) => (
     <Carousel.Slide key={url}>
-      <Image radius="md" h={200} w="auto" fit="contain" src={url} />
+      <Image radius="md" h={200} fit="contain" src={url} />
     </Carousel.Slide>
   ));
+
   return (
-    <Carousel height={200} classNames={classes}>
-      {slides}
-    </Carousel>
+    <div style={{ display: "flex" }}>
+      <Carousel withIndicators height="100%" flex={1}>
+        {slides}
+      </Carousel>
+    </div>
   );
 }
