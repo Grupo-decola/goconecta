@@ -1,4 +1,5 @@
 using app_goconecta.Server.Data;
+using app_goconecta.Server.DTOs;
 using app_goconecta.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,14 +50,19 @@ public class PackagesController : ControllerBase
     
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Package>> GetById(int id)
+    public async Task<ActionResult<PackageDetailDTO>> GetById(int id)
     {
-        var package = await _context.Packages.AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+        var package = await _context.Packages
+            .AsNoTracking()
+            .Include(p => p.Hotel)
+            .Include(p => p.Media)
+            .FirstOrDefaultAsync(p => p.Id == id);
         if (package == null)
         {
             return NotFound();
         }
-        return Ok(package);
+        var packageDetailDto = PackageDetailDTO.FromModel(package);
+        return Ok(packageDetailDto);
         
     }
 }
