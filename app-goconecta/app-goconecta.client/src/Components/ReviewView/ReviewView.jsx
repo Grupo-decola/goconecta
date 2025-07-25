@@ -4,12 +4,11 @@ import classes from "./ReviewView.module.css";
 export default function ReviewView() {
   return (
     <div>
-      <Text fw={700} size="lg">
+      <Text fw={700} size="lg" >
         Luxury Beach Getaway
       </Text>
       <Flex
         mih={50}
-        bg="#FFFFFF"
         gap="lg"
         justify="center"
         align="flex-start"
