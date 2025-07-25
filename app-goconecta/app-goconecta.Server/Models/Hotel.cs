@@ -12,6 +12,6 @@ public class Hotel
     public string? Region { get; set; }
     public string? Address { get; set; }
 
-    public ICollection<Package> Pacotes { get; set; } = new List<Package>();
+    public ICollection<Package> Packages { get; set; } = new List<Package>();
 
 }

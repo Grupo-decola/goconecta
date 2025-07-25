@@ -23,7 +23,7 @@ public class HotelsController : Controller
     // GET: Hotels
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Hotel.ToListAsync());
+        return View(await _context.Hotels.ToListAsync());
     }
 
     // GET: Hotels/Details/5
@@ -34,7 +34,7 @@ public class HotelsController : Controller
             return NotFound();
         }
 
-        var hotel = await _context.Hotel
+        var hotel = await _context.Hotels
             .FirstOrDefaultAsync(m => m.Id == id);
         if (hotel == null)
         {
@@ -74,7 +74,7 @@ public class HotelsController : Controller
             return NotFound();
         }
 
-        var hotel = await _context.Hotel.FindAsync(id);
+        var hotel = await _context.Hotels.FindAsync(id);
         if (hotel == null)
         {
             return NotFound();
@@ -125,7 +125,7 @@ public class HotelsController : Controller
             return NotFound();
         }
 
-        var hotel = await _context.Hotel
+        var hotel = await _context.Hotels
             .FirstOrDefaultAsync(m => m.Id == id);
         if (hotel == null)
         {
@@ -140,10 +140,10 @@ public class HotelsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var hotel = await _context.Hotel.FindAsync(id);
+        var hotel = await _context.Hotels.FindAsync(id);
         if (hotel != null)
         {
-            _context.Hotel.Remove(hotel);
+            _context.Hotels.Remove(hotel);
         }
 
         await _context.SaveChangesAsync();
@@ -152,6 +152,6 @@ public class HotelsController : Controller
 
     private bool HotelExists(int id)
     {
-        return _context.Hotel.Any(e => e.Id == id);
+        return _context.Hotels.Any(e => e.Id == id);
     }
 }

@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; }
+    public DbSet<Hotel> Hotels { get; set; }
     public DbSet<Package> Packages { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<Media> Media { get; set; }
@@ -33,6 +34,22 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Phone).HasMaxLength(20);
             entity.Property(e => e.CpfPassport).HasMaxLength(20);
             entity.Property(e => e.Role).IsRequired().HasMaxLength(20);
+        });
+        
+        // Hotel configuration
+        modelBuilder.Entity<Hotel>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Description).HasMaxLength(200).IsRequired();
+            entity.Property(e => e.Rating).IsRequired();
+            entity.Property(e => e.RoomsAvailable).IsRequired();
+            entity.Property(e => e.Region).IsRequired().HasMaxLength(50);
+            entity.Property(e => e.Address).IsRequired().HasMaxLength(200);
+            entity.HasMany<Package>(e => e.Packages)
+                .WithOne(e => e.Hotel)
+                .HasForeignKey(e => e.HotelId)
+                .OnDelete(DeleteBehavior.Restrict);
         });
 
         // Package configuration
@@ -143,6 +160,4 @@ public class AppDbContext : DbContext
         //         .OnDelete(DeleteBehavior.Cascade);
         // });
     }
-
-public DbSet<app_goconecta.Server.Models.Hotel> Hotel { get; set; } = default!;
 }
