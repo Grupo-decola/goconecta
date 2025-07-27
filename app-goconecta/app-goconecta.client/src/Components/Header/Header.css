@@ -1,0 +1,198 @@
+.main-header {
+  background: #fff;
+  border-bottom: 1px solid #eaeaea;
+  font-family: Arial, sans-serif;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 32px;
+  height: 120px;
+  background:#c09c7c73;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #182348;
+}
+
+.LogoGoConecta {
+  height: 100px;
+  left: 80px;
+  position: relative;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-size: 0.95em;
+}
+
+.action-link {
+  color: #182348;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.action-link:hover {
+  color:#DA7818;
+}
+
+.phone {
+  background: #DA7818;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-weight: bold;
+}
+
+.user-btn {
+  background: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.user-icon {
+  font-size: 1.2em;
+  color:#DA7818;
+}
+
+.main-nav {
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid #eaeaea;
+  background: #fff;
+}
+
+.main-nav ul {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+  margin: 0;
+  padding: 16px 0;
+}
+
+.nav-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color:  #DA7818;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1em;
+  transition: color 0.2s;
+}
+
+.nav-link .nav-icon {
+  font-size: 1.5em;
+  margin-bottom: 4px;
+}
+.nav-link.active,
+.nav-link:hover {
+  color: #182348;
+  border-bottom: 1px solid #182348;
+}
+
+
+/*Responsividade*/ 
+.burger-menu {
+  display: none;
+}
+
+@media (max-width: 1000px) {
+  .burger-menu {
+    display: block;
+    margin-left: auto;
+  }
+  .header-actions {
+    display: none;
+  }
+}
+
+@media (max-width: 1336px) {
+  .LogoGoConecta {
+    height: 100px;
+    left: 0;
+    position: relative
+  }
+}
+
+@media (max-width: 1000px) {
+  .header-top {
+    height: auto;
+    padding: 16px;
+   
+  }
+
+  .LogoGoConecta {
+    height: 60px;
+    left: 0;
+  }
+
+  .header-actions {
+    flex-wrap: wrap;
+    gap: 12px;
+    width: 100%;
+    justify-content: flex-start;
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 700px) {
+  .main-nav ul {
+    gap: 16px;
+    padding: 8px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .main-nav {
+    overflow-x: auto;
+  }
+  .nav-link {
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 500px) {
+  .header-top {
+    padding: 8px;
+    gap: 8px;
+  }
+  .logo {
+    font-size: 1.1em;
+  }
+  .LogoGoConecta {
+    height: 40px;
+  }
+  .header-actions {
+    font-size: 0.85em;
+    gap: 8px;
+  }
+  .phone {
+    padding: 4px 8px;
+    font-size: 0.95em;
+  }
+  .main-nav ul {
+    gap: 8px;
+    padding: 4px 0;
+  }
+  .nav-link .nav-icon {
+    font-size: 1.2em;
+  }
+}
