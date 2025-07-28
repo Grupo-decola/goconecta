@@ -35,8 +35,8 @@ Provide a concise description of the change:
 
 ### 4. **Optional Fields**
 - **Footer**: Include additional metadata like issue references or breaking change notes.
-  - For breaking changes, include `BREAKING CHANGE: <description>` in the footer.
-  - Example: `Closes #123` to reference an issue.
+    - For breaking changes, include `BREAKING CHANGE: <description>` in the footer.
+    - Example: `Closes #123` to reference an issue.
 
 ### Example Commit Messages
 ```
