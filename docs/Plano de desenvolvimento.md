@@ -83,7 +83,7 @@ erDiagram
         string SenhaHash
         string Telefone
         string CPFPassaporte
-        string Perfil // Cliente, Atendente, Administrador
+        string Perfil
     }
     PACOTE_VIAGEM {
         int Id PK
@@ -102,7 +102,7 @@ erDiagram
         int IdUsuario FK
         int IdPacoteViagem FK
         date DataReserva
-        string Status // Pendente, Confirmada, Cancelada
+        string Status
         string NumeroReserva
         decimal ValorTotal
     }
@@ -110,10 +110,10 @@ erDiagram
         int Id PK
         int IdReserva FK
         string GatewayTransacaoId
-        string MetodoPagamento // Stripe
+        string MetodoPagamento
         decimal ValorPago
         date DataPagamento
-        string StatusPagamento // Pendente, Aprovado, Recusado
+        string StatusPagamento
         string ComprovanteURL
     }
     AVALIACAO {
@@ -127,9 +127,9 @@ erDiagram
     SOLICITACAO_PERSONALIZACAO {
         int Id PK
         int IdUsuario FK
-        int IdPacoteViagem FK "Opcional, se a personalização for sobre um pacote existente"
+        int IdPacoteViagem FK
         string DescricaoModificacoes
-        string Status // Pendente, Em Orçamento, Aprovada, Recusada, Concluída
+        string Status
         date DataSolicitacao
     }
     ORCAMENTO_PERSONALIZACAO {
@@ -138,7 +138,7 @@ erDiagram
         decimal ValorProposto
         string DetalhesOrcamento
         date DataValidade
-        string Status // Enviado, Aceito, Recusado
+        string Status
     }
 ```
 
