@@ -54,7 +54,9 @@
   <ItemGroup>
     <Folder Include="Controllers\Mvc\" />
     <Folder Include="Migrations\" />
-    <Folder Include="wwwroot\assets\media\" />
+    <Folder Include="wwwroot\assets\media\Image\" />
+    <Folder Include="wwwroot\assets\media\Other\" />
+    <Folder Include="wwwroot\assets\media\Video\" />
   </ItemGroup>
 
 </Project>

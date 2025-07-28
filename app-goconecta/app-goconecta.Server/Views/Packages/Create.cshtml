@@ -10,36 +10,36 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="package.Title" class="control-label"></label>
-                <input asp-for="package.Title" class="form-control" />
-                <span asp-validation-for="package.Title" class="text-danger"></span>
+                <label asp-for="Package.Title" class="control-label"></label>
+                <input asp-for="Package.Title" class="form-control" />
+                <span asp-validation-for="Package.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="package.Description" class="control-label"></label>
-                <input asp-for="package.Description" class="form-control" />
-                <span asp-validation-for="package.Description" class="text-danger"></span>
+                <label asp-for="Package.Description" class="control-label"></label>
+                <input asp-for="Package.Description" class="form-control" />
+                <span asp-validation-for="Package.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="package.Destination" class="control-label"></label>
-                <input asp-for="package.Destination" class="form-control" />
-                <span asp-validation-for="package.Destination" class="text-danger"></span>
+                <label asp-for="Package.Destination" class="control-label"></label>
+                <input asp-for="Package.Destination" class="form-control" />
+                <span asp-validation-for="Package.Destination" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="package.HotelId" class="control-label"></label>
-                <select asp-for="package.HotelId" class="form-control">
+                <label asp-for="Package.HotelId" class="control-label"></label>
+                <select asp-for="Package.HotelId" class="form-control">
                     @foreach (var hotel in Model.Hotels) {
                         <option value="@hotel.Id">@hotel.Name</option>
                     }
                 </select>
-                <span asp-validation-for="package.HotelId" class="text-danger"></span>
+                <span asp-validation-for="Package.HotelId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="package.DurationDays" class="control-label"></label>
-                <input asp-for="package.DurationDays" class="form-control" />
-                <span asp-validation-for="package.DurationDays" class="text-danger"></span>
+                <label asp-for="Package.DurationDays" class="control-label"></label>
+                <input asp-for="Package.DurationDays" class="form-control" />
+                <span asp-validation-for="Package.DurationDays" class="text-danger"></span>
             </div>
             @* <div class="form-group"> *@
             @*     <label asp-for="AvailabilityStartDate" class="control-label"></label> *@
@@ -52,15 +52,32 @@
             @*     <span asp-validation-for="AvailabilityEndDate" class="text-danger"></span> *@
             @* </div> *@
             <div class="form-group">
-                <label asp-for="package.PriceAdults" class="control-label"></label>
-                <input asp-for="package.PriceAdults" class="form-control" />
-                <span asp-validation-for="package.PriceAdults" class="text-danger"></span>
+                <label asp-for="Package.PriceAdults" class="control-label"></label>
+                <input asp-for="Package.PriceAdults" class="form-control" />
+                <span asp-validation-for="Package.PriceAdults" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="package.PriceChildren" class="control-label"></label>
-                <input asp-for="package.PriceChildren" class="form-control" />
-                <span asp-validation-for="package.PriceChildren" class="text-danger"></span>
+                <label asp-for="Package.PriceChildren" class="control-label"></label>
+                <input asp-for="Package.PriceChildren" class="form-control" />
+                <span asp-validation-for="Package.PriceChildren" class="text-danger"></span>
             </div>
+            
+            <div class="form-group">
+                <label asp-for="Media1.File" class="control-label"></label>
+                <input asp-for="Media1.File" class="form-control" type="file"/>
+                <span asp-validation-for="Media1.File" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Media2.File" class="control-label"></label>
+                <input asp-for="Media2.File" class="form-control" type="file"/>
+                <span asp-validation-for="Media2.File" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Media3.File" class="control-label"></label>
+                <input asp-for="Media3.File" class="form-control" type="file"/>
+                <span asp-validation-for="Media3.File" class="text-danger"></span>
+            </div>
+            
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -4,3 +4,4 @@ node_modules/
 *bin/
 appsettings.Development.json
 **/obj
+**/wwwroot/assets/media

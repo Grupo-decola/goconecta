@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using app_goconecta.Server.Data;
+using app_goconecta.Server.Extensions;
 using app_goconecta.Server.Models;
 using app_goconecta.Server.ViewModels;
 
@@ -56,23 +58,47 @@ public class PackagesController : Controller
         return View(viewModel);
     }
 
-    // POST: Packages/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(PackageCreateViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        await using var transaction = await _context.Database.BeginTransactionAsync();
+        try
         {
-            _context.Add(viewModel.package);
+            _context.Add(viewModel.Package);
             await _context.SaveChangesAsync();
+
+            foreach (var media in viewModel.Media)
+            {
+                if (media.File is not { Length: > 0 }) { continue; };
+
+                var filePath = $"assets/media/{media.File.GetExtensionType()}/{Guid.NewGuid()}-{media.File.GetName()}.{media.File.GetExtension()}";
+                
+                await using var stream = new FileStream($"wwwroot/{filePath}", FileMode.Create);
+                await media.File.CopyToAsync(stream);
+
+                var newMedia = new Media
+                {
+                    Path = filePath,
+                    Title = media.Title,
+                    Type = media.File.GetExtensionType(),
+                    PackageId = viewModel.Package.Id,
+                };
+                
+                _context.Media.Add(newMedia);
+            }
+            
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+
             return RedirectToAction(nameof(Index));
         }
-        
-        viewModel.Hotels = _context.Hotels.ToList();
-        
-        return View(viewModel);
+        catch
+        {
+            await transaction.RollbackAsync();
+            viewModel.Hotels = _context.Hotels.ToList();
+            return View(viewModel);
+        }
     }
 
     // GET: Packages/Edit/5

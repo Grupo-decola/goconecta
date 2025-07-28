@@ -4,13 +4,25 @@ namespace app_goconecta.Server.ViewModels;
 
 public class PackageCreateViewModel
 {
-    public Package package { get; set; } = new Package()
+    public Package Package { get; set; } = new Package()
     {
         Title = String.Empty,
         Description = String.Empty,
         Destination = String.Empty
     };
-    public List<IFormFile> Images { get; set; } = new List<IFormFile>();
+
+    public MediaCreateViewModel Media1 { get; set; } = new MediaCreateViewModel { Title = "", File = null };
+    public MediaCreateViewModel Media2 { get; set; } = new MediaCreateViewModel { Title = "", File = null };
+    public MediaCreateViewModel Media3 { get; set; } = new MediaCreateViewModel { Title = "", File = null };
+    
+    public List<MediaCreateViewModel> Media { get; set; }
     
     public List<Hotel> Hotels { get; set; } = new List<Hotel>();
+
+    public PackageCreateViewModel()
+    {
+        Media = [
+            Media1, Media2, Media3
+        ];
+    }
 }

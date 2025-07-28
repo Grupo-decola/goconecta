@@ -10,5 +10,5 @@ public class Media
     public string? Type { get; set; } // Video, Imagem, ... -> para filtragem posterior a query
     
     public int PackageId { get; set; }
-    public required Package Package { get; set; }
+    public Package? Package { get; set; }
 }
