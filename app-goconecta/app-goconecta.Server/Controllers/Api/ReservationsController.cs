@@ -1,4 +1,5 @@
 using app_goconecta.Server.Data;
+using app_goconecta.Server.DTOs;
 using app_goconecta.Server.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -17,20 +18,23 @@ public class ReservationsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Reservation>>> GetAll()
+    public async Task<ActionResult<IReadOnlyList<ReservationDTO>>> GetAll()
     {
-        return await _context.Reservations.ToListAsync();
+        return (await _context.Reservations.
+            Include(r => r.Package).
+            ThenInclude(p =>p.Hotel).
+            ToListAsync()).Select(ReservationDTO.FromModel).ToList();
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Reservation>> GetById(int id)
+    public async Task<ActionResult<ReservationDTO>> GetById(int id)
     {
         var reservation = await _context.Reservations.FindAsync(id);
         if (reservation == null)
         {
             return NotFound();
         }
-        return Ok(reservation);
+        return Ok(ReservationDTO.FromModel(reservation));
     }
     
 }

@@ -18,7 +18,7 @@ public class PackagesController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Package>>> GetAll([FromQuery] PackageQueryFilter filter, [FromQuery] PaginationQuery pagination)
+    public async Task<ActionResult<IReadOnlyList<PackageDTO>>> GetAll([FromQuery] PackageQueryFilter filter, [FromQuery] PaginationQuery pagination)
     {
         var query = _context.Packages.AsQueryable();
         if (!string.IsNullOrEmpty(filter.Destination))
@@ -45,7 +45,9 @@ public class PackagesController : ControllerBase
         
         query = query.Skip((pagination.Page -1) * pagination.PageSize).Take(pagination.PageSize);
         // Return the filtered list of packages
-        return await query.AsNoTracking().ToListAsync();
+        return (await query.AsNoTracking().ToListAsync())
+            .Select(PackageDTO.FromModel)
+            .ToList();
     }
     
 
