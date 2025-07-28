@@ -1,4 +1,4 @@
-@model app_goconecta.Server.Models.Package
+@model app_goconecta.Server.ViewModels.PackageCreateViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,39 +13,53 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+                <label asp-for="package.Title" class="control-label"></label>
+                <input asp-for="package.Title" class="form-control" />
+                <span asp-validation-for="package.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
+                <label asp-for="package.Description" class="control-label"></label>
+                <input asp-for="package.Description" class="form-control" />
+                <span asp-validation-for="package.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Destination" class="control-label"></label>
-                <input asp-for="Destination" class="form-control" />
-                <span asp-validation-for="Destination" class="text-danger"></span>
+                <label asp-for="package.Destination" class="control-label"></label>
+                <input asp-for="package.Destination" class="form-control" />
+                <span asp-validation-for="package.Destination" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DurationDays" class="control-label"></label>
-                <input asp-for="DurationDays" class="form-control" />
-                <span asp-validation-for="DurationDays" class="text-danger"></span>
+                <label asp-for="package.HotelId" class="control-label"></label>
+                <select asp-for="package.HotelId" class="form-control">
+                    @foreach (var hotel in Model.Hotels) {
+                        <option value="@hotel.Id">@hotel.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="package.HotelId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AvailabilityStartDate" class="control-label"></label>
-                <input asp-for="AvailabilityStartDate" class="form-control" />
-                <span asp-validation-for="AvailabilityStartDate" class="text-danger"></span>
+                <label asp-for="package.DurationDays" class="control-label"></label>
+                <input asp-for="package.DurationDays" class="form-control" />
+                <span asp-validation-for="package.DurationDays" class="text-danger"></span>
+            </div>
+            @* <div class="form-group"> *@
+            @*     <label asp-for="AvailabilityStartDate" class="control-label"></label> *@
+            @*     <input asp-for="AvailabilityStartDate" class="form-control" /> *@
+            @*     <span asp-validation-for="AvailabilityStartDate" class="text-danger"></span> *@
+            @* </div> *@
+            @* <div class="form-group"> *@
+            @*     <label asp-for="AvailabilityEndDate" class="control-label"></label> *@
+            @*     <input asp-for="AvailabilityEndDate" class="form-control" /> *@
+            @*     <span asp-validation-for="AvailabilityEndDate" class="text-danger"></span> *@
+            @* </div> *@
+            <div class="form-group">
+                <label asp-for="package.PriceAdults" class="control-label"></label>
+                <input asp-for="package.PriceAdults" class="form-control" />
+                <span asp-validation-for="package.PriceAdults" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AvailabilityEndDate" class="control-label"></label>
-                <input asp-for="AvailabilityEndDate" class="form-control" />
-                <span asp-validation-for="AvailabilityEndDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Price" class="control-label"></label>
-                <input asp-for="Price" class="form-control" />
-                <span asp-validation-for="Price" class="text-danger"></span>
+                <label asp-for="package.PriceChildren" class="control-label"></label>
+                <input asp-for="package.PriceChildren" class="form-control" />
+                <span asp-validation-for="package.PriceChildren" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

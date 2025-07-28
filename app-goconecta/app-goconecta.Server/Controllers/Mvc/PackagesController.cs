@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using app_goconecta.Server.Data;
 using app_goconecta.Server.Models;
+using app_goconecta.Server.ViewModels;
 
 namespace app_goconecta.Server.Controllers.Mvc;
 
@@ -46,7 +47,13 @@ public class PackagesController : Controller
     // GET: Packages/Create
     public IActionResult Create()
     {
-        return View();
+        var hotels = _context.Hotels.ToList();
+        var viewModel = new PackageCreateViewModel()
+        {
+            Hotels = hotels
+        };
+        
+        return View(viewModel);
     }
 
     // POST: Packages/Create
@@ -54,15 +61,18 @@ public class PackagesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,Title,Description,Destination,DurationDays,AvailabilityStartDate,AvailabilityEndDate,Price")] Package package)
+    public async Task<IActionResult> Create(PackageCreateViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
-            _context.Add(package);
+            _context.Add(viewModel.package);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(package);
+        
+        viewModel.Hotels = _context.Hotels.ToList();
+        
+        return View(viewModel);
     }
 
     // GET: Packages/Edit/5

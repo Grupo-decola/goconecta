@@ -31,7 +31,7 @@ public class PackagesController : ControllerBase
             {
                 return BadRequest("Invalid price range.");
             }
-            query = query.Where(p => p.Price >= filter.MinPrice.Value);
+            query = query.Where(p => p.PriceAdults >= filter.MinPrice.Value);
         }
         if (filter.MaxPrice.HasValue)
         {
@@ -39,13 +39,17 @@ public class PackagesController : ControllerBase
             {
                 return BadRequest("Invalid price range.");
             }
-            query = query.Where(p => p.Price <= filter.MaxPrice.Value);
+            query = query.Where(p => p.PriceAdults <= filter.MaxPrice.Value);
         }
 
         
         query = query.Skip((pagination.Page -1) * pagination.PageSize).Take(pagination.PageSize);
         // Return the filtered list of packages
-        return (await query.AsNoTracking().ToListAsync())
+        return (
+                await query.AsNoTracking()
+                    .Include(p => p.Hotel)
+                    .ToListAsync()
+            )
             .Select(PackageDTO.FromModel)
             .ToList();
     }

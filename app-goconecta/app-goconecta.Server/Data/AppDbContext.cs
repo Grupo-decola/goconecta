@@ -59,8 +59,14 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Title).IsRequired().HasMaxLength(200);
             entity.Property(e => e.Destination).IsRequired().HasMaxLength(100);
             entity.Property(e => e.Description).IsRequired();
-            entity.Property(e => e.Price).HasColumnType("decimal(18,2)");
-            entity.HasMany<Media>(e => e.Media).WithOne(e => e.Package);
+            entity.Property(e => e.PriceAdults).HasColumnType("decimal(18,2)");
+            entity.Property(e => e.PriceChildren).HasColumnType("decimal(18,2)");
+            entity.HasMany<Media>(e => e.Media)
+                .WithOne(e => e.Package)
+                .HasForeignKey(e => e.PackageId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.Navigation(e => e.Media).AutoInclude();
         });
 
         // Reservation configuration

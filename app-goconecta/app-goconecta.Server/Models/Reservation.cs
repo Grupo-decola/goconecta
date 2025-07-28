@@ -8,13 +8,16 @@ public class Reservation
     public DateTime ReservationDate { get; set; }
     
     public required string Status { get; set; } // Pending, Confirmed, Canceled
-    // public decimal TotalValue { get; set; }
-
+    
+    public int NumOfAdults { get; set; }
+    public int NumOfChildren { get; set; }
+    
+    // Calculated property for total price based on number of adults and children
+    public decimal TotalPrice => NumOfAdults * Package!.PriceAdults + NumOfChildren * Package.PriceChildren;
+    
     public int UserId { get; set; }
     public User? User { get; set; }
     
     public int PackageId { get; set; }
     public Package? Package { get; set; }
-    
-    // public ICollection<Payment> Payments { get; set; }
 }

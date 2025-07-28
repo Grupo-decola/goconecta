@@ -8,8 +8,10 @@ public class PackageDTO
     public required string Description { get; set; }
     public required string Destination { get; set; }
     public int DurationDays { get; set; }
-    public decimal Price { get; set; }
     
+    public decimal PriceAdults { get; set; }
+    public decimal PriceChildrens { get; set; }
+
     public HotelDTO? Hotel { get; set; }
     
     public MediaDTO? Image { get; set; } 
@@ -22,7 +24,8 @@ public class PackageDTO
             Description = package.Description,
             Destination = package.Destination,
             DurationDays = package.DurationDays,
-            Price = package.Price,
+            PriceAdults = package.PriceAdults,
+            PriceChildrens = package.PriceChildren,
             Hotel = HotelDTO.FromModel(package.Hotel!),
             Image = package.Media.Where(p=> p.Type=="Image")
                 .Select(MediaDTO.FromModel).FirstOrDefault()
