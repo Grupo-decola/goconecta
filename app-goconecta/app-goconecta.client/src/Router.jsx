@@ -1,7 +1,11 @@
+
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
+
 import Home from "./Pages/Home/Home";
 import Cadastro from "./Pages/Cadastro/CadastroLogin";
-import LoginPage from "./Pages/LoginPage/LoginPage";
+import PerfilUsuario from "./Pages/PerfilUsuario/PerfilUsuario";
+import LoginPage from "./Pages/Login/LoginPage";
 
 const router = createBrowserRouter([
   {
@@ -10,13 +14,18 @@ const router = createBrowserRouter([
   },
   {
     path: "/cadastro",
-    element: <Cadastro />, 
+    element: <Cadastro />,
   },
- {
-  path: "/login",
-  element: <LoginPage />
-}
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+  {
+    path: "/perfil",
+    element: <PerfilUsuario />,
+  },
 ]);
+
 
 export function Router() {
   return <RouterProvider router={router} />;

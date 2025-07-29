@@ -39,11 +39,11 @@ function CadastroFormulario() {
     setErro("");
     setSucesso("");
     try {
-      const response = await axios.post("https://localhost:7093/api/Users", values);
+      const response = await axios.post("http://localhost:5155/api/Usuarios", values);
       setSucesso("Usuário cadastrado com sucesso!");
       form.reset(); // limpa o formulário
     } catch (err) {
-      setErro("Erro ao cadastrar. Verifique os dados.")
+      setErro("Erro ao cadastrar. Verifique os dados.");
       console.error(err);
     }
   };
