@@ -1,11 +1,21 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import HomePage from "./Pages/Home/HomePage";
+import Home from "./Pages/Home/Home";
+import Cadastro from "./Pages/Cadastro/CadastroLogin";
+import LoginPage from "./Pages/LoginPage/LoginPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
+    element: <Home />,
   },
+  {
+    path: "/cadastro",
+    element: <Cadastro />, 
+  },
+ {
+  path: "/login",
+  element: <LoginPage />
+}
 ]);
 
 export function Router() {
