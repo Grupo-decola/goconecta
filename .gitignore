@@ -2,4 +2,7 @@ node_modules/
 .vs/
 .idea/
 *bin/
-app-goconecta/app-goconecta.client/.vscode/settings.json
+appsettings.Development.json
+**/obj
+**/wwwroot/assets/media
+
