@@ -10,21 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mantine/core": "^8.2.1",
-    "@mantine/hooks": "^8.2.1",
-    "bootstrap": "^5.3.7",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-icons": "^5.5.0",
     "@mantine/carousel": "^8.2.1",
+    "@mantine/core": "^8.2.1",
     "@mantine/dates": "^8.2.1",
     "@mantine/form": "^8.2.1",
+    "@mantine/hooks": "^8.2.1",
     "@material-tailwind/react": "^2.1.10",
     "@tabler/icons-react": "^3.34.1",
     "antd": "^5.26.6",
+    "axios": "^1.11.0",
+    "bootstrap": "^5.3.7",
     "dayjs": "^1.11.13",
     "embla-carousel": "^8.6.0",
     "embla-carousel-react": "^8.6.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
     "react-router-dom": "^7.7.1"
   },
   "devDependencies": {
