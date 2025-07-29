@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -73,8 +74,14 @@ public class PackagesController : Controller
                 if (media.File is not { Length: > 0 }) { continue; };
 
                 var filePath = $"assets/media/{media.File.GetExtensionType()}/{Guid.NewGuid()}-{media.File.GetName()}.{media.File.GetExtension()}";
+                var fullPath = $"wwwroot/{filePath}";
                 
-                await using var stream = new FileStream($"wwwroot/{filePath}", FileMode.Create);
+                if (!Directory.Exists(Path.GetDirectoryName(fullPath)))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+                }
+                
+                await using var stream = new FileStream(fullPath, FileMode.Create);
                 await media.File.CopyToAsync(stream);
 
                 var newMedia = new Media
