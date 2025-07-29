@@ -12,7 +12,7 @@ public class AuthenticationController(UserService userService) : ControllerBase
 {
     [HttpPost("login")]
     [AllowAnonymous]
-    public async Task<IActionResult> Login([FromBody] User loginModel)
+    public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDto)
     {
         if (!ModelState.IsValid)
         {
@@ -21,7 +21,7 @@ public class AuthenticationController(UserService userService) : ControllerBase
         
         try
         {
-            var user = await userService.AuthenticateJwtAsync(loginModel.Name, loginModel.Password);
+            var user = await userService.AuthenticateJwtAsync(loginDto.Email, loginDto.Password);
             return Ok(user);
         }
         catch (UnauthorizedAccessException ex)
@@ -32,23 +32,5 @@ public class AuthenticationController(UserService userService) : ControllerBase
         {
             return StatusCode(500, $"Erro interno do servidor: {ex.Message}");
         }
-    }
-
-    [HttpPost("register")]
-    [AllowAnonymous]
-    public async Task<IActionResult> Register([FromBody] UserCreateDTO createDto)
-    {
-        if (!ModelState.IsValid) { return BadRequest(ModelState); }
-
-        try
-        {
-            await userService.RegisterAsync(createDto, "user");
-        }
-        catch (InvalidOperationException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-        
-        return Ok();
     }
 }

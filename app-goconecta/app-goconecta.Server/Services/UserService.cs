@@ -11,9 +11,9 @@ namespace app_goconecta.Server.Services;
 
 public class UserService(IConfiguration configuration, AppDbContext dbContext)
 {
-    public async Task<object> AuthenticateJwtAsync(string username, string password)
+    public async Task<object> AuthenticateJwtAsync(string email, string password)
     {
-        var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Name == username);
+        var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
         
         if (user is null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
         {
@@ -45,9 +45,9 @@ public class UserService(IConfiguration configuration, AppDbContext dbContext)
     
     public async Task<User> RegisterAsync(UserCreateDTO createDto, string role)
     {
-        if (await dbContext.Users.AnyAsync(u => u.Name == createDto.Name))
+        if (await dbContext.Users.AnyAsync(u => u.Email == createDto.Email))
         {
-            throw new InvalidOperationException("Usuário já existe.");
+            throw new InvalidOperationException("Email já está em uso.");
         }
 
         var newUser = new User
