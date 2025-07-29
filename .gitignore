@@ -5,3 +5,4 @@ node_modules/
 appsettings.Development.json
 **/obj
 **/wwwroot/assets/media
+
