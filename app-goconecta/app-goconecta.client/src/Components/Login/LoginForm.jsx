@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import LoginDTO from "../dtos/LoginDTO";
 
 function LoginForm() {
   const [form, setForm] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -20,9 +19,9 @@ function LoginForm() {
       const resposta = await fetch("https://localhost:7093/api/auth/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(loginData)
+        body: JSON.stringify(loginData),
       });
 
       if (resposta.ok) {

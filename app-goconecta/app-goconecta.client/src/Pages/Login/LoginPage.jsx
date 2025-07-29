@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "../../Components/login-formulario/LoginForm";
+import Login from "../../Components/Login/LoginForm";
 
 function LoginPage() {
   return (
