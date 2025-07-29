@@ -58,7 +58,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Mvc\" />
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\assets\" />
   </ItemGroup>

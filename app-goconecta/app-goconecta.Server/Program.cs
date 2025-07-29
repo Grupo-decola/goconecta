@@ -1,6 +1,7 @@
 using System.Text;
 using app_goconecta.Server.Data;
 using app_goconecta.Server.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -26,14 +27,29 @@ builder.Services.AddCors(options =>
 });
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"] ?? throw new InvalidOperationException("JWT Secret não configurado."));
+
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = "SmartPolicyScheme";
+})
+.AddPolicyScheme("SmartPolicyScheme", "", options =>
+{
+    options.ForwardDefaultSelector = context =>
+    {
+        if (context.Request.Path.StartsWithSegments("/api"))
+            return JwtBearerDefaults.AuthenticationScheme;
+        return CookieAuthenticationDefaults.AuthenticationScheme;
+    };
+})
+.AddCookie(options =>
+{
+    options.LoginPath = "/admin/MvcAuthentication/Login";
+    options.AccessDeniedPath = "/admin/MvcAuthentication/AccessDenied";
+    options.Cookie.Name = "GoConectaAuthCookie";
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false; // Em produção, considere true para HTTPS
+    options.RequireHttpsMetadata = false;
     options.SaveToken = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -41,7 +57,7 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey = new SymmetricSecurityKey(key),
         ValidateIssuer = false,
         ValidateAudience = false,
-        ClockSkew = TimeSpan.Zero // Opcional: remove tolerância de expiração
+        ClockSkew = TimeSpan.Zero
     };
 });
 
@@ -86,6 +102,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
