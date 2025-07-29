@@ -10,7 +10,16 @@ import LoginPage from "./Pages/Login/LoginPage";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
+    element: <InfoPage />,
+  },w
+  {
+    path: "/login",
+    element: <LoginPage />,
+  },
+
+  {
+    path: "/pacote/:id",
+    element: <InfoPage />,
   },
   {
     path: "/cadastro",
