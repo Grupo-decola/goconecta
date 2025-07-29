@@ -1,13 +1,20 @@
-import { MantineProvider } from '@mantine/core';
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
-import './App.css';
-import Packages from './Pages/Packages';
 
-export default function App() {
+import "@mantine/core/styles.css";
+import "@mantine/carousel/styles.css";
+import "@mantine/dates/styles.css";
+import "./App.css";
+import { MantineProvider } from "@mantine/core";
+import { Router } from "./Router";
+import { theme } from "./theme";
+
+
+function App() {
   return (
-    <MantineProvider>
-      <Packages />
+    <MantineProvider theme={theme}>
+      <Router />
     </MantineProvider>
   );
 }
+
+export default App;
+

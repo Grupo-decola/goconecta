@@ -14,6 +14,18 @@
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy">
       <Version>8.*-*</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.7">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.18" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.18">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
@@ -21,6 +33,30 @@
     <ProjectReference Include="..\app-goconecta.client\app-goconecta.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\Students\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Students\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Students\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Students\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Students\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Home\Privacy.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Grades\Create.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Grades\Delete.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Grades\Details.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Grades\Edit.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Grades\Index.cshtml" />
+    <_ContentIncludedByDefault Remove="Views\Grades\StudentsByGrade.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Controllers\Mvc\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\assets\media\Image\" />
+    <Folder Include="wwwroot\assets\media\Other\" />
+    <Folder Include="wwwroot\assets\media\Video\" />
   </ItemGroup>
 
 </Project>

@@ -2,3 +2,7 @@ node_modules/
 .vs/
 .idea/
 *bin/
+appsettings.Development.json
+**/obj
+**/wwwroot/assets/media
+
