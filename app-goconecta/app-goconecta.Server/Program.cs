@@ -77,6 +77,8 @@ builder.Services.AddControllers(options =>
             )
     );
 });
+
+builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -104,6 +106,7 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(
     name: "default",
