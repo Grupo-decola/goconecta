@@ -1,11 +1,11 @@
 import React from "react";
-impor
+import Login from "../../Components/login-formulario/LoginForm";
 
 function LoginPage() {
   return (
     <div>
       <h1>Página de Login</h1>
-      <LoginForm />
+      <Login />
     </div>
   );
 }

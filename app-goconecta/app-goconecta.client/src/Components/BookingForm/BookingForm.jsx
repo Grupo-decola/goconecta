@@ -10,10 +10,7 @@ import {
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 
-const adultPrice = 2200;
-const childePrice = 1500;
-
-export default function BookingForm() {
+export default function BookingForm({ priceAdults, priceChildren }) {
   const form = useForm({
     initialValues: {
       data: null,
@@ -23,8 +20,8 @@ export default function BookingForm() {
   });
 
   function getTotalPrice() {
-    const totalAdultos = adultPrice * form.getValues().adultos;
-    const totalCriancas = childePrice * form.getValues().crianca;
+    const totalAdultos = priceAdults * form.getValues().adultos;
+    const totalCriancas = (priceChildren || 0) * form.getValues().crianca;
     return `R$ ${(totalAdultos + totalCriancas).toLocaleString("pt-BR")}`;
   }
 
