@@ -4,25 +4,35 @@ import ReviewView from "../../Components/ReviewView/ReviewView";
 import Attractions from "../../Components/Attractions/Attractions";
 import MediaGallery from "../../Components/MediaGallery/MediaGallery";
 import BookingForm from "../../Components/BookingForm/BookingForm";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { API_URL, PackageDetailDTO } from "../../Model";
+import { useParams } from "react-router-dom";
 
 export default function InfoPage() {
+  const [packageDetail, setPackageDetail] = useState(null);
+  const { id } = useParams(); // captura o id da URL
+  const ENDPOINT = `${API_URL}Packages/3`;
+
+  useEffect(() => {
+    axios
+      .get(ENDPOINT)
+      .then((response) => setPackageDetail(new PackageDetailDTO(response.data)))
+      .catch((error) => console.error(error));
+  }, [ENDPOINT]);
+
   return (
     <Stack gap="md" maw="80vw">
       <ImageCarousel />
       <Title>Detalhes do pacote</Title>
       <Text c="gray-medium.4" size="xs">
-        Localização
+        {packageDetail?.destination}
       </Text>
-      <ReviewView />
-      <Text>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro adipisci
-        facilis quisquam voluptatibus sit eos similique quibusdam voluptatem.
-        Suscipit minus cupiditate omnis nulla nesciunt perspiciatis porro nisi
-        iure illum facere!
-      </Text>
+      <ReviewView title={packageDetail?.title} />
+      <Text>{packageDetail?.description}</Text>
       <Attractions />
       <MediaGallery />
-      <BookingForm />
+      <BookingForm priceAdults={packageDetail?.priceAdults} priceChildren={packageDetail?.priceChildren} />
     </Stack>
   );
 }

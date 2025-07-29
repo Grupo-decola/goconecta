@@ -1,11 +1,11 @@
 import { List, Progress, Text, Flex, Group, Rating } from "@mantine/core";
 import classes from "./ReviewView.module.css";
 
-export default function ReviewView() {
+export default function ReviewView({ title }) {
   return (
     <div>
-      <Text fw={700} size="lg" >
-        Luxury Beach Getaway
+      <Text fw={700} size="lg">
+        {title}
       </Text>
       <Flex
         mih={50}
