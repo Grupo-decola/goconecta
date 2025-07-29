@@ -25,6 +25,7 @@ public class UserService(IConfiguration configuration, AppDbContext dbContext)
         var claimsIdentity = new ClaimsIdentity([
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Email, user.Email),
+            new Claim("UserId", user.Id.ToString()),
             new Claim("Store", user.Role)
         ], authenticationScheme);
 
@@ -51,6 +52,28 @@ public class UserService(IConfiguration configuration, AppDbContext dbContext)
             claimsIdentity.Name,
             Token = tokenString
         };
+    }
+    
+    public async Task<User> GetAuthenticatedUserAsync(ClaimsPrincipal user)
+    {
+        if (user.Identity is not ClaimsIdentity identity || !identity.IsAuthenticated)
+        {
+            throw new UnauthorizedAccessException("Usuário não autenticado.");
+        }
+
+        var email = identity.FindFirst(ClaimTypes.Email)?.Value;
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new UnauthorizedAccessException("Email não encontrado nos claims do usuário.");
+        }
+
+        var dbUser = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+        if (dbUser is null)
+        {
+            throw new UnauthorizedAccessException("Usuário não encontrado.");
+        }
+
+        return dbUser;
     }
     
     public async Task<User> RegisterAsync(UserCreateDTO createDto, string role)
