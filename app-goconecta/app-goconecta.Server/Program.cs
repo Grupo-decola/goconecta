@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
+builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<UserService>();
 
 builder.Services.AddCors(options =>
@@ -45,7 +46,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.LoginPath = "/admin/MvcAuthentication/Login";
     options.AccessDeniedPath = "/admin/MvcAuthentication/AccessDenied";
-    options.Cookie.Name = "GoConectaAuthCookie";
+    options.Cookie.Name = "GoConectaAdminAuthCookie";
 })
 .AddJwtBearer(options =>
 {
@@ -63,19 +64,13 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("user", policy => policy.RequireClaim("Store", "user"));
-    options.AddPolicy("admin", policy => policy.RequireClaim("Store", "admin"));
+    options.AddPolicy("RequireAuthenticated", policy => policy.RequireAuthenticatedUser());
+    options.AddPolicy("RequireAdmin", policy => policy.RequireClaim("Store", "admin"));
 });
 
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add(
-        new AuthorizeFilter(
-            new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build()
-            )
-    );
+    options.Filters.Add(new AuthorizeFilter("RequireAuthenticated") );
 });
 
 builder.Services.AddControllers();
