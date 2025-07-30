@@ -1,4 +1,3 @@
-
 import "@mantine/core/styles.css";
 import "@mantine/carousel/styles.css";
 import "@mantine/dates/styles.css";
@@ -14,10 +13,8 @@ function App() {
     <MantineProvider theme={theme}>
       <Header />
       <Router />
-      <Footer />
     </MantineProvider>
   );
 }
 
 export default App;
-

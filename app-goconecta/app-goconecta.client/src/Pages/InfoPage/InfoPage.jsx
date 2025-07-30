@@ -1,25 +1,46 @@
-import { Stack, Text, Title } from "@mantine/core";
+import { Stack, Text, Title, Loader, Center } from "@mantine/core";
 import ImageCarousel from "../../Components/ImageCarousel/ImageCarousel";
 import ReviewView from "../../Components/ReviewView/ReviewView";
 import Attractions from "../../Components/Attractions/Attractions";
 import MediaGallery from "../../Components/MediaGallery/MediaGallery";
 import BookingForm from "../../Components/BookingForm/BookingForm";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { API_URL, PackageDetailDTO } from "../../model";
+
+import { PackageDetailDTO } from "../../model";
 import { useParams } from "react-router-dom";
+import { fetchPackageDetail } from "../../services/PackagesService";
 
 export default function InfoPage() {
   const [packageDetail, setPackageDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { id } = useParams(); // captura o id da URL
-  const ENDPOINT = `${API_URL}Packages/${id}`;
 
   useEffect(() => {
-    axios
-      .get(ENDPOINT)
-      .then((response) => setPackageDetail(new PackageDetailDTO(response.data)))
-      .catch((error) => console.error(error));
-  }, [ENDPOINT]);
+    setLoading(true);
+    setError(null);
+    fetchPackageDetail(id)
+      .then((data) => setPackageDetail(new PackageDetailDTO(data)))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Center h="100vh">
+        <Stack align="center" gap="md">
+          <Loader size="lg" />
+          <Text>Carregando pacote...</Text>
+        </Stack>
+      </Center>
+    );
+  }
+  if (error) {
+    return <Text color="red">Erro ao carregar pacote.</Text>;
+  }
+  if (!packageDetail) {
+    return null;
+  }
 
   return (
     <Stack gap="md" maw="80vw">
@@ -33,7 +54,6 @@ export default function InfoPage() {
       <Attractions />
       <MediaGallery />
       <BookingForm
-
         priceAdults={packageDetail?.priceAdults}
         priceChildren={packageDetail?.priceChildren}
         packageId={packageDetail?.id}

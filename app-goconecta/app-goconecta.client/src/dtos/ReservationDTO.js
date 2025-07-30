@@ -1,16 +1,32 @@
 import PackageDTO from "./PackageDTO";
 
-class ReservationDTO {
-    
-  constructor(data) {
-    this.id = data.id;
-    this.userId = data.userId;
-    this.packageId = data.packageId;
-    this.reservationDate = data.reservationDate;
-    this.status = data.status;
-    this.totalAmount = data.totalAmount;
-    this.package = data.package ? new PackageDTO(data.package) : null;
+// DTO para reserva
+export class ReservationDTO {
+  /**
+   * @param {Object} params
+   * @param {string|number} params.id
+   * @param {string|number} params.userId
+   * @param {string|number} params.packageId
+   * @param {string} params.reservationDate
+   * @param {string} params.status
+   * @param {number} params.totalAmount
+   * @param {Object} [params.package]
+   */
+  constructor({
+    id,
+    userId,
+    packageId,
+    reservationDate,
+    status,
+    totalAmount,
+    package: pkg,
+  }) {
+    this.id = id;
+    this.userId = userId;
+    this.packageId = packageId;
+    this.reservationDate = reservationDate;
+    this.status = status;
+    this.totalAmount = totalAmount;
+    this.package = pkg ? new PackageDTO(pkg) : null;
   }
 }
-
-export default ReservationDTO;
