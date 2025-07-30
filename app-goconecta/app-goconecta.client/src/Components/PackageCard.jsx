@@ -1,29 +1,46 @@
-import { Card, Text, Badge, Button, Group, Stack, Image, Box, Rating } from '@mantine/core';
-import { IconMapPin, IconCalendar, IconUsers } from '@tabler/icons-react';
+import {
+  Card,
+  Text,
+  Badge,
+  Button,
+  Group,
+  Stack,
+  Image,
+  Box,
+  Rating,
+} from "@mantine/core";
+import { IconMapPin, IconCalendar, IconUsers } from "@tabler/icons-react";
 
 export default function PackageCard({ package: pkg }) {
   const formatPrice = (price) => {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
     }).format(price);
   };
 
   const formatDate = (dateString) => {
-    return new Date(dateString).toLocaleDateString('pt-BR');
+    return new Date(dateString).toLocaleDateString("pt-BR");
   };
 
   return (
-    <Card shadow="sm" padding={0} radius="md" withBorder h={{ base: 'auto', sm: 400 }} mih={{ base: 380, sm: 400 }}>
+    <Card
+      shadow="sm"
+      padding={0}
+      radius="md"
+      withBorder
+      h={{ base: "auto", sm: 400 }}
+      mih={{ base: 380, sm: 400 }}
+    >
       <Image
         src={pkg.image}
         height={{ base: 160, sm: 200 }}
         alt={pkg.title}
         fallbackSrc="https://via.placeholder.com/400x200?text=Travel+Package"
       />
-      
-      <Box p={{ base: 'sm', sm: 'md' }}>
-        <Stack gap="sm" h={{ base: 'auto', sm: 180 }}>
+
+      <Box p={{ base: "sm", sm: "md" }}>
+        <Stack gap="sm" h={{ base: "auto", sm: 180 }}>
           <Group justify="space-between" align="flex-start" wrap="nowrap">
             <Text fw={600} size="lg" lineClamp={2} style={{ flex: 1 }}>
               {pkg.title}
@@ -64,7 +81,7 @@ export default function PackageCard({ package: pkg }) {
           <Group justify="space-between" align="center" mt="auto" wrap="nowrap">
             <Box style={{ flex: 1 }}>
               <Text size="xl" fw={700} c="blue">
-                {formatPrice(pkg.price)}
+                {formatPrice(pkg.priceAdults)}
               </Text>
               <Text size="xs" c="dimmed">
                 por pessoa
