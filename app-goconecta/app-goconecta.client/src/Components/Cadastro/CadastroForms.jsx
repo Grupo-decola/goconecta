@@ -8,9 +8,19 @@ import {
   Notification,
   Card,
   Title,
+  Text,
+  Anchor,
+  Grid, 
 } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import axios from 'axios';
+import { 
+  IconUser, 
+  IconAt, 
+  IconLock, 
+  IconPhone, 
+  IconId 
+} from '@tabler/icons-react';
 
 function CadastroFormulario() {
   const [erro, setErro] = useState("");
@@ -39,10 +49,11 @@ function CadastroFormulario() {
 
     const dados = {
       ...values,
-      role: "Cliente" // fixo
+      role: "Cliente" 
     };
 
     try {
+      
       await axios.post("http://localhost:5155/api/Usuarios", dados);
       setSucesso("Usuário cadastrado com sucesso!");
       form.reset();
@@ -53,42 +64,72 @@ function CadastroFormulario() {
   };
 
   return (
-    <Box maw={400} mx="auto" mt="xl">
+  
+    <Box 
+      maw={{ base: '90%', sm: 400 }} 
+      mx="auto" 
+      mt="xl"
+      px="md" 
+    >
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Title order={3} align="center" mb="md">Crie sua conta</Title>
         <form onSubmit={form.onSubmit(handleSubmit)}>
-          <Stack>
-            <TextInput
-              label="Nome"
-              placeholder="Seu nome"
-              {...form.getInputProps('name')}
-            />
-            <TextInput
-              label="Email"
-              placeholder="seu@email.com"
-              {...form.getInputProps('email')}
-            />
-            <PasswordInput
-              label="Senha"
-              placeholder="Crie uma senha"
-              {...form.getInputProps('password')}
-            />
-            <TextInput
-              label="Telefone"
-              placeholder="(99) 99999-9999"
-              {...form.getInputProps('phone')}
-            />
-            <TextInput
-              label="CPF ou Passaporte"
-              placeholder="123.456.789-00 ou ABC123"
-              {...form.getInputProps('cpfPassport')}
-            />
-            <Button type="submit" fullWidth mt="sm" color="orange">Cadastrar</Button>
+          
+          <Grid>
+            <Grid.Col span={12}> 
+              <Stack>
+                <TextInput
+                  label="Nome"
+                  placeholder="Seu nome"
+                  {...form.getInputProps('name')}
+                  leftSection={<IconUser size={16} />} 
+                />
+                <TextInput
+                  label="Email"
+                  placeholder="seu@email.com"
+                  {...form.getInputProps('email')}
+                  leftSection={<IconAt size={16} />} 
+                />
+                <PasswordInput
+                  label="Senha"
+                  placeholder="Crie uma senha"
+                  {...form.getInputProps('password')}
+                  leftSection={<IconLock size={16} />} 
+                />
+                <TextInput
+                  label="Telefone"
+                  placeholder="(99) 99999-9999"
+                  {...form.getInputProps('phone')}
+                  leftSection={<IconPhone size={16} />} 
+                />
+                <TextInput
+                  label="CPF ou Passaporte"
+                  placeholder="123.456.789-00 ou ABC123"
+                  {...form.getInputProps('cpfPassport')}
+                  leftSection={<IconId size={16} />} 
+                />
+                <Button 
+                  type="submit" 
+                  fullWidth 
+                  mt="sm" 
+                  color="orange"
+                >
+                  Cadastrar
+                </Button>
 
-            {erro && <Notification color="red">{erro}</Notification>}
-            {sucesso && <Notification color="green">{sucesso}</Notification>}
-          </Stack>
+                {erro && <Notification color="red" mt="md">{erro}</Notification>}
+                {sucesso && <Notification color="green" mt="md">{sucesso}</Notification>}
+              </Stack>
+            </Grid.Col>
+          </Grid>
         </form>
+
+        <Text size="sm" align="center" mt="md">
+          Já tem uma conta? {' '}
+          <Anchor component="a" href="/login" size="sm">
+            Faça login aqui
+          </Anchor>
+        </Text>
       </Card>
     </Box>
   );
