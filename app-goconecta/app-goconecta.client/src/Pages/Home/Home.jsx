@@ -1,25 +1,27 @@
-import React from 'react';
-import "./Home.css";
-import { Image } from '@mantine/core';
+import React from "react";
+import Header from "../../Components/Header/Header";
+import Footer from "../../Components/Footer/Footer";
+import "./Home.css"; 
 
-const Home = () => {
+function Home() {
   return (
     <div>
-      <section id="hero">
-        <Image
-          h={300}
-          src="src/assets/img/banner2_web.png"
-          opacity={0.9}
-        />
-        <div className='hero-content'>
-          <div className='hero-text'> 
-            <h2>Descubra lugares incríveis</h2>
-            <p>Viaje com conforto, segurança e os melhores preços!</p>
-          </div>
-        </div>
-      </section>
+      <Header />
+
+      <main className="home-main">
+        <section className="home-content">
+          <h2>Bem-vindo à GoConecta!</h2>
+          <p>
+            Explore os melhores destinos, passagens e pacotes de viagem com
+            facilidade e segurança.
+          </p>
+
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
-};
+}
 
 export default Home;
