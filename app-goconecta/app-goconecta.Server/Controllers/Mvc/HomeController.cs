@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace app_goconecta.Server.Controllers.Mvc;
 
-[Authorize (Policy="RequireAdmin")]
+[Authorize(Policy="RequireAdmin")]
 public class HomeController(AppDbContext context) : Controller
 {
     [HttpGet]
@@ -18,5 +18,4 @@ public class HomeController(AppDbContext context) : Controller
         ViewBag.UsersCount = await context.Users.CountAsync();
         return View();
     }
-
 }

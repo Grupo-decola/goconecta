@@ -24,6 +24,7 @@ public class AuthenticationService(IConfiguration configuration, AppDbContext db
         var claimsIdentity = new ClaimsIdentity([
             new Claim(ClaimTypes.Name, user.Name),
             new Claim(ClaimTypes.Email, user.Email),
+            new Claim("UserId", user.Id.ToString()),
             new Claim("Store", user.Role)
         ], authenticationScheme);
 

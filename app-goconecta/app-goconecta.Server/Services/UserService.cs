@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
 using app_goconecta.Server.Models;
@@ -7,6 +8,21 @@ namespace app_goconecta.Server.Services;
 
 public class UserService(AppDbContext dbContext)
 {
+    public async Task<User> CreateAsync(UserCreateDTO createDto, string role)
+    {
+        var newUser = new User
+        {
+            Name = createDto.Name,
+            Email = createDto.Email,
+            Password = createDto.Password,
+            Phone = createDto.Phone,
+            CpfPassport = createDto.CpfPassport,
+            Role = role
+        };
+        
+        return await CreateAsync(newUser);
+    }
+    
     public async Task<User> CreateAsync(User newUser)
     {
         if (await dbContext.Users.AnyAsync(u => u.Email == newUser.Email))
@@ -14,13 +30,6 @@ public class UserService(AppDbContext dbContext)
             throw new InvalidOperationException("Email já está em uso.");
         }
         
-        var claimsIdentity = new ClaimsIdentity([
-            new Claim(ClaimTypes.Name, user.Name),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim("UserId", user.Id.ToString()),
-            new Claim("Store", user.Role)
-        ], authenticationScheme);
-
         newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
         
         dbContext.Users.Add(newUser);
@@ -49,27 +58,5 @@ public class UserService(AppDbContext dbContext)
         }
 
         return dbUser;
-    }
-    
-    public async Task<User> RegisterAsync(UserCreateDTO createDto, string role)
-    {
-        if (await dbContext.Users.AnyAsync(u => u.Email == createDto.Email))
-        {
-            throw new InvalidOperationException("Email já está em uso.");
-        }
-
-    public async Task<User> CreateAsync(UserCreateDTO createDto, string role)
-    {
-        var newUser = new User
-        {
-            Name = createDto.Name,
-            Email = createDto.Email,
-            Password = createDto.Password,
-            Phone = createDto.Phone,
-            CpfPassport = createDto.CpfPassport,
-            Role = role
-        };
-        
-        return await CreateAsync(newUser);
     }
 }
