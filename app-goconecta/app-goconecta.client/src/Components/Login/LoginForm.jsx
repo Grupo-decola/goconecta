@@ -10,7 +10,7 @@ import {
   Card,
   Text,
   Anchor,
-  Grid, 
+  Grid,
 } from "@mantine/core";
 import { IconAt, IconLock } from '@tabler/icons-react';
 
@@ -56,19 +56,19 @@ function LoginForm() {
   };
 
   return (
-    
-    <Box 
-      maw={{ base: '90%', sm: 400 }} 
-      mx="auto" 
+    <Box
+      maw={{ base: '90%', sm: 400 }}
+      mx="auto"
       mt="xl"
-      px="md" 
+      px="md"
     >
       <Card shadow="sm" padding="lg" radius="md" withBorder>
-        <Title order={3} align="center" mb="md">Acesse sua conta</Title>
+        <Title order={3} align="center" mb="md">
+          Acesse sua conta
+        </Title>
         <form onSubmit={handleSubmit}>
-         
           <Grid>
-            <Grid.Col span={12}> 
+            <Grid.Col span={12}>
               <Stack>
                 <TextInput
                   label="Email"
@@ -77,7 +77,7 @@ function LoginForm() {
                   value={form.email}
                   onChange={handleChange}
                   required
-                  leftSection={<IconAt size={16} />} 
+                  leftSection={<IconAt size={16} />}
                 />
                 <PasswordInput
                   label="Senha"
@@ -86,26 +86,31 @@ function LoginForm() {
                   value={form.password}
                   onChange={handleChange}
                   required
-                  leftSection={<IconLock size={16} />} 
+                  leftSection={<IconLock size={16} />}
                 />
-                <Button 
-                  type="submit" 
-                  fullWidth 
-                  mt="sm" 
-                  color="orange"
+                <Button
+                  type="submit"
+                  fullWidth
+                  mt="sm"
                 >
                   Entrar
                 </Button>
-
-                {erro && <Notification color="red" mt="md">{erro}</Notification>}
-                {sucesso && <Notification color="green" mt="md">{sucesso}</Notification>}
+                {erro && (
+                  <Notification color="red" mt="md">
+                    {erro}
+                  </Notification>
+                )}
+                {sucesso && (
+                  <Notification color="green" mt="md">
+                    {sucesso}
+                  </Notification>
+                )}
               </Stack>
             </Grid.Col>
           </Grid>
         </form>
-        
         <Text size="sm" align="center" mt="md">
-          Ainda não tem cadastro? {' '}
+          Ainda não tem cadastro?{" "}
           <Anchor component="a" href="/Cadastro" size="sm">
             Cadastre-se aqui
           </Anchor>
@@ -113,4 +118,6 @@ function LoginForm() {
       </Card>
     </Box>
   );
-} export default LoginForm;
+}
+
+export default LoginForm;

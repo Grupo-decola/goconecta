@@ -112,7 +112,6 @@ function CadastroFormulario() {
                   type="submit" 
                   fullWidth 
                   mt="sm" 
-                  color="orange"
                 >
                   Cadastrar
                 </Button>
