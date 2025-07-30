@@ -6,24 +6,19 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <InfoPage />,
-  },w
+  },
   {
     path: "/login",
     element: <LoginPage />,
   },
-
   {
     path: "/pacote/:id",
     element: <InfoPage />,
   },
   {
     path: "/cadastro",
-    element: <Cadastro />, 
+    element: <Cadastro />,
   },
- {
-  path: "/login",
-  element: <LoginPage />
-}
 ]);
 
 export function Router() {
