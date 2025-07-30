@@ -1,4 +1,5 @@
 using app_goconecta.Server.Data;
+using app_goconecta.Server.DTOs;
 using app_goconecta.Server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -19,7 +20,7 @@ public class HotelsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Hotel>>> GetAll([FromQuery] List<int>? amenitiesIds = null)
+    public async Task<ActionResult<IReadOnlyList<HotelDTO>>> GetAll([FromQuery] List<int>? amenitiesIds = null)
     {
         var query = _context.Hotels
             .Include(h => h.Amenities)
@@ -30,6 +31,6 @@ public class HotelsController : ControllerBase
             query = query.Where(h => amenitiesIds.All(id => h.Amenities.Any(a => a.Id == id)));
         }
 
-        return await query.ToListAsync();
+        return (await query.ToListAsync()).Select(HotelDTO.FromModel).ToList();
     }
 }

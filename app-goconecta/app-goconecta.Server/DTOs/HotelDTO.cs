@@ -14,7 +14,7 @@ public class HotelDTO
     
     public string? Region { get; set; }
     public string? Address { get; set; }
-    public List<string> Amenities { get; set; }
+    public List<AmenityDTO> Amenities { get; set; }
 
     public static HotelDTO FromModel(Hotel hotel)
     {
@@ -26,7 +26,7 @@ public class HotelDTO
             Rating = hotel.Rating,
             Region = hotel.Region,
             Address = hotel.Address,
-            Amenities = hotel.Amenities?.Select(a => a.Name).ToList() ?? new List<string>()
+            Amenities = hotel.Amenities?.Select(AmenityDTO.FromModel).ToList() ?? new List<AmenityDTO>()
         };
     }
     
