@@ -7,7 +7,7 @@ public class ReservationDTO
     public int Id { get; set; }
     public required string ReservationNumber { get; set; }
     public DateTime ReservationDate { get; set; }
-    public required string Status { get; set; } 
+    public required string Status { get; set; }
     public PackageDTO Package { get; set; }
     
     public static ReservationDTO FromModel(Reservation reservation)

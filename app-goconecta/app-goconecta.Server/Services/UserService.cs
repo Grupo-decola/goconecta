@@ -1,25 +1,17 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
 using app_goconecta.Server.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 
 namespace app_goconecta.Server.Services;
 
-public class UserService(IConfiguration configuration, AppDbContext dbContext)
+public class UserService(AppDbContext dbContext)
 {
-    public async Task<ClaimsIdentity> AuthenticateCredentialsAsync(string email, string password, string authenticationScheme)
+    public async Task<User> CreateAsync(User newUser)
     {
-        var user = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
-        
-        if (user is null || !BCrypt.Net.BCrypt.Verify(password, user.Password))
+        if (await dbContext.Users.AnyAsync(u => u.Email == newUser.Email))
         {
-            throw new UnauthorizedAccessException("Usuário ou senha inválidos.");
+            throw new InvalidOperationException("Email já está em uso.");
         }
         
         var claimsIdentity = new ClaimsIdentity([
@@ -29,29 +21,12 @@ public class UserService(IConfiguration configuration, AppDbContext dbContext)
             new Claim("Store", user.Role)
         ], authenticationScheme);
 
-        return claimsIdentity;
-    }
-    public async Task<object> AuthenticateJwtAsync(string email, string password)
-    {
-        var claimsIdentity = await AuthenticateCredentialsAsync(email, password, JwtBearerDefaults.AuthenticationScheme);
+        newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
         
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(configuration["Jwt:Secret"] ?? throw new InvalidOperationException("JWT Secret não configurado."));
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = claimsIdentity,
-            Expires = DateTime.UtcNow.AddHours(2),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
+        dbContext.Users.Add(newUser);
+        await dbContext.SaveChangesAsync();
         
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var tokenString = tokenHandler.WriteToken(token);
-        
-        return new
-        {
-            claimsIdentity.Name,
-            Token = tokenString
-        };
+        return newUser;
     }
     
     public async Task<User> GetAuthenticatedUserAsync(ClaimsPrincipal user)
@@ -83,19 +58,18 @@ public class UserService(IConfiguration configuration, AppDbContext dbContext)
             throw new InvalidOperationException("Email já está em uso.");
         }
 
+    public async Task<User> CreateAsync(UserCreateDTO createDto, string role)
+    {
         var newUser = new User
         {
             Name = createDto.Name,
             Email = createDto.Email,
-            Password = BCrypt.Net.BCrypt.HashPassword(createDto.Password),
+            Password = createDto.Password,
             Phone = createDto.Phone,
             CpfPassport = createDto.CpfPassport,
             Role = role
         };
         
-        dbContext.Users.Add(newUser);
-        await dbContext.SaveChangesAsync();
-        
-        return newUser;
+        return await CreateAsync(newUser);
     }
 }

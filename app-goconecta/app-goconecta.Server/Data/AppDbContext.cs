@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<Package> Packages { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<Media> Media { get; set; }
+    public DbSet<Amenity> Amenities { get; set; }
     // public DbSet<Payment> Payments { get; set; }
     // public DbSet<Rating> Ratings { get; set; }
     // public DbSet<CustomizationRequest> CustomizationRequests { get; set; }
@@ -51,6 +52,12 @@ public class AppDbContext : DbContext
                 .HasForeignKey(e => e.HotelId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
+
+        // Relação muitos-para-muitos entre Hotel e Amenity
+        modelBuilder.Entity<Hotel>()
+            .HasMany(h => h.Amenities)
+            .WithMany(a => a.Hotels)
+            .UsingEntity(j => j.ToTable("HotelAmenities"));
 
         // Package configuration
         modelBuilder.Entity<Package>(entity =>

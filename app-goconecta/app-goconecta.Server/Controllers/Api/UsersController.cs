@@ -14,26 +14,31 @@ namespace app_goconecta.Server.Controllers.Api;
 public class UsersController(AppDbContext context, UserService userService) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<User>>> GetAll()
+    public async Task<ActionResult<IReadOnlyList<UserDTO>>> GetAll()
+        => (await context.Users.AsNoTracking().ToListAsync()).Select(UserDTO.FromModel).ToList();
+
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<UserDTO>> GetById(int id)
     {
-        return await context.Users.ToListAsync();
+        var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
+        if (user == null) return NotFound();
+        return Ok(UserDTO.FromModel(user));
     }
     
     [HttpPost]
     [AllowAnonymous]
-    public async Task<IActionResult> Register([FromBody] UserCreateDTO createDto)
+    public async Task<IActionResult> Create([FromBody] UserCreateDTO createDto)
     {
         if (!ModelState.IsValid) { return BadRequest(ModelState); }
 
         try
         {
-            await userService.RegisterAsync(createDto, "user");
+            var newUser = await userService.CreateAsync(createDto, "user");
+            return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, UserDTO.FromModel(newUser));
         }
         catch (InvalidOperationException ex)
         {
             return BadRequest(ex.Message);
         }
-        
-        return Ok();
     }
 }
