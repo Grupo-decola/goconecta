@@ -9,7 +9,7 @@ namespace app_goconecta.Server.Controllers.Api;
 
 [ApiController]
 [Route("api/[controller]")]
-public class AuthenticationController(UserService userService) : ControllerBase
+public class AuthenticationController(AuthenticationService authenticationService) : ControllerBase
 {
     [HttpPost("login")]
     [AllowAnonymous]
@@ -22,7 +22,7 @@ public class AuthenticationController(UserService userService) : ControllerBase
         
         try
         {
-            var user = await userService.AuthenticateJwtAsync(loginDto.Email, loginDto.Password);
+            var user = await authenticationService.AuthenticateJwtAsync(loginDto.Email, loginDto.Password);
             return Ok(user);
         }
         catch (UnauthorizedAccessException ex)
