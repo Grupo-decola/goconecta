@@ -13,7 +13,7 @@ import {
 function LoginForm() {
   const [form, setForm] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [erro, setErro] = useState("");
@@ -32,7 +32,7 @@ function LoginForm() {
       const resposta = await fetch("https://localhost:7093/api/auth/login", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(form)
       });

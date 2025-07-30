@@ -33,8 +33,10 @@ export default function InfoPage() {
       <Attractions />
       <MediaGallery />
       <BookingForm
+
         priceAdults={packageDetail?.priceAdults}
         priceChildren={packageDetail?.priceChildren}
+        packageId={packageDetail?.id}
       />
     </Stack>
   );

@@ -9,13 +9,33 @@ import {
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
+import { useNavigate } from "react-router-dom";
 
-export default function BookingForm({ priceAdults, priceChildren }) {
+export default function BookingForm({ priceAdults, priceChildren, packageId }) {
+  const navigate = useNavigate();
   const form = useForm({
     initialValues: {
-      data: null,
+      date: null,
       adultos: 1,
       crianca: 0,
+    },
+    validate: {
+      date: (value) => {
+        if (!value) {
+          return "Selecione a data da viagem";
+        }
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const minDate = new Date(today);
+        minDate.setDate(today.getDate() + 7);
+        const selected = new Date(value);
+        selected.setHours(0, 0, 0, 0);
+
+        if (selected < minDate) {
+          return "A viagem deve ser marcada com pelo menos 7 dias de antecedência";
+        }
+        return null;
+      },
     },
   });
 
@@ -33,7 +53,11 @@ export default function BookingForm({ priceAdults, priceChildren }) {
         <DatePickerInput
           label="Data da viagem"
           placeholder="Selecione a data"
-          {...form.getInputProps("data")}
+          {...form.getInputProps("date")}
+          onChange={(value) => {
+            form.setFieldValue("date", value);
+            form.validateField("date");
+          }}
         />
 
         <Group grow>
@@ -48,9 +72,31 @@ export default function BookingForm({ priceAdults, priceChildren }) {
             {...form.getInputProps("crianca")}
           />
         </Group>
-
-        <Button type="submit" fullWidth>
-          Verificar disponibilidade
+        <Button
+          type="submit"
+          fullWidth
+          size="compact-sm"
+          variant="filled"
+          onClick={() => {
+            const validation = form.validate();
+            if (validation.hasErrors) {
+              // O Mantine já exibe os erros nos campos automaticamente
+              return;
+            }
+            const adultos = form.getValues().adultos;
+            const crianca = form.getValues().crianca;
+            const data = form.getValues().date;
+            navigate("/dev", {
+              state: {
+                adults: adultos,
+                childs: crianca,
+                date: data,
+                packageId,
+              },
+            });
+          }}
+        >
+          Preencher dados dos viajantes
         </Button>
         <Text>Total: {getTotalPrice()}</Text>
       </Stack>
