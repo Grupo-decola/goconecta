@@ -1,40 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-
-// Páginas principais
-import Home from "./Pages/Home/Home";
-import Cadastro from "./Pages/Cadastro/CadastroLogin";
-import PerfilUsuario from "./Pages/PerfilUsuario/PerfilUsuario";
+import CadastroLogin from "./Pages/Cadastro/CadastroLogin";
 import LoginPage from "./Pages/Login/LoginPage";
-import InfoPage from "./Pages/InfoPage/InfoPage";
-
-
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <InfoPage />, 
+    path: "/cadastro",
+    element: <CadastroLogin />,
   },
-
-    {
-    path: "/home",
-    element: <Home />, 
-  },
-  
   {
     path: "/login",
     element: <LoginPage />,
-  },
-  {
-    path: "/pacote/:id",
-    element: <InfoPage />,
-  },
-  {
-    path: "/cadastro",
-    element: <Cadastro />,
-  },
-  {
-    path: "/perfil",
-    element: <PerfilUsuario />,
   },
 ]);
 
