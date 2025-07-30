@@ -67,16 +67,16 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("admin", policy => policy.RequireClaim("Store", "admin"));
 });
 
-builder.Services.AddControllers(options =>
-{
-    options.Filters.Add(
-        new AuthorizeFilter(
-            new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build()
-            )
-    );
-});
+// builder.Services.AddControllers(options =>
+// {
+//     options.Filters.Add(
+//         new AuthorizeFilter(
+//             new AuthorizationPolicyBuilder()
+//                 .RequireAuthenticatedUser()
+//                 .Build()
+//             )
+//     );
+// });
 
 builder.Services.AddControllers();
 builder.Services.AddControllersWithViews();

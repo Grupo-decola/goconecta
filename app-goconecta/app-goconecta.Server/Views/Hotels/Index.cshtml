@@ -1,65 +1,50 @@
 @model IEnumerable<app_goconecta.Server.Models.Hotel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Hotéis";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Rating)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomsAvailable)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Region)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Address)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Rating)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomsAvailable)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Region)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Address)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0"><i class="bi bi-building me-2"></i>Hotéis</h1>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>Novo Hotel
+        </a>
+    </div>
+    <div class="row g-4">
+@foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="bi bi-building text-primary me-1" aria-hidden="true"></i>@item.Name
+                        </h5>
+                        <p class="card-text text-muted mb-1">@item.Description</p>
+                        <div class="mb-2 small">
+                            <span class="me-2"><i class="bi bi-star-fill text-warning" aria-hidden="true"></i> @item.Rating</span>
+                            <span class="me-2"><i class="bi bi-door-open text-secondary" aria-hidden="true"></i> @item.RoomsAvailable quartos</span>
+                        </div>
+                        <div class="mb-2">
+                            <i class="bi bi-geo-alt text-danger me-1" aria-hidden="true"></i>@item.Region
+                        </div>
+                        <div class="mb-2">
+                            <i class="bi bi-house-door text-success me-1" aria-hidden="true"></i>@item.Address
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 d-flex gap-2 justify-content-end">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm" aria-label="Detalhes do hotel">
+                            <i class="bi bi-eye" aria-hidden="true"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm" aria-label="Editar hotel">
+                            <i class="bi bi-pencil" aria-hidden="true"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" aria-label="Excluir hotel">
+                            <i class="bi bi-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,54 +1,47 @@
 @model app_goconecta.Server.Models.Hotel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Hotel";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Hotel</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rating)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rating)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RoomsAvailable)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RoomsAvailable)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Region)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <i class="bi bi-building me-2" aria-hidden="true"></i>
+                    <span>Detalhes do Hotel</span>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4"><i class="bi bi-type me-1 text-secondary" aria-hidden="true"></i>Nome</dt>
+                        <dd class="col-sm-8">@Model.Name</dd>
+                        <dt class="col-sm-4"><i class="bi bi-card-text me-1 text-secondary" aria-hidden="true"></i>Descrição</dt>
+                        <dd class="col-sm-8">@Model.Description</dd>
+                        <dt class="col-sm-4"><i class="bi bi-star-fill me-1 text-warning" aria-hidden="true"></i>Nota</dt>
+                        <dd class="col-sm-8">@Model.Rating</dd>
+                        <dt class="col-sm-4"><i class="bi bi-door-open me-1 text-secondary" aria-hidden="true"></i>Quartos Disponíveis</dt>
+                        <dd class="col-sm-8">@Model.RoomsAvailable</dd>
+                        <dt class="col-sm-4"><i class="bi bi-geo-alt me-1 text-danger" aria-hidden="true"></i>Região</dt>
+                        <dd class="col-sm-8">@Model.Region</dd>
+                        <dt class="col-sm-4"><i class="bi bi-house-door me-1 text-success" aria-hidden="true"></i>Endereço</dt>
+                        <dd class="col-sm-8">@Model.Address</dd>
+                    </dl>
+                </div>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Voltar
+                    </a>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">
+                            <i class="bi bi-pencil me-1" aria-hidden="true"></i>Editar
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                            <i class="bi bi-trash me-1" aria-hidden="true"></i>Excluir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
