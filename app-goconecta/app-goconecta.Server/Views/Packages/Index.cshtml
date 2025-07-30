@@ -1,77 +1,51 @@
 @model IEnumerable<app_goconecta.Server.Models.Package>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Pacotes";
 }
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Destination)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DurationDays)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvailabilityStartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AvailabilityEndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PriceAdults)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PriceChildren)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Destination)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DurationDays)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvailabilityStartDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AvailabilityEndDate)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.PriceAdults)
-            </td>
-            <td>
-                @Html.DisplayNameFor(model => model.PriceChildren)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0"><i class="bi bi-box-seam me-2"></i>Pacotes</h1>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>Novo Pacote
+        </a>
+    </div>
+    <div class="row g-4">
+@foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="bi bi-box-seam text-primary me-1" aria-hidden="true"></i>@item.Title
+                        </h5>
+                        <p class="card-text text-muted mb-1">@item.Description</p>
+                        <div class="mb-2 small">
+                            <span class="me-2"><i class="bi bi-geo-alt text-danger" aria-hidden="true"></i> @item.Destination</span>
+                            <span class="me-2"><i class="bi bi-calendar-range text-secondary" aria-hidden="true"></i> @item.DurationDays dias</span>
+                        </div>
+                        <div class="mb-2 small">
+                            <span class="me-2"><i class="bi bi-calendar-event text-primary" aria-hidden="true"></i> @item.AvailabilityStartDate.ToShortDateString() - @item.AvailabilityEndDate.ToShortDateString()</span>
+                        </div>
+                        <div class="mb-2 small">
+                            <span class="me-2"><i class="bi bi-currency-dollar text-success" aria-hidden="true"></i> Adultos: @item.PriceAdults.ToString("C")</span>
+                            <span class="me-2"><i class="bi bi-currency-dollar text-info" aria-hidden="true"></i> Crianças: @item.PriceChildren.ToString("C")</span>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 d-flex gap-2 justify-content-end">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm" aria-label="Detalhes do pacote">
+                            <i class="bi bi-eye" aria-hidden="true"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm" aria-label="Editar pacote">
+                            <i class="bi bi-pencil" aria-hidden="true"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" aria-label="Excluir pacote">
+                            <i class="bi bi-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

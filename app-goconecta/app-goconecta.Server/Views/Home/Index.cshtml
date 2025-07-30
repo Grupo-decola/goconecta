@@ -1,8 +1,81 @@
 @* @model TModel *@
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Início";
     Layout = "_Layout";
 }
 
-<h2>title</h2>
+<div class="container py-5">
+    <div class="row justify-content-center mb-5">
+        <div class="col-lg-8">
+            <div class="card shadow-sm text-center border-0 bg-primary bg-gradient text-white">
+                <div class="card-body py-5">
+                    <i class="bi bi-globe2 display-3 mb-3" aria-hidden="true"></i>
+                    <h1 class="card-title mb-3">Bem-vindo ao GoConecta!</h1>
+                    <p class="card-text fs-5">Sua plataforma para gestão de hotéis, pacotes de viagem, reservas e usuários de forma simples, moderna e eficiente.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row g-4 justify-content-center">
+        <div class="col-12 col-md-6 col-lg-3">
+            <a asp-controller="Hotels" asp-action="Index" class="text-decoration-none" aria-label="Ir para Hotéis">
+                <div class="card h-100 shadow-sm text-center border-0 hover-shadow transition-transform" tabindex="0">
+                    <div class="card-body py-4">
+                        <i class="bi bi-building display-5 text-primary mb-2" aria-hidden="true"></i>
+                        <h5 class="card-title">Hotéis</h5>
+                        <span class="fs-3 fw-bold d-block mb-1">@ViewBag.HotelsCount</span>
+                        <p class="card-text text-muted">Gerencie hotéis cadastrados.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <a asp-controller="Packages" asp-action="Index" class="text-decoration-none" aria-label="Ir para Pacotes">
+                <div class="card h-100 shadow-sm text-center border-0 hover-shadow transition-transform" tabindex="0">
+                    <div class="card-body py-4">
+                        <i class="bi bi-box-seam display-5 text-success mb-2" aria-hidden="true"></i>
+                        <h5 class="card-title">Pacotes</h5>
+                        <span class="fs-3 fw-bold d-block mb-1">@ViewBag.PackagesCount</span>
+                        <p class="card-text text-muted">Visualize e crie pacotes de viagem.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <a asp-controller="Reservations" asp-action="Index" class="text-decoration-none" aria-label="Ir para Reservas">
+                <div class="card h-100 shadow-sm text-center border-0 hover-shadow transition-transform" tabindex="0">
+                    <div class="card-body py-4">
+                        <i class="bi bi-calendar-check display-5 text-info mb-2" aria-hidden="true"></i>
+                        <h5 class="card-title">Reservas</h5>
+                        <span class="fs-3 fw-bold d-block mb-1">@ViewBag.ReservationsCount</span>
+                        <p class="card-text text-muted">Acompanhe e gerencie reservas.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+            <a asp-controller="Users" asp-action="Index" class="text-decoration-none" aria-label="Ir para Usuários">
+                <div class="card h-100 shadow-sm text-center border-0 hover-shadow transition-transform" tabindex="0">
+                    <div class="card-body py-4">
+                        <i class="bi bi-people display-5 text-warning mb-2" aria-hidden="true"></i>
+                        <h5 class="card-title">Usuários</h5>
+                        <span class="fs-3 fw-bold d-block mb-1">@ViewBag.UsersCount</span>
+                        <p class="card-text text-muted">Administre os usuários do sistema.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+<style>
+    .hover-shadow:hover, .hover-shadow:focus {
+        box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,.15)!important;
+        transform: translateY(-4px) scale(1.03);
+        transition: box-shadow 0.2s, transform 0.2s;
+        z-index: 2;
+    }
+    .transition-transform {
+        transition: box-shadow 0.2s, transform 0.2s;
+    }
+</style>
