@@ -9,12 +9,9 @@ public class PackageDetailDTO
     public required string Description { get; set; }
     public required string Destination { get; set; }
     public int DurationDays { get; set; }
-    
     public decimal PriceAdults { get; set; }
     public decimal PriceChildren { get; set; }
-    
     public HotelDTO Hotel { get; set; }
-    
     public ICollection<MediaDTO> Images { get; set; } = new List<MediaDTO>();
     public ICollection<MediaDTO> Videos { get; set; } = new List<MediaDTO>();
     

@@ -1,66 +1,51 @@
 @model app_goconecta.Server.Models.Package
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalhes do Pacote";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>Package</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Destination)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Destination)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DurationDays)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DurationDays)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AvailabilityStartDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AvailabilityStartDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AvailabilityEndDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AvailabilityEndDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PriceAdults)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PriceAdults)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PriceChildren)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PriceChildren)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <i class="bi bi-box-seam me-2" aria-hidden="true"></i>
+                    <span>Detalhes do Pacote</span>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4"><i class="bi bi-type me-1 text-secondary" aria-hidden="true"></i>Título</dt>
+                        <dd class="col-sm-8">@Model.Title</dd>
+                        <dt class="col-sm-4"><i class="bi bi-card-text me-1 text-secondary" aria-hidden="true"></i>Descrição</dt>
+                        <dd class="col-sm-8">@Model.Description</dd>
+                        <dt class="col-sm-4"><i class="bi bi-geo-alt me-1 text-danger" aria-hidden="true"></i>Destino</dt>
+                        <dd class="col-sm-8">@Model.Destination</dd>
+                        <dt class="col-sm-4"><i class="bi bi-calendar-range me-1 text-secondary" aria-hidden="true"></i>Duração (dias)</dt>
+                        <dd class="col-sm-8">@Model.DurationDays</dd>
+                        <dt class="col-sm-4"><i class="bi bi-calendar-event me-1 text-primary" aria-hidden="true"></i>Disponível de</dt>
+                        <dd class="col-sm-8">@Model.AvailabilityStartDate.ToShortDateString()</dd>
+                        <dt class="col-sm-4"><i class="bi bi-calendar-event me-1 text-primary" aria-hidden="true"></i>Disponível até</dt>
+                        <dd class="col-sm-8">@Model.AvailabilityEndDate.ToShortDateString()</dd>
+                        <dt class="col-sm-4"><i class="bi bi-currency-dollar me-1 text-success" aria-hidden="true"></i>Preço Adultos</dt>
+                        <dd class="col-sm-8">@Model.PriceAdults.ToString("C")</dd>
+                        <dt class="col-sm-4"><i class="bi bi-currency-dollar me-1 text-info" aria-hidden="true"></i>Preço Crianças</dt>
+                        <dd class="col-sm-8">@Model.PriceChildren.ToString("C")</dd>
+                    </dl>
+                </div>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Voltar
+                    </a>
+                    <div>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-outline-primary me-2">
+                            <i class="bi bi-pencil me-1" aria-hidden="true"></i>Editar
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger">
+                            <i class="bi bi-trash me-1" aria-hidden="true"></i>Excluir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
