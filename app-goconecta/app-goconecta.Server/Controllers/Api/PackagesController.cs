@@ -65,10 +65,7 @@ public class PackagesController : ControllerBase
             .Include(p => p.Hotel)
             .Include(p => p.Media)
             .FirstOrDefaultAsync(p => p.Id == id);
-        if (package == null)
-        {
-            return NotFound();
-        }
+        if (package == null) return NotFound();
         var packageDetailDto = PackageDetailDTO.FromModel(package);
         return Ok(packageDetailDto);
         

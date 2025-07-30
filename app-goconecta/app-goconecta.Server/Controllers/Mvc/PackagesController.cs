@@ -1,21 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using app_goconecta.Server.Data;
 using app_goconecta.Server.Extensions;
 using app_goconecta.Server.Models;
 using app_goconecta.Server.ViewModels;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 
 namespace app_goconecta.Server.Controllers.Mvc;
 
+[Authorize (Policy="RequireAdmin")]
 public class PackagesController : Controller
 {
     private readonly AppDbContext _context;
