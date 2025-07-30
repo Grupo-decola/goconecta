@@ -18,4 +18,8 @@ public class Reservation
     
     public int PackageId { get; set; }
     public Package? Package { get; set; }
+
+    public int NumberOfAdults => Guests.Count(g => g.IsAdult);
+    public int NumberOfChildren => Guests.Count(g => !g.IsAdult);
+    public decimal TotalPrice => (NumberOfAdults * Package!.PriceAdults) + (NumberOfChildren * Package.PriceChildren);
 }
