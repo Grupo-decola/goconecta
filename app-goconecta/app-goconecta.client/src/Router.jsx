@@ -3,6 +3,7 @@ import CadastroLogin from "./Pages/Cadastro/CadastroLogin";
 import LoginPage from "./Pages/Login/LoginPage";
 import Home from "./Pages/Home/Home";
 import Packages from "./Pages/Packages";
+import InfoPage from "./Pages/InfoPage/InfoPage";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/pacotes",
     element: <Packages />,
+  },
+  {
+    path: "/pacote/:id",
+    element: <InfoPage />,
   },
 ]);
 

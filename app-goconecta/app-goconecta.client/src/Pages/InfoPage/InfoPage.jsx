@@ -6,7 +6,7 @@ import MediaGallery from "../../Components/MediaGallery/MediaGallery";
 import BookingForm from "../../Components/BookingForm/BookingForm";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { API_URL, PackageDetailDTO } from "../../Model";
+import { API_URL, PackageDetailDTO } from "../../model";
 import { useParams } from "react-router-dom";
 
 export default function InfoPage() {
