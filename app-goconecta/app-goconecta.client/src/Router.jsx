@@ -3,6 +3,7 @@ import CadastroLogin from "./Pages/Cadastro/CadastroLogin";
 import LoginPage from "./Pages/Login/LoginPage";
 
 const router = createBrowserRouter([
+  
   {
     path: "/cadastro",
     element: <CadastroLogin />,
