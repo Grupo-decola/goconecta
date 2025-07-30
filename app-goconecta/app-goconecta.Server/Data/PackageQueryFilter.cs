@@ -7,6 +7,8 @@ public class PackageQueryFilter
   public decimal? MinPrice { get; set; }
   public decimal? MaxPrice { get; set; }
   
+  public List<int> SelectedAmenityIds { get; set; } = new List<int>();
+  
   public bool IsValid()
   {
     // Verifica se o preço mínimo é maior que o máximo

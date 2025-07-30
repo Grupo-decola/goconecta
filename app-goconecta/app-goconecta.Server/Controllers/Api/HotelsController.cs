@@ -19,8 +19,17 @@ public class HotelsController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Hotel>>> GetAll()
+    public async Task<ActionResult<IReadOnlyList<Hotel>>> GetAll([FromQuery] List<int>? amenitiesIds = null)
     {
-        return await _context.Hotels.ToListAsync();
+        var query = _context.Hotels
+            .Include(h => h.Amenities)
+            .AsQueryable();
+
+        if (amenitiesIds != null && amenitiesIds.Any())
+        {
+            query = query.Where(h => amenitiesIds.All(id => h.Amenities.Any(a => a.Id == id)));
+        }
+
+        return await query.ToListAsync();
     }
 }
