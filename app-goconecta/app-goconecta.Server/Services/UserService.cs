@@ -13,6 +13,13 @@ public class UserService(AppDbContext dbContext)
         {
             throw new InvalidOperationException("Email já está em uso.");
         }
+        
+        var claimsIdentity = new ClaimsIdentity([
+            new Claim(ClaimTypes.Name, user.Name),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim("UserId", user.Id.ToString()),
+            new Claim("Store", user.Role)
+        ], authenticationScheme);
 
         newUser.Password = BCrypt.Net.BCrypt.HashPassword(newUser.Password);
         
@@ -21,6 +28,35 @@ public class UserService(AppDbContext dbContext)
         
         return newUser;
     }
+    
+    public async Task<User> GetAuthenticatedUserAsync(ClaimsPrincipal user)
+    {
+        if (user.Identity is not ClaimsIdentity identity || !identity.IsAuthenticated)
+        {
+            throw new UnauthorizedAccessException("Usuário não autenticado.");
+        }
+
+        var email = identity.FindFirst(ClaimTypes.Email)?.Value;
+        if (string.IsNullOrEmpty(email))
+        {
+            throw new UnauthorizedAccessException("Email não encontrado nos claims do usuário.");
+        }
+
+        var dbUser = await dbContext.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Email == email);
+        if (dbUser is null)
+        {
+            throw new UnauthorizedAccessException("Usuário não encontrado.");
+        }
+
+        return dbUser;
+    }
+    
+    public async Task<User> RegisterAsync(UserCreateDTO createDto, string role)
+    {
+        if (await dbContext.Users.AnyAsync(u => u.Email == createDto.Email))
+        {
+            throw new InvalidOperationException("Email já está em uso.");
+        }
 
     public async Task<User> CreateAsync(UserCreateDTO createDto, string role)
     {

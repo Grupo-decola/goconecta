@@ -46,30 +46,26 @@ public class ReservationsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<ReservationDTO>> Create(ReservationCreateDTO createDto)
     {
-        if ((await _context.Users.FirstOrDefaultAsync(u => u.Id == createDto.UserId)) == null)
-        {
-            return BadRequest("User not found.");
-        }
+        var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "UserId")!.Value);
         
         if ((await _context.Packages.FirstOrDefaultAsync(p => p.Id == createDto.PackageId)) == null)
         {
             return BadRequest("Package not found.");
         }
         
-        if (createDto.ReservationDate < DateTime.UtcNow)
+        if (createDto.ReservationDate <= DateTime.UtcNow)
         {
             return BadRequest("Reservation date cannot be in the past.");
         }
         
         var reservation = new Reservation
         {
+            UserId = userId,
+            PackageId = createDto.PackageId,
             ReservationNumber = $"RES{createDto.PackageId}-{Guid.NewGuid()}",
             ReservationDate = createDto.ReservationDate,
             Status = "Pending",
-            NumOfAdults = createDto.NumOfAdults,
-            NumOfChildren = createDto.NumOfChildren,
-            UserId = createDto.UserId,
-            PackageId = createDto.PackageId
+            Guests = createDto.Guests
         };
 
         _context.Reservations.Add(reservation);
