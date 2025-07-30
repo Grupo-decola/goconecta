@@ -92,6 +92,17 @@ public class AppDbContext : DbContext
                 .WithMany(tp => tp.Reservations)
                 .HasForeignKey(r => r.PackageId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            entity.OwnsMany(r => r.Guests, g =>
+                {
+                    g.WithOwner().HasForeignKey("ReservationId");
+                    g.Property<int>("Id"); // Shadow property for primary key
+                    g.HasKey("Id");
+                    g.Property(g => g.Name).IsRequired().HasMaxLength(100);
+                    g.Property(g => g.BirthDate).IsRequired();
+                    g.Property(g => g.Email).HasMaxLength(100);
+                    g.Property(g => g.Cpf).IsRequired();
+                });
         });
         
         // Media configuration
