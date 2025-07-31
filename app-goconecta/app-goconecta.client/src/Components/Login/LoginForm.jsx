@@ -9,8 +9,11 @@ import {
   Notification,
   Title,
   Card,
+  Text,
+  Anchor,
+  Grid,
 } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { IconAt, IconLock } from '@tabler/icons-react';
 
 function LoginForm() {
   const [form, setForm] = useState({
@@ -48,68 +51,90 @@ function LoginForm() {
     setSucesso("");
 
     try {
-      await login(form.email, form.password);
-      navigate("/pacotes"); // Redireciona para a página inicial após login
-      setSucesso("Login realizado com sucesso!");
-    } catch (err) {
-      if (err?.response?.status === 401) {
+      const resposta = await fetch("https://localhost:7093/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(form)
+      });
+
+      if (resposta.ok) {
+        const dados = await resposta.json();
+        console.log("Login realizado:", dados);
+        setSucesso("Login realizado com sucesso!");
+        // localStorage.setItem("token", dados.token); // opcional: armazena o token de autenticação
+      } else {
         setErro("E-mail ou senha inválidos");
       } else {
         setErro("Erro ao conectar com o servidor");
       }
+    } catch (erro) {
+      console.error("Erro ao fazer login:", erro);
+      setErro("Erro ao conectar com o servidor. Tente novamente mais tarde.");
     }
   };
 
   return (
-    <Box maw={400} mx="auto" mt="xl">
+    <Box
+      maw={{ base: '90%', sm: 400 }}
+      mx="auto"
+      mt="xl"
+      px="md"
+    >
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Title order={3} align="center" mb="md">
           Acesse sua conta
         </Title>
         <form onSubmit={handleSubmit}>
-          <Stack>
-            <TextInput
-              label="Email"
-              placeholder="seu@email.com"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
-            <PasswordInput
-              label="Senha"
-              placeholder="Digite sua senha"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
-            <Button type="submit" fullWidth mt="sm" color="orange">
-              Entrar
-            </Button>
-
-            {erro && (
-              <Notification
-                color="red"
-                onClose={() => setErro("")}
-                withCloseButton
-                aria-label="Fechar notificação de erro"
-              >
-                {erro}
-              </Notification>
-            )}
-            {sucesso && (
-              <Notification
-                color="green"
-                onClose={() => setSucesso("")}
-                withCloseButton
-                aria-label="Fechar notificação de sucesso"
-              >
-                {sucesso}
-              </Notification>
-            )}
-          </Stack>
+          <Grid>
+            <Grid.Col span={12}>
+              <Stack>
+                <TextInput
+                  label="Email"
+                  placeholder="seu@email.com"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  leftSection={<IconAt size={16} />}
+                />
+                <PasswordInput
+                  label="Senha"
+                  placeholder="Digite sua senha"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  leftSection={<IconLock size={16} />}
+                />
+                <Button
+                  type="submit"
+                  fullWidth
+                  mt="sm"
+                >
+                  Entrar
+                </Button>
+                {erro && (
+                  <Notification color="red" mt="md">
+                    {erro}
+                  </Notification>
+                )}
+                {sucesso && (
+                  <Notification color="green" mt="md">
+                    {sucesso}
+                  </Notification>
+                )}
+              </Stack>
+            </Grid.Col>
+          </Grid>
         </form>
+        <Text size="sm" align="center" mt="md">
+          Ainda não tem cadastro?{" "}
+          <Anchor component="a" href="/Cadastro" size="sm">
+            Cadastre-se aqui
+          </Anchor>
+        </Text>
       </Card>
     </Box>
   );
