@@ -2,10 +2,17 @@ import { Stack, Title, Button, Group } from "@mantine/core";
 import TravelerForm from "../../Components/TravelerForm/TravelerForm";
 import { useRef } from "react";
 import { useLocation } from "react-router-dom";
+import { createReservation } from "../../services/ReservationService";
+import { CheckoutReservation } from "../../services/StripeService";
 
 export default function TravelerRegister() {
   const location = useLocation();
-  const { adults = 1, childs = 0, packageId, date } = location.state || {};
+  const {
+    adults = 1,
+    childs = 0,
+    packageId,
+    reservationDate,
+  } = location.state || {};
   const total = Number(adults) + Number(childs);
   const formRefs = Array.from({ length: total }, () => useRef());
 
@@ -21,17 +28,23 @@ export default function TravelerRegister() {
         allValues.push(ref.current.values());
       }
     });
+    const payload = {
+      packageId,
+      reservationDate,
+      guests: allValues,
+    };
+    console.log(payload);
     if (allValid) {
-      const payload = {
-        packageId,
-        date,
-        hospedes: allValues,
-      };
-      // Envie allValues para o backend ou prossiga
-      console.log("Todos válidos:", payload);
-    } else {
-      // Mostre erro
-      console.log("Algum formulário inválido");
+      createReservation(payload)
+        .then((res) => {
+          const sripePayload = {
+            reservationId: res.id,
+          };
+          CheckoutReservation(sripePayload);
+        })
+        .catch((error) => {
+          console.error("Erro ao criar reserva:", error);
+        });
     }
   };
 

@@ -57,7 +57,7 @@ export default function InfoPage() {
             </Text>
             <ReviewView title={packageDetail?.title} />
             <Text>{packageDetail?.description}</Text>
-            <Attractions />
+            <Attractions amenities={packageDetail?.amenities} />
             <MediaGallery />
           </Stack>
         </Grid.Col>
