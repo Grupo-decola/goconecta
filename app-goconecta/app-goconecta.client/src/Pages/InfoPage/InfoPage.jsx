@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 
 import { PackageDetailDTO } from "../../model";
 import { useParams } from "react-router-dom";
-import { fetchPackageDetail } from "../../services/PackagesService";
+import { fetchPackageDetail } from "../../services/PackageService";
 
 export default function InfoPage() {
   const [packageDetail, setPackageDetail] = useState(null);

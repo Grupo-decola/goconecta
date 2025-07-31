@@ -5,7 +5,8 @@ import Home from "./Pages/Home/Home";
 import Packages from "./Pages/Packages/Packages";
 import InfoPage from "./Pages/InfoPage/InfoPage";
 import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
-
+import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import LogoutPage from "./Pages/Logout/LogoutPage";
 
 const router = createBrowserRouter([
   { path: "/Home", element: <Home /> },
@@ -18,19 +19,20 @@ const router = createBrowserRouter([
     element: <LoginPage />,
   },
   {
-    path: "/pacotes",
-    element: <Packages />,
+    path: "/logout",
+    element: <LogoutPage />,
   },
   {
-    path: "/pacote/:id",
-    element: <InfoPage />,
+    element: <ProtectedRoute />, // wrapper para rotas protegidas
+    children: [
+      { path: "/pacotes", element: <Packages /> },
+      { path: "/pacote/:id", element: <InfoPage /> },
+    ],
   },
-   {
+  {
     path: "/passageiros",
     element: <TravelerRegister />,
   },
- 
- 
 ]);
 
 export function Router() {

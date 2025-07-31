@@ -12,7 +12,7 @@ import { IconInfoCircle } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
 import PackageCard from "../../Components/PackageCard.jsx";
 import Filters from "../../Components/Filters.jsx";
-import { fetchPackages } from "../../services/PackagesService.js";
+import { fetchPackages } from "../../services/PackageService.js";
 
 export default function Packages() {
   const [packages, setPackages] = useState([]);
@@ -53,10 +53,10 @@ export default function Packages() {
     }
 
     if (minPrice !== null) {
-      filtered = filtered.filter(pkg => pkg.priceAdults >= minPrice);
+      filtered = filtered.filter((pkg) => pkg.priceAdults >= minPrice);
     }
     if (maxPrice !== null) {
-      filtered = filtered.filter(pkg => pkg.priceAdults <= maxPrice);
+      filtered = filtered.filter((pkg) => pkg.priceAdults <= maxPrice);
     }
 
     if (startDate) {

@@ -54,7 +54,7 @@ export const theme = createTheme({
     ],
 
     // Neutral colors
-    white: [
+    "white": [
       // Use for: Main backgrounds, text on dark backgrounds
       // Example: <Paper bg="white.0">Content on white background</Paper>
       // Example: <Text color="white.0" bg="primary-dark.6">Light text on dark background</Text>
@@ -116,7 +116,7 @@ export const theme = createTheme({
     ],
 
     // Status colors
-    success: [
+    "success": [
       // Use for: Confirmations, positive status indicators
       // Example: <Alert color="success">Operation successful!</Alert>
       // Example: <Badge color="success">Completed</Badge>
@@ -131,7 +131,7 @@ export const theme = createTheme({
       "#134A1F",
       "#0D2B13", // darkest shade (9)
     ],
-    error: [
+    "error": [
       // Use for: Alerts, errors, cancellations
       // Example: <Alert color="error">An error occurred</Alert>
       // Example: <Button color="error">Cancel</Button>
@@ -146,7 +146,7 @@ export const theme = createTheme({
       "#6D1A22",
       "#491216", // darkest shade (9)
     ],
-    warning: [
+    "warning": [
       // Use for: Warnings, pending status
       // Example: <Alert color="warning">Your session will expire soon</Alert>
       // Example: <Badge color="warning">Pending</Badge>
@@ -161,7 +161,7 @@ export const theme = createTheme({
       "#7A5B00",
       "#4D3900", // darkest shade (9)
     ],
-    info: [
+    "info": [
       // Use for: Neutral information
       // Example: <Alert color="info">For your information</Alert>
       // Example: <Badge color="info">New</Badge>
