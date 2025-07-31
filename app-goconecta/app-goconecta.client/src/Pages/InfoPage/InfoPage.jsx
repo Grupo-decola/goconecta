@@ -22,7 +22,9 @@ export default function InfoPage() {
     fetchPackageDetail(id)
       .then((data) => setPackageDetail(new PackageDetailDTO(data)))
       .catch((err) => setError(err))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+      });
   }, [id]);
 
   if (loading) {
@@ -41,13 +43,14 @@ export default function InfoPage() {
   if (!packageDetail) {
     return null;
   }
+  console.log(packageDetail);
 
   return (
     <Box maw={{ base: "95%", md: "90%", lg: 1200 }} mx="auto" mt="xl" px="md">
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, md: 8 }}>
           <Stack gap="md">
-            <ImageCarousel />
+            <ImageCarousel images={packageDetail.images} />
             <Title order={1}>Detalhes do pacote</Title>
             <Text c="gray-medium.4" size="xs">
               {packageDetail?.destination}
