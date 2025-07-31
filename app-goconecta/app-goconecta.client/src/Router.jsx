@@ -7,6 +7,8 @@ import InfoPage from "./Pages/InfoPage/InfoPage";
 import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import LogoutPage from "./Pages/Logout/LogoutPage";
+import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
+
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -34,6 +36,14 @@ const router = createBrowserRouter([
     path: "/passageiros",
     element: <TravelerRegister />,
   },
+
+
+ {
+    path: "/beneficios",
+    element: <BeneficiosPage />,
+  },
+ 
+ 
 ]);
 
 export function Router() {
