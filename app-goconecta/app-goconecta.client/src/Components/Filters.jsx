@@ -107,6 +107,7 @@ export default function Filters({ onFilterChange }) {
           onClick={handleClearFilters}
           size="sm"
           style={{ flex:'1 1 0'}}
+          color="#DA7818"
         >
           Limpar 
         </Button>
@@ -116,6 +117,7 @@ export default function Filters({ onFilterChange }) {
           variant="filled"
           size="sm"
           style={{ flex:'1 1 0'}}
+          color="#DA7818"
         >
           Buscar 
         </Button>

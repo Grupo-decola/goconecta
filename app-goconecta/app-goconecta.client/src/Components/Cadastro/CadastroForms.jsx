@@ -134,6 +134,7 @@ function CadastroFormulario() {
                   type="submit" 
                   fullWidth 
                   mt="sm" 
+                  color="#DA7818"
                 >
                   Cadastrar
                 </Button>

@@ -8,6 +8,8 @@ import { Burger } from "@mantine/core";
 
 const Header = () => {
   const [opened, { toggle }] = useDisclosure();
+  const isActive = (path) => window.location.pathname === path;
+
 
   return (
     <header className="main-header">
@@ -52,19 +54,19 @@ const Header = () => {
       <nav className="main-nav">
         <ul>
           <li>
-            <a href="/hospedagens" className="nav-link active">
+            <a href="/hospedagens" className={`nav-link ${isActive('/hospedagens') || isActive('/') ? 'active' : ''}`}>
               <FaHotel className="nav-icon" />
               <span>Hospedagens</span>
             </a>
           </li>
           <li>
-            <a href="/passagens" className="nav-link">
+            <a href="/passagens" className={`nav-link ${isActive('/passagens') ? 'active' : ''}`}>
               <FaPlane className="nav-icon" />
               <span>Passagens</span>
             </a>
           </li>
           <li>
-            <a href="/pacotes" className="nav-link">
+            <a href="/pacotes" className={`nav-link ${isActive('/pacotes') ? 'active' : ''}`}>
               <FaSuitcase className="nav-icon" />
               <span>Pacotes</span>
             </a>
