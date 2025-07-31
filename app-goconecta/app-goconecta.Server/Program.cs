@@ -37,7 +37,16 @@ var key = Encoding.ASCII.GetBytes(builder.Configuration["Jwt:Secret"] ?? throw n
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultScheme = "SmartPolicyScheme";
+})
+.AddPolicyScheme("SmartPolicyScheme", "", options =>
+{
+    options.ForwardDefaultSelector = context =>
+    {
+        if (context.Request.Path.StartsWithSegments("/api"))
+            return JwtBearerDefaults.AuthenticationScheme;
+        return CookieAuthenticationDefaults.AuthenticationScheme;
+    };
 })
 .AddCookie(options =>
 {
@@ -66,14 +75,12 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("RequireAdmin", policy => policy.RequireClaim("Store", "admin"));
 });
 
-// ❌ Removido o filtro global que exigia autenticação em todas as rotas
-// Se quiser ativar depois, é só descomentar esse bloco:
-/*
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add(new AuthorizeFilter("RequireAuthenticated") );
 });
-*/
+
 
 builder.Services.AddControllers(); //  agora tudo liberado sem autenticação obrigatória
 builder.Services.AddControllersWithViews();
@@ -107,6 +114,7 @@ app.UseRouting();
 // Middlewares de autenticação (ainda configurados, mas não vão bloquear as rotas)
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseCors("AllowAll");
 
 app.MapControllerRoute(
     name: "default",
