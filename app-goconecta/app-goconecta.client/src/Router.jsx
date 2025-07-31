@@ -9,7 +9,8 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import LogoutPage from "./Pages/Logout/LogoutPage";
 
 const router = createBrowserRouter([
-  { path: "/Home", element: <Home /> },
+  { path: "/", element: <Home /> },
+  { path: "/hospedagens", element: <Home /> },
   {
     path: "/cadastro",
     element: <CadastroLogin />,

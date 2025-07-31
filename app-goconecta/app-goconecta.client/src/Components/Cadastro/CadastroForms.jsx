@@ -120,7 +120,12 @@ function CadastroFormulario() {
                   {...form.getInputProps("cpfPassport")}
                   leftSection={<IconId size={16} />}
                 />
-                <Button type="submit" fullWidth mt="sm">
+                <Button 
+                  type="submit" 
+                  fullWidth 
+                  mt="sm" 
+                  color="#DA7818"
+                >
                   Cadastrar
                 </Button>
               </Stack>

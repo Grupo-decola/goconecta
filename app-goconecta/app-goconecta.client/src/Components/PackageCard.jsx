@@ -97,6 +97,7 @@ export default function PackageCard({ package: pkg }) {
               variant="filled"
               size="sm"
               onClick={() => navigate(`/pacote/${pkg.hotel.id}`)}
+              color="#DA7818"
               
             >
               Ver Detalhes
