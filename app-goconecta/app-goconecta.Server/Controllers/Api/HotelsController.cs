@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace app_goconecta.Server.Controllers.Api;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class HotelsController : ControllerBase

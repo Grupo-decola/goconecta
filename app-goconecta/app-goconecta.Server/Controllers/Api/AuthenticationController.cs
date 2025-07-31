@@ -7,12 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace app_goconecta.Server.Controllers.Api;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class AuthenticationController(AuthenticationService authenticationService) : ControllerBase
 {
     [HttpPost("login")]
-    [AllowAnonymous]
     public async Task<IActionResult> Login([FromBody] UserLoginDTO loginDto)
     {
         if (!ModelState.IsValid)
