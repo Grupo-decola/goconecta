@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace app_goconecta.Server.Controllers.Mvc;
 
 [Authorize (Policy="RequireAdmin")]
-public class HotelsController : Controller
+public class MvcHotelsController : Controller
 {
     private readonly AppDbContext _context;
 
-    public HotelsController(AppDbContext context)
+    public MvcHotelsController(AppDbContext context)
     {
         _context = context;
     }

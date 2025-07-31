@@ -21,5 +21,5 @@ public class Reservation
 
     public int NumberOfAdults => Guests.Count(g => g.IsAdult);
     public int NumberOfChildren => Guests.Count(g => !g.IsAdult);
-    public decimal TotalPrice => (NumberOfAdults * Package!.PriceAdults) + (NumberOfChildren * Package.PriceChildren);
+    public decimal TotalPrice => Package == null ? 0 : (NumberOfAdults * Package.PriceAdults) + (NumberOfChildren * Package.PriceChildren);
 }

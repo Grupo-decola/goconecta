@@ -1,0 +1,39 @@
+@model IEnumerable<app_goconecta.Server.Models.Amenity>
+
+@{
+    ViewData["Title"] = "Amenidades";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0"><i class="bi bi-stars me-2"></i>Amenidades</h1>
+        <a asp-action="Create" class="btn btn-primary">
+            <i class="bi bi-plus-circle me-2" aria-hidden="true"></i>Criar Nova
+        </a>
+    </div>
+    <div class="row g-4">
+@foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="bi bi-stars text-warning me-1" aria-hidden="true"></i>@item.Name
+                        </h5>
+                    </div>
+                    <div class="card-footer bg-white border-0 d-flex gap-2 justify-content-end">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm" aria-label="Detalhes da amenidade" title="Detalhes">
+                            <i class="bi bi-eye" aria-hidden="true"></i>
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-secondary btn-sm" aria-label="Editar amenidade" title="Editar">
+                            <i class="bi bi-pencil" aria-hidden="true"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" aria-label="Excluir amenidade" title="Excluir">
+                            <i class="bi bi-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

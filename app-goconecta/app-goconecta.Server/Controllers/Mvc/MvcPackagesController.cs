@@ -9,11 +9,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace app_goconecta.Server.Controllers.Mvc;
 
 [Authorize (Policy="RequireAdmin")]
-public class PackagesController : Controller
+public class MvcPackagesController : Controller
 {
     private readonly AppDbContext _context;
 
-    public PackagesController(AppDbContext context)
+    public MvcPackagesController(AppDbContext context)
     {
         _context = context;
     }
@@ -33,6 +33,7 @@ public class PackagesController : Controller
         }
 
         var package = await _context.Packages
+            .Include(p=> p.Hotel)
             .FirstOrDefaultAsync(m => m.Id == id);
         if (package == null)
         {
@@ -116,7 +117,12 @@ public class PackagesController : Controller
         {
             return NotFound();
         }
-        return View(package);
+        var editViewModel = new PackageEditViewModel
+        {
+            Package = package,
+            Hotels = _context.Hotels.ToList()
+        };
+        return View(editViewModel);
     }
 
     // POST: Packages/Edit/5
@@ -124,23 +130,18 @@ public class PackagesController : Controller
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Destination,DurationDays,AvailabilityStartDate,AvailabilityEndDate,Price")] Package package)
+    public async Task<IActionResult> Edit(PackageEditViewModel viewModel)
     {
-        if (id != package.Id)
-        {
-            return NotFound();
-        }
-
         if (ModelState.IsValid)
         {
             try
             {
-                _context.Update(package);
+                _context.Update(viewModel.Package);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!PackageExists(package.Id))
+                if (!PackageExists(viewModel.Package.Id))
                 {
                     return NotFound();
                 }
@@ -151,7 +152,7 @@ public class PackagesController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(package);
+        return View(viewModel);
     }
 
     // GET: Packages/Delete/5

@@ -118,7 +118,7 @@ app.UseCors("AllowAll");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "admin/{controller=Home}/{action=Index}/{id?}"
+    pattern: "admin/{controller=MvcHome}/{action=Index}/{id?}"
 );
 
 app.MapControllers(); // API pública liberada

@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace app_goconecta.Server.Controllers.Mvc;
 
 [Authorize (Policy="RequireAdmin")]
-public class UsersController(AppDbContext context, UserService userService) : Controller
+public class MvcUsersController(AppDbContext context, UserService userService) : Controller
 {
     public async Task<IActionResult> Index()
         => View(await context.Users.ToListAsync());

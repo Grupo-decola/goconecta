@@ -1,0 +1,73 @@
+@model app_goconecta.Server.ViewModels.PackageEditViewModel
+
+@{
+    ViewData["Title"] = "Editar Pacote";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <i class="bi bi-pencil me-2" aria-hidden="true"></i>
+                    <span>Editar Pacote</span>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Edit" novalidate>
+                        <input type="hidden" asp-for="Package.Id" />
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                        <div class="mb-3">
+                            <label asp-for="Package.Title" class="form-label"></label>
+                            <input asp-for="Package.Title" class="form-control" />
+                            <span asp-validation-for="Package.Title" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Package.Description" class="form-label"></label>
+                            <input asp-for="Package.Description" class="form-control" />
+                            <span asp-validation-for="Package.Description" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Package.Destination" class="form-label"></label>
+                            <input asp-for="Package.Destination" class="form-control" />
+                            <span asp-validation-for="Package.Destination" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Package.HotelId" class="form-label"></label>
+                            <select asp-for="Package.HotelId" class="form-select">
+                                @foreach (var hotel in Model.Hotels) {
+                                    <option value="@hotel.Id">@hotel.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="Package.HotelId" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Package.DurationDays" class="form-label"></label>
+                            <input asp-for="Package.DurationDays" class="form-control" />
+                            <span asp-validation-for="Package.DurationDays" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.PriceAdults" class="form-label"></label>
+                                <input asp-for="Package.PriceAdults" class="form-control" />
+                                <span asp-validation-for="Package.PriceAdults" class="invalid-feedback d-block"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.PriceChildren" class="form-label"></label>
+                                <input asp-for="Package.PriceChildren" class="form-control" />
+                                <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-4">
+                            <a asp-action="Index" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Voltar
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-2" aria-hidden="true"></i>Salvar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

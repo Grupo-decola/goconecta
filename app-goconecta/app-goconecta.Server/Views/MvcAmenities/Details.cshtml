@@ -1,0 +1,45 @@
+@model app_goconecta.Server.Models.Amenity
+
+@{
+    ViewData["Title"] = "Detalhes da Amenidade";
+}
+
+@* Logo GoConecta no topo *@
+<div class="container mt-4 mb-3">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6 text-center">
+            <img src="/assets/logo-goconecta-lg.png" alt="GoConecta Viagens" class="img-fluid mb-4" style="max-width: 300px;" />
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white d-flex align-items-center">
+                    <i class="bi bi-eye me-2"></i>
+                    <h4 class="mb-0">Detalhes da Amenidade</h4>
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Voltar
+                    </a>
+                    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary">
+                        <i class="bi bi-pencil me-1"></i>Editar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -18,14 +18,12 @@
                         <dd class="col-sm-8">@Model.Title</dd>
                         <dt class="col-sm-4"><i class="bi bi-card-text me-1 text-secondary" aria-hidden="true"></i>Descrição</dt>
                         <dd class="col-sm-8">@Model.Description</dd>
+                        <dt class="col-sm-4"><i class="bi bi-geo-alt me-1 text-danger" aria-hidden="true"></i>Hotel</dt>
+                        <dd class="col-sm-8">@Model.Hotel.Name</dd>
                         <dt class="col-sm-4"><i class="bi bi-geo-alt me-1 text-danger" aria-hidden="true"></i>Destino</dt>
                         <dd class="col-sm-8">@Model.Destination</dd>
                         <dt class="col-sm-4"><i class="bi bi-calendar-range me-1 text-secondary" aria-hidden="true"></i>Duração (dias)</dt>
                         <dd class="col-sm-8">@Model.DurationDays</dd>
-                        <dt class="col-sm-4"><i class="bi bi-calendar-event me-1 text-primary" aria-hidden="true"></i>Disponível de</dt>
-                        <dd class="col-sm-8">@Model.AvailabilityStartDate.ToShortDateString()</dd>
-                        <dt class="col-sm-4"><i class="bi bi-calendar-event me-1 text-primary" aria-hidden="true"></i>Disponível até</dt>
-                        <dd class="col-sm-8">@Model.AvailabilityEndDate.ToShortDateString()</dd>
                         <dt class="col-sm-4"><i class="bi bi-currency-dollar me-1 text-success" aria-hidden="true"></i>Preço Adultos</dt>
                         <dd class="col-sm-8">@Model.PriceAdults.ToString("C")</dd>
                         <dt class="col-sm-4"><i class="bi bi-currency-dollar me-1 text-info" aria-hidden="true"></i>Preço Crianças</dt>

@@ -36,7 +36,7 @@ public class MvcAuthenticationController(AuthenticationService authenticationSer
                 authProperties
             );
             
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "MvcHome");
         }
         catch (UnauthorizedAccessException ex)
         {
