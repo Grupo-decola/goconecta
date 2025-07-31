@@ -1,18 +1,31 @@
-import { Checkbox, Stack, Title } from "@mantine/core";
+import { Checkbox, Stack, Title, SimpleGrid } from "@mantine/core"; 
 
 export default function Attractions() {
-  const present = ["Café Da manha", "piscina aquecida", "praia proxima"];
+  const present = [
+    "Café Da manha",
+    "Piscina aquecida",
+    "Praia proxima",
+    "Wi-Fi",
+    "Estacionamento",
+    "Serviço de quarto",
+    "Academia",
+  ]; 
 
-  const notPresent = [];
-
-  const presentCheckbox = present.map((feat) => {
-    return <Checkbox checked onChange={() => {}} label={feat} />;
+  const presentCheckboxes = present.map((feat) => {
+    return <Checkbox key={feat} checked onChange={() => {}} label={feat} />;
   });
 
   return (
     <Stack align="start">
       <Title size="h2">Incluso:</Title>
-      <Stack>{presentCheckbox}</Stack>
+      
+  
+      <SimpleGrid 
+        cols={{ base: 1, sm: 2, lg: 3 }}
+        spacing="md"
+      >
+        {presentCheckboxes}
+      </SimpleGrid>
     </Stack>
   );
 }

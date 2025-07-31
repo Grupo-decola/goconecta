@@ -6,10 +6,13 @@ import {
   Stack,
   Button,
   Text,
+  Grid, 
+  Flex, 
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
+import { IconCalendar, IconUsers, IconUser, IconCurrencyDollar } from '@tabler/icons-react';
 
 export default function BookingForm({ priceAdults, priceChildren, packageId }) {
   const navigate = useNavigate();
@@ -22,12 +25,12 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
     validate: {
       date: (value) => {
         if (!value) {
-          return "Selecione a data da viagem";
+          return "Selecione a Data da viagem";
         }
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const minDate = new Date(today);
-        minDate.setDate(today.getDate() + 7);
+        minDate.setDate(today.getDate() + 7); // Viagem deve ser marcada com pelo menos 7 dias de antecedência
         const selected = new Date(value);
         selected.setHours(0, 0, 0, 0);
 
@@ -39,6 +42,7 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
     },
   });
 
+  // Calcula o preço total com base nos adultos e crianças
   function getTotalPrice() {
     const totalAdultos = priceAdults * form.getValues().adultos;
     const totalCriancas = (priceChildren || 0) * form.getValues().crianca;
@@ -47,59 +51,72 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
 
   return (
     <Card shadow="sm" p="lg" radius="md" withBorder>
-      <Stack gap="md">
-        <Title size="h2">Agende seu pacote</Title>
+      <Grid>
+        <Grid.Col span={12}> 
+          <Stack gap="md"> 
+            <Title size="h2">Agende seu Pacote</Title>
 
-        <DatePickerInput
-          label="Data da viagem"
-          placeholder="Selecione a data"
-          {...form.getInputProps("date")}
-          onChange={(value) => {
-            form.setFieldValue("date", value);
-            form.validateField("date");
-          }}
-        />
+            <DatePickerInput
+              label="Data da viagem"
+              placeholder="Selecione a Data"
+              {...form.getInputProps("date")}
+              onChange={(value) => {
+                form.setFieldValue("date", value);
+                form.validateField("date");
+              }}
+              leftSection={<IconCalendar size={16} />} 
+            />
 
-        <Group grow>
-          <NumberInput
-            label="Adultos"
-            min={1}
-            {...form.getInputProps("adultos")}
-          />
-          <NumberInput
-            label="Crianças"
-            min={0}
-            {...form.getInputProps("crianca")}
-          />
-        </Group>
-        <Button
-          type="submit"
-          fullWidth
-          size="compact-sm"
-          variant="filled"
-          onClick={() => {
-            const validation = form.validate();
-            if (validation.hasErrors) {
-              // O Mantine já exibe os erros nos campos automaticamente
-              return;
-            }
-            const adultos = form.getValues().adultos;
-            const crianca = form.getValues().crianca;
-            const data = form.getValues().date;
-            navigate("/passageiros", {
-              state: {
-                adults: adultos,
-                childs: crianca,
-                date: data,
-                packageId,
-              },
-            });
-          }}
-        >
-          Preencher dados dos viajantes
-        </Button>
-        <Text>Total: {getTotalPrice()}</Text>
-      </Stack>
+            <Group grow> 
+              <NumberInput
+                label="Adultos"
+                min={1}
+                {...form.getInputProps("adultos")}
+                leftSection={<IconUsers size={16} />} 
+              />
+              <NumberInput
+                label="Crianças"
+                min={0}
+                {...form.getInputProps("crianca")}
+                leftSection={<IconUser size={16} />} 
+              />
+            </Group>
+            <Button
+              type="submit"
+              fullWidth 
+              size="compact-sm"
+              variant="filled"
+              onClick={() => {
+                const validation = form.validate();
+                if (validation.hasErrors) {
+                  return;
+                }
+                const adultos = form.getValues().adultos;
+                const crianca = form.getValues().crianca;
+                const data = form.getValues().date;
+                navigate("/passageiros", {
+                  state: {
+                    adults: adultos,
+                    childs: crianca,
+                    date: data,
+                    packageId,
+                  },
+                });
+              }}
+            >
+              Preencher Dados dos Viajantes
+            </Button>
+            
+            <Flex justify="space-between" align="center">
+                <Text fw={700}>Total:</Text>
+                <Group gap="xs">
+                    <IconCurrencyDollar size={16} />
+                    <Text fw={700}>{getTotalPrice()}</Text>
+                </Group>
+            </Flex>
+          </Stack>
+        </Grid.Col>
+      </Grid>
     </Card>
   );
 }

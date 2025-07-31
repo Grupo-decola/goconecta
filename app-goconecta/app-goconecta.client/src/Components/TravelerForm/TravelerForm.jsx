@@ -1,9 +1,10 @@
-import { useForm } from "@mantine/form";
-import { TextInput, Stack, Button, Group } from "@mantine/core";
+import { forwardRef, useImperativeHandle, useState } from "react";
+import { TextInput, Stack, Button, Group, Grid, Box, Card, Text } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
-import { forwardRef, useImperativeHandle } from "react";
+import { useForm } from "@mantine/form";
+import { IconUser, IconAt, IconId, IconCalendar } from '@tabler/icons-react';
 
-const TravelerForm = forwardRef(({ IsChild }, ref) => {
+const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -22,14 +23,13 @@ const TravelerForm = forwardRef(({ IsChild }, ref) => {
       email: (value) => {
         if (!value) {
           return null;
-        } // email opcional
+        }
         return /^\S+@\S+$/.test(value) ? null : "Email inválido";
       },
       cpfPassport: (value) => {
         if (!value) {
           return "CPF ou Passaporte obrigatório";
         }
-        // Validação simples de CPF (11 dígitos) ou passaporte (mínimo 6 caracteres)
         const cpfRegex = /^\d{11}$/;
         const passaporteRegex = /^[A-Za-z0-9]{6,}$/;
         if (!cpfRegex.test(value) && !passaporteRegex.test(value)) {
@@ -47,7 +47,6 @@ const TravelerForm = forwardRef(({ IsChild }, ref) => {
           return "Data de nascimento não pode ser futura";
         }
         if (IsChild === true) {
-          // calcula idade
           let age = today.getFullYear() - birth.getFullYear();
           const m = today.getMonth() - birth.getMonth();
           if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
@@ -68,36 +67,59 @@ const TravelerForm = forwardRef(({ IsChild }, ref) => {
   }));
 
   return (
-    <Stack ta="left">
-      <TextInput
-        withAsterisk
-        label="Name"
-        placeholder="Insira Seu nome Completo"
-        key={form.key("name")}
-        {...form.getInputProps("name")}
-      />
-      <TextInput
-        label="Email(opcional)"
-        placeholder="your@email.com"
-        key={form.key("email")}
-        {...form.getInputProps("email")}
-      />
-      <TextInput
-        withAsterisk
-        label="CPF/Passaporte"
-        placeholder="CPF/Passaporte"
-        key={form.key("cpfPassport")}
-        {...form.getInputProps("cpfPassport")}
-      />
-      <DateInput
-        withAsterisk
-        label="Data de nascimento"
-        placeholder="Selecione a data de nascimento"
-        key={form.key("birthDate")}
-        maxDate={new Date()}
-        {...form.getInputProps("birthDate")}
-      />
-    </Stack>
+    <Box
+      maw={{ base: '100%', sm: 600, md: 700 }}
+      mx="auto"
+      px="md"
+    >
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Grid gutter="md">
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextInput
+              withAsterisk
+              label="Nome Completo"
+              placeholder="Insira Seu nome Completo"
+              key={form.key("name")}
+              {...form.getInputProps("name")}
+              leftSection={<IconUser size={16} />}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextInput
+              label="Email (opcional)"
+              placeholder="seu@email.com"
+              key={form.key("email")}
+              {...form.getInputProps("email")}
+              leftSection={<IconAt size={16} />}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <TextInput
+              withAsterisk
+              label="CPF/Passaporte"
+              placeholder="CPF ou Passaporte"
+              key={form.key("cpfPassport")}
+              {...form.getInputProps("cpfPassport")}
+              leftSection={<IconId size={16} />}
+            />
+          </Grid.Col>
+
+          <Grid.Col span={{ base: 12, sm: 6 }}>
+            <DateInput
+              withAsterisk
+              label="Data de nascimento"
+              placeholder="Selecione a data de nascimento"
+              key={form.key("birthDate")}
+              maxDate={new Date()}
+              {...form.getInputProps("birthDate")}
+              leftSection={<IconCalendar size={16} />}
+            />
+          </Grid.Col>
+        </Grid>
+      </Card>
+    </Box>
   );
 });
 
