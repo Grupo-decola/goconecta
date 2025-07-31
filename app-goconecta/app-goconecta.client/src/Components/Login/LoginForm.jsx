@@ -64,7 +64,7 @@ function LoginForm() {
         console.log("Login realizado:", dados);
         setSucesso("Login realizado com sucesso!");
         // localStorage.setItem("token", dados.token); // opcional: armazena o token de autenticação
-      } else {
+      } else if (resposta.status === 401) {
         setErro("E-mail ou senha inválidos");
       } else {
         setErro("Erro ao conectar com o servidor");

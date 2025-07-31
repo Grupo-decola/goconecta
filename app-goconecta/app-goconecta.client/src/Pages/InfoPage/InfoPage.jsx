@@ -1,4 +1,4 @@
-import { Stack, Text, Title, Box, Grid } from "@mantine/core";
+import { Stack, Text, Title, Box, Grid, Center, Loader } from "@mantine/core";
 import ImageCarousel from "../../Components/ImageCarousel/ImageCarousel";
 import ReviewView from "../../Components/ReviewView/ReviewView";
 import Attractions from "../../Components/Attractions/Attractions";
@@ -43,21 +43,12 @@ export default function InfoPage() {
   }
 
   return (
-
-    <Box
-      maw={{ base: '95%', md: '90%', lg: 1200 }} 
-      mx="auto" 
-      mt="xl" 
-      px="md" 
-    >
-      
-      <Grid gutter="xl"> 
-        <Grid.Col 
-          span={{ base: 12, md: 8 }} 
-        >
-          <Stack gap="md"> 
+    <Box maw={{ base: "95%", md: "90%", lg: 1200 }} mx="auto" mt="xl" px="md">
+      <Grid gutter="xl">
+        <Grid.Col span={{ base: 12, md: 8 }}>
+          <Stack gap="md">
             <ImageCarousel />
-            <Title order={1}>Detalhes do pacote</Title> 
+            <Title order={1}>Detalhes do pacote</Title>
             <Text c="gray-medium.4" size="xs">
               {packageDetail?.destination}
             </Text>
@@ -68,9 +59,7 @@ export default function InfoPage() {
           </Stack>
         </Grid.Col>
 
-        <Grid.Col 
-          span={{ base: 12, md: 4 }} 
-        >
+        <Grid.Col span={{ base: 12, md: 4 }}>
           <BookingForm
             priceAdults={packageDetail?.priceAdults}
             priceChildren={packageDetail?.priceChildren}

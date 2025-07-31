@@ -13,9 +13,9 @@ const Home = () => {
             <p>Viaje com conforto, segurança e os melhores preços!</p>
           </div>
         </div>
-      </div>
-    </section>
-  </div>
-);
+      </section>
+    </div>
+  );
+};
 
 export default Home;
