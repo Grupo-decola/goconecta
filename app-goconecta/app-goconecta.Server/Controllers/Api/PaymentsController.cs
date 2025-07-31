@@ -1,5 +1,6 @@
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
@@ -56,6 +57,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("success")]
+    [AllowAnonymous]
     public async Task<IActionResult> Success([FromQuery] string sessionId, [FromQuery] string? redirectUrl)
     {
         if (string.IsNullOrEmpty(sessionId)) return BadRequest("ID da sessão não fornecido.");
@@ -83,6 +85,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
 
     [ApiExplorerSettings(IgnoreApi = true)]
     [HttpGet("cancel")]
+    [AllowAnonymous]
     public async Task<IActionResult> Cancel([FromQuery] string? sessionId, [FromQuery] string? redirectUrl)
     {
         if (string.IsNullOrEmpty(sessionId)) return BadRequest("ID da sessão não fornecido.");
