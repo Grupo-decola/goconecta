@@ -14,4 +14,5 @@ public class Hotel
 
     public ICollection<Package> Packages { get; set; } = new List<Package>();
 
+    public ICollection<Amenity> Amenities { get; set; } = new List<Amenity>();
 }

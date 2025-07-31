@@ -17,6 +17,7 @@ public class AppDbContext : DbContext
     public DbSet<Package> Packages { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<Media> Media { get; set; }
+    public DbSet<Amenity> Amenities { get; set; }
     // public DbSet<Payment> Payments { get; set; }
     // public DbSet<Rating> Ratings { get; set; }
     // public DbSet<CustomizationRequest> CustomizationRequests { get; set; }
@@ -52,6 +53,12 @@ public class AppDbContext : DbContext
                 .OnDelete(DeleteBehavior.Restrict);
         });
 
+        // Relação muitos-para-muitos entre Hotel e Amenity
+        modelBuilder.Entity<Hotel>()
+            .HasMany(h => h.Amenities)
+            .WithMany(a => a.Hotels)
+            .UsingEntity(j => j.ToTable("HotelAmenities"));
+
         // Package configuration
         modelBuilder.Entity<Package>(entity =>
         {
@@ -85,6 +92,17 @@ public class AppDbContext : DbContext
                 .WithMany(tp => tp.Reservations)
                 .HasForeignKey(r => r.PackageId)
                 .OnDelete(DeleteBehavior.Restrict);
+            
+            entity.OwnsMany(r => r.Guests, g =>
+                {
+                    g.WithOwner().HasForeignKey("ReservationId");
+                    g.Property<int>("Id"); // Shadow property for primary key
+                    g.HasKey("Id");
+                    g.Property(g => g.Name).IsRequired().HasMaxLength(100);
+                    g.Property(g => g.BirthDate).IsRequired();
+                    g.Property(g => g.Email).HasMaxLength(100);
+                    g.Property(g => g.Cpf).IsRequired();
+                });
         });
         
         // Media configuration

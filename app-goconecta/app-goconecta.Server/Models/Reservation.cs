@@ -1,4 +1,6 @@
-﻿namespace app_goconecta.Server.Models;
+﻿using app_goconecta.Server.DTOs;
+
+namespace app_goconecta.Server.Models;
 
 public class Reservation
 {
@@ -9,15 +11,15 @@ public class Reservation
     
     public required string Status { get; set; } // Pending, Confirmed, Canceled
     
-    public int NumOfAdults { get; set; }
-    public int NumOfChildren { get; set; }
-    
-    // Calculated property for total price based on number of adults and children
-    public decimal TotalPrice => NumOfAdults * Package!.PriceAdults + NumOfChildren * Package.PriceChildren;
+    public IEnumerable<Guest> Guests { get; set; } = new List<Guest>();
     
     public int UserId { get; set; }
     public User? User { get; set; }
     
     public int PackageId { get; set; }
     public Package? Package { get; set; }
+
+    public int NumberOfAdults => Guests.Count(g => g.IsAdult);
+    public int NumberOfChildren => Guests.Count(g => !g.IsAdult);
+    public decimal TotalPrice => (NumberOfAdults * Package!.PriceAdults) + (NumberOfChildren * Package.PriceChildren);
 }

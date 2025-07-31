@@ -3,20 +3,23 @@ using app_goconecta.Server.Data;
 using app_goconecta.Server.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Stripe;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Banco de dados
-builder.Services.AddDbContext<AppDbContext>(options =>
+// Set Stripe API key from configuration
+StripeConfiguration.ApiKey = builder.Configuration["Stripe:ApiKey"];
+
+builder.Services.AddDbContext<AppDbContext>(options => 
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
 );
 
-// Serviços
+builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<UserService>();
+builder.Services.AddSingleton<Stripe.Checkout.SessionService>();
 
 // CORS
 builder.Services.AddCors(options =>
@@ -40,7 +43,7 @@ builder.Services.AddAuthentication(options =>
 {
     options.LoginPath = "/admin/MvcAuthentication/Login";
     options.AccessDeniedPath = "/admin/MvcAuthentication/AccessDenied";
-    options.Cookie.Name = "GoConectaAuthCookie";
+    options.Cookie.Name = "GoConectaAdminAuthCookie";
 })
 .AddJwtBearer(options =>
 {
@@ -59,8 +62,8 @@ builder.Services.AddAuthentication(options =>
 // Autorização (ainda configurada, mas não obrigatória)
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("user", policy => policy.RequireClaim("Store", "user"));
-    options.AddPolicy("admin", policy => policy.RequireClaim("Store", "admin"));
+    options.AddPolicy("RequireAuthenticated", policy => policy.RequireAuthenticatedUser());
+    options.AddPolicy("RequireAdmin", policy => policy.RequireClaim("Store", "admin"));
 });
 
 // ❌ Removido o filtro global que exigia autenticação em todas as rotas
@@ -68,13 +71,7 @@ builder.Services.AddAuthorization(options =>
 /*
 builder.Services.AddControllers(options =>
 {
-    options.Filters.Add(
-        new AuthorizeFilter(
-            new AuthorizationPolicyBuilder()
-                .RequireAuthenticatedUser()
-                .Build()
-        )
-    );
+    options.Filters.Add(new AuthorizeFilter("RequireAuthenticated") );
 });
 */
 

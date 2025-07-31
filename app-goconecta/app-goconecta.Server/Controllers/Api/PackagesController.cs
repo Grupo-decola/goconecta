@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace app_goconecta.Server.Controllers.Api;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class PackagesController : ControllerBase
@@ -20,9 +21,15 @@ public class PackagesController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<PackageDTO>>> GetAll([FromQuery] PackageQueryFilter filter, [FromQuery] PaginationQuery pagination)
+    public async Task<ActionResult<IReadOnlyList<PackageDTO>>> GetAll(
+        [FromQuery] PackageQueryFilter filter,
+        [FromQuery] PaginationQuery pagination)
     {
-        var query = _context.Packages.AsQueryable();
+        var query = _context.Packages
+            .Include(p => p.Hotel)
+                .ThenInclude(h => h.Amenities)
+            .AsQueryable();
+
         if (!string.IsNullOrEmpty(filter.Destination))
         {
             query = query.Where(p => EF.Functions.Like(p.Destination, $"%{filter.Destination}%"));
@@ -44,12 +51,19 @@ public class PackagesController : ControllerBase
             query = query.Where(p => p.PriceAdults <= filter.MaxPrice.Value);
         }
 
-        
+        if (filter.SelectedAmenityIds != null && filter.SelectedAmenityIds.Any())
+        {
+            var amenityIds = filter.SelectedAmenityIds;
+            query = query.Where(p =>
+                p.Hotel.Amenities.Any() &&
+                amenityIds.All(id => p.Hotel.Amenities.Select(a => a.Id).Contains(id))
+            );
+        }
+
         query = query.Skip((pagination.Page -1) * pagination.PageSize).Take(pagination.PageSize);
         // Return the filtered list of packages
         return (
                 await query.AsNoTracking()
-                    .Include(p => p.Hotel)
                     .ToListAsync()
             )
             .Select(PackageDTO.FromModel)
@@ -65,10 +79,7 @@ public class PackagesController : ControllerBase
             .Include(p => p.Hotel)
             .Include(p => p.Media)
             .FirstOrDefaultAsync(p => p.Id == id);
-        if (package == null)
-        {
-            return NotFound();
-        }
+        if (package == null) return NotFound();
         var packageDetailDto = PackageDetailDTO.FromModel(package);
         return Ok(packageDetailDto);
         
