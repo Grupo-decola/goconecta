@@ -1,0 +1,43 @@
+@model IEnumerable<app_goconecta.Server.Models.Rating>
+
+@{
+    ViewData["Title"] = "Avaliações";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="mb-0"><i class="bi bi-star-fill me-2"></i>Avaliações</h1>
+    </div>
+    <div class="row g-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-2">
+                            <i class="bi bi-star-fill text-warning me-1" aria-hidden="true"></i>@item.Stars estrelas
+                        </h5>
+                        <p class="card-text text-muted mb-1">@item.Comment</p>
+                        <div class="mb-2 small">
+                            <span class="me-2"><i class="bi bi-person-circle text-secondary me-1"></i>@item.User?.Email</span>
+                        </div>
+                        <div class="mb-2">
+                            <i class="bi bi-box-seam text-primary me-1" aria-hidden="true"></i>@item.Package?.Title
+                        </div>
+                        <div class="mb-2">
+                            <i class="bi bi-calendar-event text-primary me-1" aria-hidden="true"></i>@item.CreatedAt.ToString("dd/MM/yyyy")
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-0 d-flex gap-2 justify-content-end">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm" aria-label="Detalhes da avaliação">
+                            <i class="bi bi-eye" aria-hidden="true"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm" aria-label="Excluir avaliação">
+                            <i class="bi bi-trash" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
