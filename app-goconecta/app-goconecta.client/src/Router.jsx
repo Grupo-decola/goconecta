@@ -8,7 +8,7 @@ import TravelerForm from "./Components/TravelerForm/TravelerForm";
 import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Home /> },
+  { path: "/Home", element: <Home /> },
   {
     path: "/cadastro",
     element: <CadastroLogin />,
