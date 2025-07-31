@@ -1,73 +1,105 @@
 import React, { useState } from "react";
-import LoginDTO from "../dtos/LoginDTO";
-
+import { useNavigate } from "react-router-dom"; // 👈 ESSA LINHA É A QUE FALTOU!
+import {
+  TextInput,
+  PasswordInput,
+  Button,
+  Box,
+  Stack,
+  Title,
+  Card,
+  Text,
+  Anchor,
+  Grid,
+} from "@mantine/core";
+import { IconAt, IconLock } from "@tabler/icons-react";
+import { useAuth } from "../../Context/AuthContext";
+import { notifications } from "@mantine/notifications";
 function LoginForm() {
   const [form, setForm] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
-
+  const navigate = useNavigate();
+  const { login } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const loginData = new LoginDTO(form);
-
     try {
-      const resposta = await fetch("https://localhost:7093/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(loginData)
+      await login(form.email, form.password);
+      notifications.show({
+        title: "Login realizado!",
+        message: "Login realizado com sucesso!",
+        color: "success",
+        autoClose: 5000,
       });
-
-      if (resposta.ok) {
-        const dados = await resposta.json();
-        console.log("Login realizado:", dados);
-        alert("Login realizado com sucesso!");
-
-        // Aqui você pode salvar o token no localStorage, se vier
-        // localStorage.setItem("token", dados.token);
+      navigate("/Home");
+    } catch (error) {
+      if (error?.response?.status === 401) {
+        notifications.show({
+          title: "Erro ao fazer login",
+          message: "E-mail ou senha inválidos",
+          color: "error",
+          autoClose: 2000,
+        });
       } else {
-        alert("E-mail ou senha inválidos");
+        notifications.show({
+          title: "Erro ao fazer login",
+          message:
+            "Erro ao conectar com o servidor. Tente novamente mais tarde.",
+          color: "error",
+          autoClose: 2000,
+        });
       }
-    } catch (erro) {
-      console.error("Erro ao fazer login:", erro);
-      alert("Erro ao conectar com o servidor");
     }
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="E-mail"
-          value={form.email}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Senha"
-          value={form.password}
-          onChange={handleChange}
-          required
-        />
-        <br />
-
-        <button type="submit">Entrar</button>
-      </form>
-    </div>
+    <Box maw={{ base: "90%", sm: 400 }} mx="auto" mt="xl" px="md">
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Title order={3} align="center" mb="md">
+          Acesse sua conta
+        </Title>
+        <form onSubmit={handleSubmit}>
+          <Grid>
+            <Grid.Col span={12}>
+              <Stack>
+                <TextInput
+                  label="Email"
+                  placeholder="seu@email.com"
+                  name="email"
+                  value={form.email}
+                  onChange={handleChange}
+                  required
+                  leftSection={<IconAt size={16} />}
+                />
+                <PasswordInput
+                  label="Senha"
+                  placeholder="Digite sua senha"
+                  name="password"
+                  value={form.password}
+                  onChange={handleChange}
+                  required
+                  leftSection={<IconLock size={16} />}
+                />
+                <Button type="submit" fullWidth mt="sm">
+                  Entrar
+                </Button>
+              </Stack>
+            </Grid.Col>
+          </Grid>
+        </form>
+        <Text size="sm" align="center" mt="md">
+          Ainda não tem cadastro?{" "}
+          <Anchor component="a" href="/Cadastro" size="sm">
+            Cadastre-se aqui
+          </Anchor>
+        </Text>
+      </Card>
+    </Box>
   );
 }
 

@@ -1,99 +1,145 @@
-import React from 'react';
+import React from "react";
 import {
   TextInput,
   PasswordInput,
-  Select,
   Button,
   Box,
   Stack,
-  Notification,
-} from '@mantine/core';
-import { useForm } from '@mantine/form';
-import { useState } from 'react';
-import axios from 'axios';
+  Card,
+  Title,
+  Text,
+  Anchor,
+  Grid,
+} from "@mantine/core";
+import { notifications } from "@mantine/notifications";
+import { useForm } from "@mantine/form";
+import { registerUser } from "../../services/RegisterService";
+import RegisterUserDTO from "../../dtos/RegisterUserDTO";
+import {
+  IconUser,
+  IconAt,
+  IconLock,
+  IconPhone,
+  IconId,
+} from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 function CadastroFormulario() {
-  const [erro, setErro] = useState("");
-  const [sucesso, setSucesso] = useState("");
+  const navigate = useNavigate();
 
   const form = useForm({
-    mode: 'uncontrolled',
     initialValues: {
-      name: '',
-      email: '',
-      password: '',
-      phone: '',
-      cpfPassaport: '',
-      role: 'Cliente',
+      name: "",
+      email: "",
+      password: "",
+      phone: "",
+      cpfPassport: "",
     },
 
     validate: {
-      name: (value) => value.length < 2 ? 'Nome deve ter pelo menos 2 letras' : null,
-      email: (value) => /^\S+@\S+$/.test(value) ? null : 'Email inválido',
-      password: (value) => value.length < 6 ? 'A senha deve ter no mínimo 6 caracteres' : null,
-      cpfPassaport: (value) => value.trim() !== '' ? null : 'Informe CPF ou Passaporte',
+      name: (value) =>
+        value.length < 2 ? "Nome deve ter pelo menos 2 letras" : null,
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Email inválido"),
+      password: (value) =>
+        value.length < 6 ? "A senha deve ter no mínimo 6 caracteres" : null,
+      cpfPassport: (value) =>
+        value.trim() !== "" ? null : "Informe CPF ou Passaporte",
     },
   });
 
   const handleSubmit = async (values) => {
-    setErro("");
-    setSucesso("");
     try {
-      const response = await axios.post("https://localhost:7093/api/Users", values);
-      setSucesso("Usuário cadastrado com sucesso!");
-      form.reset(); // limpa o formulário
+      const dto = new RegisterUserDTO({
+        ...values,
+      });
+      await registerUser(dto);
+      notifications.show({
+        title: "Cadastro realizado!",
+        message: "Usuário cadastrado com sucesso!",
+        color: "success",
+        autoClose: 2000,
+      });
+      navigate("/login");
     } catch (err) {
-      setErro("Erro ao cadastrar. Verifique os dados.")
-      console.error(err);
+      if (err?.response?.status === 400) {
+        notifications.show({
+          title: "Erro ao cadastrar",
+          message: "E-mail já está em uso. Tente outro e-mail.",
+          color: "error",
+          autoClose: 2000,
+        });
+      } else {
+        notifications.show({
+          title: "Erro ao cadastrar",
+          message: "Erro ao cadastrar. Verifique os dados.",
+          color: "error",
+          autoClose: 2000,
+        });
+      }
+      // console.error(err); // Removido para evitar warning de lint
     }
   };
 
   return (
-    <Box maw={400} mx="auto">
-      <form onSubmit={form.onSubmit(handleSubmit)}>
-        <Stack>
-          <TextInput
-            label="Nome"
-            placeholder="Seu nome"
-            key={form.key('name')}
-            {...form.getInputProps('name')}
-          />
-          <TextInput
-            label="Email"
-            placeholder="Seu email"
-            key={form.key('email')}
-            {...form.getInputProps('email')}
-          />
-          <PasswordInput
-            label="Senha"
-            placeholder="Crie uma senha"
-            key={form.key('password')}
-            {...form.getInputProps('password')}
-          />
-          <TextInput
-            label="Telefone"
-            placeholder="(99) 99999-9999"
-            key={form.key('phone')}
-            {...form.getInputProps('phone')}
-          />
-          <TextInput
-            label="CPF ou Passaporte"
-            placeholder="Informe o documento"
-            key={form.key('cpfPassaport')}
-            {...form.getInputProps('cpfPassaport')}
-          />
-          <Select
-            label="Perfil"
-            data={['Cliente', 'Administrador']}
-            key={form.key('role')}
-            {...form.getInputProps('role')}
-          />
-          <Button type="submit">Cadastrar</Button>
+    <Box maw={{ base: "90%", sm: 400 }} mx="auto" mt="xl" px="md">
+      <Card shadow="sm" padding="lg" radius="md" withBorder>
+        <Title order={3} align="center" mb="md">
+          Crie sua conta
+        </Title>
+        <form onSubmit={form.onSubmit(handleSubmit)}>
+          <Grid>
+            <Grid.Col span={12}>
+              <Stack>
+                <TextInput
+                  label="Nome"
+                  placeholder="Seu nome"
+                  {...form.getInputProps("name")}
+                  leftSection={<IconUser size={16} />}
+                />
+                <TextInput
+                  label="Email"
+                  placeholder="seu@email.com"
+                  {...form.getInputProps("email")}
+                  leftSection={<IconAt size={16} />}
+                />
+                <PasswordInput
+                  label="Senha"
+                  placeholder="Crie uma senha"
+                  {...form.getInputProps("password")}
+                  leftSection={<IconLock size={16} />}
+                />
+                <TextInput
+                  label="Telefone"
+                  placeholder="(99) 99999-9999"
+                  {...form.getInputProps("phone")}
+                  leftSection={<IconPhone size={16} />}
+                />
+                <TextInput
+                  label="CPF ou Passaporte"
+                  placeholder="123.456.789-00 ou ABC123"
+                  {...form.getInputProps("cpfPassport")}
+                  leftSection={<IconId size={16} />}
+                />
+                <Button 
+                  type="submit" 
+                  fullWidth 
+                  mt="sm" 
+                  color="#DA7818"
+                >
+                  Cadastrar
+                </Button>
+              </Stack>
+            </Grid.Col>
+          </Grid>
+        </form>
 
-          {erro && <Notification color="red">{erro}</Notification>}
-          {sucesso && <Notification color="green">{sucesso}</Notification>}
-        </Stack>
-      </form>
+        <Text size="sm" align="center" mt="md">
+          Já tem uma conta?{" "}
+          <Anchor component="a" href="/login" size="sm">
+            Faça login aqui
+          </Anchor>
+        </Text>
+      </Card>
     </Box>
   );
 }
