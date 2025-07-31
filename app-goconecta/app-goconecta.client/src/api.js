@@ -1,7 +1,5 @@
 import axios from "axios";
-
-// Endereço certo da sua API
-export const API_URL = "http://localhost:5062/api";
+const API_URL = "https://localhost:7093/api/";
 
 export const api = axios.create({
   baseURL: API_URL,
@@ -10,3 +8,14 @@ export const api = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem("accessToken");
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);

@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import CadastroLogin from "./Pages/Cadastro/CadastroLogin";
 import LoginPage from "./Pages/Login/LoginPage";
 import Home from "./Pages/Home/Home";
-import Packages from "./Pages/Packages";
+import Packages from "./Pages/Packages/Packages";
 import InfoPage from "./Pages/InfoPage/InfoPage";
 import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
 
