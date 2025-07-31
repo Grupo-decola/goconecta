@@ -56,6 +56,21 @@
                                 <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
                             </div>
                         </div>
+                        <div class="mb-3">
+                            <label asp-for="Media1.File" class="form-label">Imagem 1</label>
+                            <input asp-for="Media1.File" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="Media1.File" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Media2.File" class="form-label">Imagem 2</label>
+                            <input asp-for="Media2.File" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="Media2.File" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Media3.File" class="form-label">Imagem 3</label>
+                            <input asp-for="Media3.File" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="Media3.File" class="invalid-feedback d-block"></span>
+                        </div>
                         <div class="d-flex justify-content-between align-items-center mt-4">
                             <a asp-action="Index" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Voltar

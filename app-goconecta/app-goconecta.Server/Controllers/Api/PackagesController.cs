@@ -61,13 +61,21 @@ public class PackagesController : ControllerBase
         }
 
         query = query.Skip((pagination.Page -1) * pagination.PageSize).Take(pagination.PageSize);
-        // Return the filtered list of packages
-        return (
+        
+        var packageDtos = (
                 await query.AsNoTracking()
                     .ToListAsync()
             )
             .Select(PackageDTO.FromModel)
             .ToList();
+
+        foreach (var packageDto in packageDtos)
+        {
+            if (packageDto.Image == null || string.IsNullOrWhiteSpace(packageDto.Image.Path)) continue;
+            packageDto.Image!.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{packageDto.Image.Path!}";
+        }
+
+        return packageDtos;
     }
     
 
@@ -77,10 +85,24 @@ public class PackagesController : ControllerBase
         var package = await _context.Packages
             .AsNoTracking()
             .Include(p => p.Hotel)
+            .ThenInclude(h => h.Amenities)
             .Include(p => p.Media)
             .FirstOrDefaultAsync(p => p.Id == id);
         if (package == null) return NotFound();
         var packageDetailDto = PackageDetailDTO.FromModel(package);
+        
+        foreach (var mediaDto in packageDetailDto.Images)
+        {
+            if (mediaDto.Path == null || string.IsNullOrWhiteSpace(mediaDto.Path)) continue;
+            mediaDto.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{mediaDto.Path}";
+        }
+        
+        foreach (var mediaDto in packageDetailDto.Videos)
+        {
+            if (mediaDto.Path == null || string.IsNullOrWhiteSpace(mediaDto.Path)) continue;
+            mediaDto.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{mediaDto.Path}";
+        }
+        
         return Ok(packageDetailDto);
         
     }
