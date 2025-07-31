@@ -1,0 +1,40 @@
+@model app_goconecta.Server.Models.Amenity
+
+@{
+    ViewData["Title"] = "Excluir Amenidade";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white d-flex align-items-center">
+                    <i class="bi bi-trash me-2"></i>
+                    <h4 class="mb-0">Excluir Amenidade</h4>
+                </div>
+                <div class="card-body">
+                    <h5 class="text-danger mb-3">Tem certeza que deseja excluir esta amenidade?</h5>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-sm-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                    </dl>
+                </div>
+                <div class="card-footer bg-white border-0 d-flex justify-content-between">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-1"></i>Voltar
+                    </a>
+                    <form asp-action="Delete" class="d-inline">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-1"></i>Excluir
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

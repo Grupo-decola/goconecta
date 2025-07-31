@@ -9,14 +9,15 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
     <link rel="stylesheet" href="~/app-goconecta.Server.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/goconecta-theme.css" asp-append-version="true"/>
+    <link rel="icon" type="image/png" href="/favicon.png" />
 </head>
 <body>
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand d-flex align-items-center gap-2" asp-controller="Home" asp-action="Index">
-                <i class="bi bi-globe2 fs-3 text-primary"></i>
-                <span>GoConecta</span>
+            <a class="navbar-brand d-flex align-items-center gap-2" href="/admin">
+                <img src="/assets/logo-goconecta-lg.png" alt="GoConecta Viagens" height="48" style="max-width:180px;object-fit:contain;" />
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -24,10 +25,11 @@
             </button>
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Hotels" ? "active fw-bold" : "")" asp-controller="Hotels" asp-action="Index"><i class="bi bi-building"></i> Hotels</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Packages" ? "active fw-bold" : "")" asp-controller="Packages" asp-action="Index"><i class="bi bi-box-seam"></i> Packages</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reservations" ? "active fw-bold" : "")" asp-controller="Reservations" asp-action="Index"><i class="bi bi-calendar-check"></i> Reservations</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active fw-bold" : "")" asp-controller="Users" asp-action="Index"><i class="bi bi-people"></i> Users</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Hotels" ? "active fw-bold" : "")" asp-controller="MvcHotels" asp-action="Index"><i class="bi bi-building"></i> Hotels</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Packages" ? "active fw-bold" : "")" asp-controller="MvcPackages" asp-action="Index"><i class="bi bi-box-seam"></i> Packages</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reservations" ? "active fw-bold" : "")" asp-controller="MvcReservations" asp-action="Index"><i class="bi bi-calendar-check"></i> Reservations</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active fw-bold" : "")" asp-controller="MvcUsers" asp-action="Index"><i class="bi bi-people"></i> Users</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Amenities" ? "active fw-bold" : "")" asp-controller="MvcAmenities" asp-action="Index"><i class="bi bi-stars"></i> Amenities</a> </li>
                 </ul>
             </div>
         </div>
@@ -55,7 +57,7 @@
 <footer class="border-top footer text-muted bg-light mt-5 py-3">
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
         <span>&copy; 2025 - GoConecta</span>
-        <a asp-controller="Home" asp-action="Privacy" class="text-decoration-none text-muted ms-md-3"><i class="bi bi-shield-lock"></i> Privacy</a>
+        <a asp-controller="MvcHome" asp-action="Privacy" class="text-decoration-none text-muted ms-md-3"><i class="bi bi-shield-lock"></i> Privacy</a>
     </div>
 </footer>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

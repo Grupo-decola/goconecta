@@ -1,0 +1,64 @@
+﻿body {
+    background-color: #C09C7C73 !important;
+}
+
+:root {
+    --goconecta-orange: #DA7818;
+    --goconecta-blue: #182348;
+}
+
+.btn-primary, .bg-primary {
+    background-color: var(--goconecta-blue) !important;
+    border-color: var(--goconecta-blue) !important;
+}
+
+.btn-primary:hover, .bg-primary:hover {
+    background-color: #10182c !important;
+    border-color: #10182c !important;
+}
+
+.text-primary, .navbar-brand span {
+    color: var(--goconecta-blue) !important;
+}
+
+.btn-warning, .bg-warning {
+    background-color: var(--goconecta-orange) !important;
+    border-color: var(--goconecta-orange) !important;
+}
+
+.text-warning {
+    color: var(--goconecta-orange) !important;
+}
+
+.navbar {
+    background-color: #fff !important;
+    border-bottom: 3px solid var(--goconecta-orange);
+}
+
+footer {
+    background-color: #fff !important;
+    border-top: 3px solid var(--goconecta-orange);
+}
+
+.card-header.bg-primary, .card-footer.bg-primary {
+    background-color: var(--goconecta-blue) !important;
+    color: #fff !important;
+}
+
+.card-header.bg-danger, .card-footer.bg-danger {
+    background-color: #dc3545 !important;
+    color: #fff !important;
+}
+
+a {
+    color: var(--goconecta-blue);
+}
+a:hover {
+    color: var(--goconecta-orange);
+}
+
+/* Navbar brand logo spacing */
+.navbar-brand img {
+    margin-right: 0.5rem;
+}
+

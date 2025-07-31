@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 namespace app_goconecta.Server.Controllers.Mvc;
 
 [Authorize (Policy="RequireAdmin")]
-public class ReservationsController : Controller
+public class MvcReservationsController : Controller
 {
     private readonly AppDbContext _context;
 
-    public ReservationsController(AppDbContext context)
+    public MvcReservationsController(AppDbContext context)
     {
         _context = context;
     }
@@ -41,32 +41,6 @@ public class ReservationsController : Controller
             return NotFound();
         }
 
-        return View(reservation);
-    }
-
-    // GET: Reservations/Create
-    public IActionResult Create()
-    {
-        ViewData["PackageId"] = new SelectList(_context.Packages, "Id", "Description");
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email");
-        return View();
-    }
-
-    // POST: Reservations/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id,ReservationNumber,ReservationDate,Status,UserId,PackageId")] Reservation reservation)
-    {
-        if (ModelState.IsValid)
-        {
-            _context.Add(reservation);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-        ViewData["PackageId"] = new SelectList(_context.Packages, "Id", "Description", reservation.PackageId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", reservation.UserId);
         return View(reservation);
     }
 
