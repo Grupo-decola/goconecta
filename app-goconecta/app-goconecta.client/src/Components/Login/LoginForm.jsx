@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { login } from "../../services/AuthService";
+import { useNavigate } from "react-router-dom"; // 👈 ESSA LINHA É A QUE FALTOU!
 import {
   TextInput,
   PasswordInput,
@@ -13,7 +13,7 @@ import {
   Anchor,
   Grid,
 } from "@mantine/core";
-import { IconAt, IconLock } from '@tabler/icons-react';
+import { IconAt, IconLock } from "@tabler/icons-react";
 
 function LoginForm() {
   const [form, setForm] = useState({

@@ -5,6 +5,7 @@ import Home from "./Pages/Home/Home";
 import Packages from "./Pages/Packages/Packages";
 import InfoPage from "./Pages/InfoPage/InfoPage";
 import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
+import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
 
 
 const router = createBrowserRouter([
@@ -28,6 +29,12 @@ const router = createBrowserRouter([
    {
     path: "/passageiros",
     element: <TravelerRegister />,
+  },
+
+
+ {
+    path: "/beneficios",
+    element: <BeneficiosPage />,
   },
  
  

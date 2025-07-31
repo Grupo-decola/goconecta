@@ -1,31 +1,47 @@
+/* FOOTER BONITO E RESPONSIVO */
 .footer {
-  background-color: #C09C7C73;
-  color: #fff;
-  margin-top: 20px;
-  padding: 40px 20px 20px;
-  font-family: Arial, sans-serif;
-}
+  background-color: #fdf3e7;
+  padding: 2rem 2rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+  color: #213547;
 
-.footer-logo {
-  font-weight: bold;
-  font-size: 1.2em;
-}
-
-.footer-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-.footer-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.footer a {
+  color: #213547;
+  text-decoration: none;
 }
 
-.footer-bottom {
-  text-align: center;
-  margin-top: 30px;
-  font-size: 14px;
-  color: #fff;
+.footer a:hover {
+  color: #DA7818;
+  text-decoration: underline;
+}
+
+.footer-title {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer-coluna {
+  flex: 1 1 250px;
+  min-width: 200px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+  }
+
+  .footer-coluna {
+    margin-bottom: 1.5rem;
+  }
 }
