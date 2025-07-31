@@ -34,4 +34,6 @@ public class Package
     public ICollection<Media> Media { get; set; } = new List<Media>();
     
     public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
+
+    public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 }

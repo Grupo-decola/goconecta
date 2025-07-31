@@ -1,0 +1,44 @@
+@model app_goconecta.Server.Models.Rating
+
+@{
+    ViewData["Title"] = "Excluir Avaliação";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-xl-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white d-flex align-items-center">
+                    <i class="bi bi-trash me-2" aria-hidden="true"></i>
+                    <span>Excluir Avaliação</span>
+                </div>
+                <div class="card-body">
+                    <h5 class="mb-3">Tem certeza que deseja excluir esta avaliação?</h5>
+                    <dl class="row mb-0">
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedAt)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedAt)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Stars)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Stars)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Comment)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Comment)</dd>
+                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.User)</dt>
+                        <dd class="col-sm-8">@Html.DisplayFor(model => model.User.Email)</dd>
+                        <dt class="col-sm-4">Pacote</dt>
+                        <dd class="col-sm-8">@Model.Package?.Title</dd>
+                    </dl>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <form asp-action="Delete" class="mb-0">
+                        <input type="hidden" asp-for="Id" />
+                        <button type="submit" class="btn btn-danger">
+                            <i class="bi bi-trash me-2" aria-hidden="true"></i>Excluir
+                        </button>
+                    </form>
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Voltar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

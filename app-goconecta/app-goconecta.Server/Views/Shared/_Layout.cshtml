@@ -30,6 +30,7 @@
                     <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reservations" ? "active fw-bold" : "")" asp-controller="MvcReservations" asp-action="Index"><i class="bi bi-calendar-check"></i> Reservations</a> </li>
                     <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active fw-bold" : "")" asp-controller="MvcUsers" asp-action="Index"><i class="bi bi-people"></i> Users</a> </li>
                     <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Amenities" ? "active fw-bold" : "")" asp-controller="MvcAmenities" asp-action="Index"><i class="bi bi-stars"></i> Amenities</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Ratings" ? "active fw-bold" : "")" asp-controller="MvcRatings" asp-action="Index"><i class="bi bi-star-fill"></i> Ratings</a> </li>
                 </ul>
             </div>
         </div>

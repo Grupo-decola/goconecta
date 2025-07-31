@@ -11,5 +11,5 @@ public class User
     public required string Role { get; set; } // Client, Attendant, Administrator
 
     public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
-    // public ICollection<Rating> Ratings { get; set; }
+    public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
 }
