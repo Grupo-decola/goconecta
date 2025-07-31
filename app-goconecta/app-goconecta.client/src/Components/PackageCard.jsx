@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function PackageCard({ package: pkg }) {
   const navigate = useNavigate();
-  console.log("Pacote no botão:", pkg);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -53,12 +52,12 @@ export default function PackageCard({ package: pkg }) {
             <Text size="sm">{pkg.destination}</Text>
           </Group>
 
-          <Group gap="xs" c="dimmed" wrap="nowrap">
+          {/* <Group gap="xs" c="dimmed" wrap="nowrap">
             <IconCalendar size={14} />
             <Text size="sm">
               {formatDate(pkg.startDate)} - {formatDate(pkg.endDate)}
             </Text>
-          </Group>
+          </Group> */}
 
           <Group gap="xs" c="dimmed" wrap="nowrap">
             <IconUsers size={14} />
