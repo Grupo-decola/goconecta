@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 export default function InfoPage() {
   const [packageDetail, setPackageDetail] = useState(null);
   const { id } = useParams(); // captura o id da URL
-  const ENDPOINT = `${API_URL}Packages/${id}`;
+  const ENDPOINT = `${API_URL}/Packages/${id}`;
 
   useEffect(() => {
     axios

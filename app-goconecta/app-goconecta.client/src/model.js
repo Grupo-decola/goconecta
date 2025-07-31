@@ -1,4 +1,4 @@
-export const API_URL = "https://localhost:7093/api/";
+export const API_URL = "http://localhost:5062/api";
 
 export class PackageDetailDTO{
     id;

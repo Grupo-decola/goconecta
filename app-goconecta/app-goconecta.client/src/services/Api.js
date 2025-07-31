@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'https://localhost:7093/Api'; 
+const API_BASE_URL = 'http://localhost:5062/api'; 
 
 export const fetchPackages = async () => {
   try {

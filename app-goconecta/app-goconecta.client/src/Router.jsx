@@ -4,8 +4,8 @@ import LoginPage from "./Pages/Login/LoginPage";
 import Home from "./Pages/Home/Home";
 import Packages from "./Pages/Packages";
 import InfoPage from "./Pages/InfoPage/InfoPage";
-import TravelerForm from "./Components/TravelerForm/TravelerForm";
 import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
+
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -25,6 +25,12 @@ const router = createBrowserRouter([
     path: "/pacote/:id",
     element: <InfoPage />,
   },
+   {
+    path: "/passageiros",
+    element: <TravelerRegister />,
+  },
+ 
+ 
 ]);
 
 export function Router() {

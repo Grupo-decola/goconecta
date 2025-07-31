@@ -10,8 +10,12 @@ import {
   Rating,
 } from "@mantine/core";
 import { IconMapPin, IconCalendar, IconUsers } from "@tabler/icons-react";
+import { useNavigate } from "react-router-dom";
 
 export default function PackageCard({ package: pkg }) {
+  const navigate = useNavigate();
+  console.log("Pacote no botão:", pkg);
+
   const formatPrice = (price) => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -23,6 +27,7 @@ export default function PackageCard({ package: pkg }) {
     return new Date(dateString).toLocaleDateString("pt-BR");
   };
 
+ 
   return (
     <Card
       shadow="sm"
@@ -36,7 +41,7 @@ export default function PackageCard({ package: pkg }) {
         src={pkg.image}
         height={{ base: 160, sm: 200 }}
         alt={pkg.title}
-        fallbackSrc="https://via.placeholder.com/400x200?text=Travel+Package"
+        fallbackSrc="https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
       />
 
       <Box p={{ base: "sm", sm: "md" }}>
@@ -66,7 +71,7 @@ export default function PackageCard({ package: pkg }) {
 
           <Group gap="xs" c="dimmed">
             <IconUsers size={14} />
-            <Text size="sm">{pkg.duration} dias</Text>
+            <Text size="sm">{pkg.durationDays} dias</Text>
           </Group>
 
           {pkg.rating && (
@@ -87,9 +92,17 @@ export default function PackageCard({ package: pkg }) {
                 por pessoa
               </Text>
             </Box>
-            <Button variant="filled" size="sm">
+            
+            <Button
+              variant="filled"
+              size="sm"
+              onClick={() => navigate(`/pacote/${pkg.hotel.id}`)}
+              
+            >
               Ver Detalhes
+              
             </Button>
+            
           </Group>
         </Stack>
       </Box>

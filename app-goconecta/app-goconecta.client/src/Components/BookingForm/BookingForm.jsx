@@ -86,7 +86,7 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
             const adultos = form.getValues().adultos;
             const crianca = form.getValues().crianca;
             const data = form.getValues().date;
-            navigate("/dev", {
+            navigate("/passageiros", {
               state: {
                 adults: adultos,
                 childs: crianca,

@@ -14,7 +14,7 @@ function App() {
     <MantineProvider theme={theme}>
       <Header />
       <Router />
-      <Footer />
+    
     </MantineProvider>
   );
 }

@@ -16,6 +16,7 @@ export default function Packages() {
       try {
         setLoading(true);
         const data = await fetchPackages();
+        console.log(data)
         setPackages(data);
         setFilteredPackages(data);
         setError(null);
@@ -41,10 +42,10 @@ export default function Packages() {
     }
 
     if (minPrice !== null) {
-      filtered = filtered.filter(pkg => pkg.price >= minPrice);
+      filtered = filtered.filter(pkg => pkg.priceAdults >= minPrice);
     }
     if (maxPrice !== null) {
-      filtered = filtered.filter(pkg => pkg.price <= maxPrice);
+      filtered = filtered.filter(pkg => pkg.priceAdults <= maxPrice);
     }
 
     if (startDate) {

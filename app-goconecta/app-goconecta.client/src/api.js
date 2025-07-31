@@ -1,8 +1,10 @@
 import axios from "axios";
 
-export const API_URL = "https://localhost:7093/api/";
+// Endereço certo da sua API
+export const API_URL = "http://localhost:5062/api";
+
 export const api = axios.create({
-  baseURL: "https://localhost:7093/api/",
+  baseURL: API_URL,
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
