@@ -20,7 +20,7 @@ export const createReservation = async (createReservationDTO) => {
   }
 };
 
-export const getReservationById = async (id) => {
+export const getReservationByUser = async (id) => {
   try {
     const response = await api.get(`/reservations/${id}`);
     return response.data;
