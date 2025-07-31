@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // 👈 ESSA LINHA É A QUE FALTOU!
 import {
   TextInput,
@@ -13,7 +13,8 @@ import {
   Grid,
 } from "@mantine/core";
 import { IconAt, IconLock } from "@tabler/icons-react";
-
+import { useAuth } from "../../Context/AuthContext";
+import { notifications } from "@mantine/notifications";
 function LoginForm() {
   const [form, setForm] = useState({
     email: "",
