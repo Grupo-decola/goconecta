@@ -9,6 +9,7 @@ import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
+  { path: "/hospedagens", element: <Home /> },
   {
     path: "/cadastro",
     element: <CadastroLogin />,
