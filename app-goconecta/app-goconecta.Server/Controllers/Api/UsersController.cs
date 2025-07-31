@@ -9,17 +9,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace app_goconecta.Server.Controllers.Api;
 
+[AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController(AppDbContext context, UserService userService) : ControllerBase
 {
     [HttpGet]
-    [AllowAnonymous]
     public async Task<ActionResult<IReadOnlyList<UserDTO>>> GetAll()
         => (await context.Users.AsNoTracking().ToListAsync()).Select(UserDTO.FromModel).ToList();
 
     [HttpGet("{id:int}")]
-    [AllowAnonymous]
     public async Task<ActionResult<UserDTO>> GetById(int id)
     {
         var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
