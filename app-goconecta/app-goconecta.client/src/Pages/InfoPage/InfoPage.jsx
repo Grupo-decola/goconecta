@@ -6,7 +6,7 @@ import MediaGallery from "../../Components/MediaGallery/MediaGallery";
 import BookingForm from "../../Components/BookingForm/BookingForm";
 import { useEffect, useState } from "react";
 
-import { PackageDetailDTO } from "../../model";
+import { PackageDetailDTO } from "../../dtos/PackageDetailsDTO";
 import { useParams } from "react-router-dom";
 import { fetchPackageDetail } from "../../services/PackageService";
 
