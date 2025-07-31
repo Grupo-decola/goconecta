@@ -9,7 +9,7 @@ import { theme } from "./theme";
 import Header from "./Components/Header/Header.jsx";
 import Footer from "./Components/Footer/Footer.jsx";
 import { Notifications } from "@mantine/notifications";
-import { AuthProvider } from "./context/AuthContext.jsx";
+import { AuthProvider } from "./Context/AuthContext.jsx";
 
 function App() {
   return (
