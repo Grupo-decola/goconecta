@@ -18,6 +18,7 @@ const Header = () => {
             src={logo}
             alt="Logo GoConecta"
             style={{ height: 100 }}
+            onClick={() => window.location.href = "/"}
           />
         </div>
         <div className="burger-menu">

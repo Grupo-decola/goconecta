@@ -4,7 +4,7 @@ import { Image } from "@mantine/core";
 
 const Home = () => {
   return (
-    <div>
+    <div className="home-container">
       <section id="hero">
         <Image h={300} src="src/assets/img/banner2_web.png" opacity={0.9} />
         <div className="hero-content">

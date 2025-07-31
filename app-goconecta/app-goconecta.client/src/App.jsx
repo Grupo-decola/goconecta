@@ -13,7 +13,9 @@ function App() {
   return (
     <MantineProvider theme={theme}>
       <Header />
-      <Router />
+      <div className="router-container">
+        <Router />
+      </div>
       <Footer />
     </MantineProvider>
   );
