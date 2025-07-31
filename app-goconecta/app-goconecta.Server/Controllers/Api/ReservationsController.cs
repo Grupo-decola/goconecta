@@ -20,6 +20,7 @@ public class ReservationsController : ControllerBase
     }
     
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<IReadOnlyList<ReservationDTO>>> GetAll()
     {
         return (await _context.Reservations.
@@ -29,6 +30,7 @@ public class ReservationsController : ControllerBase
     }
 
     [HttpGet("{id}", Name = "GetReservationById")]
+    [AllowAnonymous]
     public async Task<ActionResult<ReservationDTO>> GetById(int id)
     {
         var reservation = await _context.Reservations
