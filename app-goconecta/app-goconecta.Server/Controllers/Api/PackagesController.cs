@@ -85,6 +85,7 @@ public class PackagesController : ControllerBase
         var package = await _context.Packages
             .AsNoTracking()
             .Include(p => p.Hotel)
+            .ThenInclude(h => h.Amenities)
             .Include(p => p.Media)
             .FirstOrDefaultAsync(p => p.Id == id);
         if (package == null) return NotFound();
