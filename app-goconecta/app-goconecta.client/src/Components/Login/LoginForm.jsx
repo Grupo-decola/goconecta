@@ -26,7 +26,7 @@ function LoginForm() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const navigate = useNavigate();
-  const { login} = useAuth();
+  const { login } = useAuth();
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
