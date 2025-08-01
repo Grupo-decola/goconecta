@@ -57,6 +57,31 @@
                                 <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
                             </div>
                         </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.PriceAdults" class="form-label"></label>
+                                <input asp-for="Package.PriceAdults" class="form-control" />
+                                <span asp-validation-for="Package.PriceAdults" class="invalid-feedback d-block"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.PriceChildren" class="form-label"></label>
+                                <input asp-for="Package.PriceChildren" class="form-control" />
+                                <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.AvailabilityStartDate" class="form-label"></label>
+                                <input asp-for="Package.AvailabilityStartDate" class="form-control" type="date"/>
+                                <span asp-validation-for="Package.AvailabilityStartDate" class="invalid-feedback d-block"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.AvailabilityEndDate" class="form-label"></label>
+                                <input asp-for="Package.AvailabilityEndDate" class="form-control" type="date"/>
+                                <span asp-validation-for="Package.AvailabilityEndDate" class="invalid-feedback d-block"></span>
+                            </div>
+                        </div>
                         <div class="d-flex justify-content-between align-items-center mt-4">
                             <a asp-action="Index" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Voltar
