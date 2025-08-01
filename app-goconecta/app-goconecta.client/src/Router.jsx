@@ -11,6 +11,7 @@ import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
 import ComingSoonPage from "./Pages/passagens/ComingSoonPage"; 
 import MinhasReservas from "./Pages/MinhasReservas/MinhaReservas";
 import Ajuda from "./Pages/ajuda/AjudaPage";
+import AnuncieSuaPropriedade from "./Pages/Anuncie/Anuncie";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -62,7 +63,10 @@ const router = createBrowserRouter([
     path: "/ajuda",
     element: <Ajuda />,
   },
-  
+  {
+    path: "/anuncie",
+    element: <AnuncieSuaPropriedade />,
+  },
 
  
 ]);
