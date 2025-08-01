@@ -72,7 +72,7 @@ const carouselImages = [
   { 
     src: amazonasImage,
     alt: 'Amazonas',
-    title: 'Aventura na Floresta Amazónica',
+    title: 'Aventura na Floresta Amazônia',
     description: 'Mergulhe na biodiversidade da maior floresta do mundo.'
   },
   { 
