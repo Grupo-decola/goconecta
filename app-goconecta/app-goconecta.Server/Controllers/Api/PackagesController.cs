@@ -34,6 +34,7 @@ public class PackagesController : ControllerBase
         {
             query = query.Where(p => EF.Functions.Like(p.Destination, $"%{filter.Destination}%"));
         }
+        
         if (filter.MinPrice.HasValue)
         {
             if(!filter.IsValid())
@@ -42,6 +43,7 @@ public class PackagesController : ControllerBase
             }
             query = query.Where(p => p.PriceAdults >= filter.MinPrice.Value);
         }
+        
         if (filter.MaxPrice.HasValue)
         {
             if(!filter.IsValid())
@@ -50,7 +52,17 @@ public class PackagesController : ControllerBase
             }
             query = query.Where(p => p.PriceAdults <= filter.MaxPrice.Value);
         }
+        
+        if (filter.AvailabilityStartDate != null)
+        {
+            query = query.Where(p => p.AvailabilityEndDate >= filter.AvailabilityStartDate.Value);
+        }
 
+        if (filter.AvailabilityEndDate != null)
+        {
+            query = query.Where(p => p.AvailabilityStartDate <= filter.AvailabilityEndDate.Value);   
+        }
+        
         if (filter.SelectedAmenityIds != null && filter.SelectedAmenityIds.Any())
         {
             var amenityIds = filter.SelectedAmenityIds;
