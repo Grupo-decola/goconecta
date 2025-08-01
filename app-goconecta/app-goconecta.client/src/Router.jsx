@@ -10,6 +10,7 @@ import LogoutPage from "./Pages/Logout/LogoutPage";
 import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
 import MinhasReservas from "./Pages/MinhasReservas/MinhaReservas";
 import Ajuda from "./Pages/ajuda/AjudaPage";
+import AnuncieSuaPropriedade from "./Pages/Anuncie/Anuncie";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -53,7 +54,10 @@ const router = createBrowserRouter([
     path: "/ajuda",
     element: <Ajuda />,
   },
-  
+  {
+    path: "/anuncie",
+    element: <AnuncieSuaPropriedade />,
+  },
 
  
 ]);
