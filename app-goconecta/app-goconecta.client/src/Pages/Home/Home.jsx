@@ -16,7 +16,14 @@ import {
 import { IconMapPin } from '@tabler/icons-react';
 import { useNavigate } from 'react-router-dom';
 
-// Componentes mock para demonstração
+import rioImage from '../../assets/img/rio-de-janeiro.jpg';
+import amazonasImage from '../../assets/img/amazonas.jpg';
+import minasImage from '../../assets/img/minas-gerais.jpg';
+import cearaImage from '../../assets/img/ceara.jpg';
+import saoPauloImage from '../../assets/img/sao-paulo.jpg';
+import goiasImage from '../../assets/img/goias.jpg';
+
+
 function PackageCard({ pkg }) {
   const navigate = useNavigate();
   return (
@@ -34,7 +41,6 @@ function PackageCard({ pkg }) {
           variant="filled" 
           fullWidth
           mt="md" 
-          color="#DA7818"
           onClick={() => navigate(`/pacote/${pkg.id}`)}
         >
           Ver Detalhes
@@ -58,37 +64,38 @@ function ReviewView({ title }) {
 
 const carouselImages = [
   { 
-    src: '17539888031658365045272634442089_b24507.jpg-db1156be-28aa-4736-ac95-2f39561235a7', 
-    alt: 'Cidades Vibrantes',
-    title: 'Descubra Cidades Incríveis',
-    description: 'Explore destinos urbanos e sua cultura única!'
+    src: rioImage,
+    alt: 'Rio de Janeiro',
+    title: 'Explore o Rio de Janeiro',
+    description: 'Conheça a cidade maravilhosa e suas praias icónicas.'
   },
   { 
-    src: 'https://placehold.co/1200x400/B2D7D7/white?text=Destinos+Exóticos', 
-    alt: 'Destinos Exóticos',
-    title: 'Viaje para o Desconhecido',
-    description: 'Aventure-se em lugares exóticos e memoráveis.'
+    src: amazonasImage,
+    alt: 'Amazonas',
+    title: 'Aventura na Floresta Amazónica',
+    description: 'Mergulhe na biodiversidade da maior floresta do mundo.'
   },
   { 
-    src: 'https://placehold.co/1200x400/F0F0B7/black?text=Praias+Paradisíacas', 
-    alt: 'Praias Paradisíacas',
-    title: 'Relaxe em Praias Deslumbrantes',
-    description: 'O sol, a areia e o mar esperam por você!'
+    src: minasImage,
+    alt: 'Minas Gerais',
+    title: 'História e Cultura em Minas Gerais',
+    description: 'Visite as cidades históricas e a rica culinária mineira.'
   },
   { 
-    src: 'https://placehold.co/1200x400/D0A2C9/white?text=Aventura+na+Natureza', 
-    alt: 'Aventura na Natureza',
-    title: 'Conecte-se com a Natureza',
-    description: 'Desfrute de trilhas e paisagens de tirar o fôlego.'
+    src: cearaImage,
+    alt: 'Praias do Ceará',
+    title: 'Sol e Vento nas Praias do Ceará',
+    description: 'Relaxe nas praias deslumbrantes do litoral nordestino.'
   },
 ];
 
-// Dados de exemplo para pacotes em destaque
 const featuredPackages = [
-  { id: 1, title: "Pacote de Férias em Bali", destination: "Bali, Indonésia", image: "https://placehold.co/400x200/FFB6C1/white?text=Bali" },
-  { id: 2, title: "Tour Histórico em Roma", destination: "Roma, Itália", image: "https://placehold.co/400x200/87CEEB/white?text=Roma" },
-  { id: 3, title: "Safári na África do Sul", destination: "África do Sul", image: "https://placehold.co/400x200/D3D3D3/white?text=Safari" },
-  { id: 4, title: "Praias do Nordeste", destination: "Bahia, Brasil", image: "https://placehold.co/400x200/90EE90/white?text=Praias" }
+  { id: 1, title: "Férias no Rio de Janeiro", destination: "Rio de Janeiro, RJ", image: rioImage },
+  { id: 2, title: "Roteiro Histórico em Minas", destination: "Minas Gerais, MG", image: minasImage },
+  { id: 3, title: "Experiência Urbana em São Paulo", destination: "São Paulo, SP", image: saoPauloImage },
+  { id: 4, title: "Aventura na Amazônia", destination: "Amazonas, AM", image: amazonasImage },
+  { id: 5, title: "Belezas Naturais de Goiás", destination: "Goiás, GO", image: goiasImage },
+  { id: 6, title: "Litoral do Ceará", destination: "Ceará, CE", image: cearaImage },
 ];
 
 export default function HomePage() {
@@ -108,21 +115,20 @@ export default function HomePage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'rgba(0,0,0,0.4)', // Fundo escuro para o texto se destacar
+            backgroundColor: 'rgba(0,0,0,0.4)',
             color: 'white',
           }}
           p="md"
         >
           <Stack ta="center">
-            {/* Usando o título da imagem para o texto */}
             <Title size={{ base: 'h2', sm: 'h1' }} fw={700}>{image.title}</Title>
             <Text size={{ base: 'sm', sm: 'md' }}>
               {image.description}
             </Text>
             <Button
               size="lg"
+              color="orange"
               mt="xl"
-              color="#DA7818"
               onClick={() => navigate('/pacotes')}
             >
               Explorar Pacotes
@@ -135,7 +141,6 @@ export default function HomePage() {
 
   return (
     <Container size="xl" my="md">
-      {/* Secção principal com o carrossel */}
       <Carousel
         withIndicators
         loop
@@ -147,31 +152,25 @@ export default function HomePage() {
         {slides}
       </Carousel>
 
-      {/* Secção de Pacotes em Destaque */}
       <Box my="xl">
         <Title order={2} ta="center" mb="lg">Pacotes em Destaque</Title>
         <SimpleGrid
-          cols={{ base: 1, sm: 2, lg: 4 }}
+          cols={{ base: 1, sm: 2, lg: 3 }}
           spacing="xl"
-      
         >
           {featuredPackages.map(pkg => <PackageCard key={pkg.id} pkg={pkg} />)}
         </SimpleGrid>
       </Box>
-
-      {/* Secção de Avaliações */}
       <Box my="xl">
         <Grid>
           <Grid.Col span={{ base: 12, md: 6 }}>
             <ReviewView title="Avaliações dos Clientes" />
           </Grid.Col>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            {/* Outro conteúdo pode ir aqui, como um CTA ou outro ReviewView */}
             <ReviewView title="Nossa pontuação média" />
           </Grid.Col>
         </Grid>
       </Box>
-      
     </Container>
   );
 }
