@@ -9,7 +9,6 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import LogoutPage from "./Pages/Logout/LogoutPage";
 import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
 
-
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/hospedagens", element: <Home /> },
@@ -25,25 +24,22 @@ const router = createBrowserRouter([
     path: "/logout",
     element: <LogoutPage />,
   },
+  { path: "/pacotes", element: <Packages /> },
+  { path: "/pacote/:id", element: <InfoPage /> },
   {
     element: <ProtectedRoute />, // wrapper para rotas protegidas
     children: [
-      { path: "/pacotes", element: <Packages /> },
-      { path: "/pacote/:id", element: <InfoPage /> },
+      {
+        path: "/passageiros",
+        element: <TravelerRegister />,
+      },
     ],
   },
+
   {
-    path: "/passageiros",
-    element: <TravelerRegister />,
-  },
-
-
- {
     path: "/beneficios",
     element: <BeneficiosPage />,
   },
- 
- 
 ]);
 
 export function Router() {
