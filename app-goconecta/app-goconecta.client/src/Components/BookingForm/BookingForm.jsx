@@ -19,7 +19,13 @@ import {
   IconCurrencyDollar,
 } from "@tabler/icons-react";
 
-export default function BookingForm({ priceAdults, priceChildren, packageId }) {
+export default function BookingForm({
+  priceAdults,
+  priceChildren,
+  packageId,
+  startDate,
+  endDate,
+}) {
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {
@@ -64,6 +70,8 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
             <DatePickerInput
               label="Data da viagem"
               placeholder="Selecione a Data"
+              minDate={startDate}
+              maxDate={endDate}
               {...form.getInputProps("date")}
               onChange={(value) => {
                 form.setFieldValue("date", value);

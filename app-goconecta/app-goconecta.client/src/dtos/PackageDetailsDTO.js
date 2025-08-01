@@ -2,42 +2,19 @@ import { HotelDTO } from "./HotelDTO";
 
 // DTO para detalhes de pacote
 export class PackageDetailDTO {
-  /**
-   * @param {Object} params
-   * @param {string|number} params.id
-   * @param {string} params.title
-   * @param {string} params.description
-   * @param {string} params.destination
-   * @param {number} params.durationDays
-   * @param {number} params.priceAdults
-   * @param {number} params.priceChildren
-   * @param {Object} params.hotel
-   * @param {Array} params.images
-   * @param {Array} params.videos
-   */
-  constructor({
-    id,
-    title,
-    description,
-    destination,
-    durationDays,
-    priceAdults,
-    priceChildren,
-    amenities,
-    hotel,
-    images,
-    videos,
-  }) {
-    this.id = id;
-    this.title = title;
-    this.description = description;
-    this.destination = destination;
-    this.durationDays = durationDays;
-    this.priceAdults = priceAdults;
-    this.priceChildren = priceChildren;
-    this.amenities = amenities;
-    this.hotel = hotel ? new HotelDTO(hotel) : null;
-    this.images = images;
-    this.videos = videos;
+  constructor(data) {
+    this.id = data.id;
+    this.title = data.title;
+    this.description = data.description;
+    this.destination = data.destination;
+    this.durationDays = data.durationDays;
+    this.priceAdults = data.priceAdults;
+    this.priceChildren = data.priceChildren;
+    this.availabilityStartDate = data.availabilityStartDate;
+    this.availabilityEndDate = data.availabilityEndDate;
+    this.amenities = data.amenities;
+    this.hotel = data.hotel ? new HotelDTO(data.hotel) : null;
+    this.images = data.images;
+    this.videos = data.videos;
   }
 }
