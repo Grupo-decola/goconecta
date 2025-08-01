@@ -14,18 +14,36 @@ namespace app_goconecta.Server.Controllers.Api;
 [Route("api/[controller]")]
 public class UsersController(AppDbContext context, UserService userService) : ControllerBase
 {
-    [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<UserDTO>>> GetAll()
-        => (await context.Users.AsNoTracking().ToListAsync()).Select(UserDTO.FromModel).ToList();
-
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<UserDTO>> GetById(int id)
+    private async Task<User?> _GetCurrentUser()
     {
-        var user = await context.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == id);
-        if (user == null) return NotFound();
-        return Ok(UserDTO.FromModel(user));
+        var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == "UserId");
+        if (userIdClaim == null) return null;
+
+        var userId = int.Parse(userIdClaim.Value);
+        return await context.Users.FirstOrDefaultAsync(u => u.Id == userId);
     }
     
+    [HttpGet("/api/User")]
+    public async Task<ActionResult<UserDTO>> GetCurrentUser()
+    {
+        var currentUser = await _GetCurrentUser();
+        if (currentUser == null) return Unauthorized();
+        return UserDTO.FromModel(currentUser);
+    }
+
+    [HttpGet("/api/User/Reservations")]
+    public async Task<ActionResult<IReadOnlyList<ReservationDTO>>> GetCurrentUserReservations()
+    {
+        var currentUser = await _GetCurrentUser();
+        if (currentUser == null) return Unauthorized();
+        var reservations = await context.Reservations
+            .Where(r => r.UserId == currentUser.Id)
+            .Include(r => r.Package)
+            .ThenInclude(p => p.Hotel)
+            .ToListAsync();
+        return reservations.Select(ReservationDTO.FromModel).ToList();
+    }
+
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] UserCreateDTO createDto)
     {
@@ -33,8 +51,8 @@ public class UsersController(AppDbContext context, UserService userService) : Co
 
         try
         {
-            var newUser = await userService.CreateAsync(createDto, "user");
-            return CreatedAtAction(nameof(GetById), new { id = newUser.Id }, UserDTO.FromModel(newUser));
+            await userService.CreateAsync(createDto, "user");
+            return Created();
         }
         catch (InvalidOperationException ex)
         {
