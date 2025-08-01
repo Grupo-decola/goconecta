@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 👈 ESSA LINHA É A QUE FALTOU!
+import { useNavigate } from "react-router-dom"; 
 import {
   TextInput,
   PasswordInput,
@@ -36,7 +36,7 @@ function LoginForm() {
         color: "success",
         autoClose: 5000,
       });
-      navigate("/Home");
+      navigate("/pacotes");
     } catch (error) {
       if (error?.response?.status === 401) {
         notifications.show({

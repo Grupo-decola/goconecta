@@ -38,7 +38,7 @@
 }
 
 .action-link {
-  color: #182348;
+  color: #DA7818;
   text-decoration: none;
   padding: 4px 8px;
   border-radius: 4px;
@@ -46,7 +46,7 @@
 }
 
 .action-link:hover {
-  color:#DA7818;
+  color:#182348
 }
 
 .phone {
@@ -197,4 +197,30 @@
   .nav-link .nav-icon {
     font-size: 1.2em;
   }
+}
+
+/* Estilo da bolinha do usuário com borda */
+.user-btn {
+  background: #fff;
+  border: 2px solid #DA7818;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.user-btn:hover {
+  border-color: #182348;
+  box-shadow: 0 0 6px rgba(26, 35, 72, 0.2);
+}
+
+/* Hover no menu dropdown */
+.mantine-Menu-item:hover {
+  background-color: #DA7818;
+  color: #182348 !important;
+  font-weight: 600;
 }
