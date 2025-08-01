@@ -8,6 +8,8 @@ import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import LogoutPage from "./Pages/Logout/LogoutPage";
 import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
+import MinhasReservas from "./Pages/MinhasReservas/MinhaReservas";
+import Ajuda from "./Pages/ajuda/AjudaPage";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -20,6 +22,11 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
+   {
+    path: "/minhasreservas",
+    element: <MinhasReservas />,
+  },
+
   {
     path: "/logout",
     element: <LogoutPage />,
@@ -40,6 +47,15 @@ const router = createBrowserRouter([
     path: "/beneficios",
     element: <BeneficiosPage />,
   },
+
+
+ {
+    path: "/ajuda",
+    element: <Ajuda />,
+  },
+  
+
+ 
 ]);
 
 export function Router() {

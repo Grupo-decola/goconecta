@@ -12,8 +12,8 @@ export default function ProtectedRoute() {
     return (
       <Center h="100vh">
         <Stack align="center" gap="md">
-          <Loader size="lg" />
-          <Text>Carregando Informações do usuário</Text>
+          <Loader size="lg" color="#DA7818" />
+          <Text c="#182348">Carregando informações do usuário...</Text>
         </Stack>
       </Center>
     );
@@ -32,7 +32,7 @@ export default function ProtectedRoute() {
       id: "auth-required",
       title: "Acesso restrito",
       message: "Você precisa estar logado para visualizar esta página.",
-      color: "error",
+      color: "red",
       autoClose: 3000,
     });
     return <Navigate to="/login" replace />;

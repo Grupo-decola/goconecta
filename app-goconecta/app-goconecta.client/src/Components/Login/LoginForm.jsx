@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 👈 ESSA LINHA É A QUE FALTOU!
+import { useNavigate } from "react-router-dom"; 
 import {
   TextInput,
   PasswordInput,
