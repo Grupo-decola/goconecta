@@ -8,11 +8,15 @@ import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import LogoutPage from "./Pages/Logout/LogoutPage";
 import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
-
+import ComingSoonPage from "./Pages/passagens/ComingSoonPage"; 
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/hospedagens", element: <Home /> },
+  
+  // Adiciona a nova rota para a página de passagens "em breve"
+  { path: "/passagens", element: <ComingSoonPage /> },
+
   {
     path: "/cadastro",
     element: <CadastroLogin />,
@@ -36,14 +40,10 @@ const router = createBrowserRouter([
     path: "/passageiros",
     element: <TravelerRegister />,
   },
-
-
- {
+  {
     path: "/beneficios",
     element: <BeneficiosPage />,
   },
- 
- 
 ]);
 
 export function Router() {

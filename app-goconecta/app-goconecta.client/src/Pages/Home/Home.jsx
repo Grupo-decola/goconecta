@@ -90,12 +90,9 @@ const carouselImages = [
 ];
 
 const featuredPackages = [
-  { id: 1, title: "Férias no Rio de Janeiro", destination: "Rio de Janeiro, RJ", image: rioImage },
   { id: 2, title: "Roteiro Histórico em Minas", destination: "Minas Gerais, MG", image: minasImage },
   { id: 3, title: "Experiência Urbana em São Paulo", destination: "São Paulo, SP", image: saoPauloImage },
   { id: 4, title: "Aventura na Amazônia", destination: "Amazonas, AM", image: amazonasImage },
-  { id: 5, title: "Belezas Naturais de Goiás", destination: "Goiás, GO", image: goiasImage },
-  { id: 6, title: "Litoral do Ceará", destination: "Ceará, CE", image: cearaImage },
 ];
 
 export default function HomePage() {
