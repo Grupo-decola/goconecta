@@ -3,29 +3,21 @@ using Microsoft.EntityFrameworkCore;
 
 namespace app_goconecta.Server.Data;
 
-using Microsoft.EntityFrameworkCore;
-
-public class AppDbContext : DbContext
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options)
-        : base(options)
-    {
-    }
-
     public DbSet<User> Users { get; set; }
     public DbSet<Hotel> Hotels { get; set; }
     public DbSet<Package> Packages { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<Media> Media { get; set; }
     public DbSet<Amenity> Amenities { get; set; }
+    public DbSet<Rating> Ratings { get; set; }
     // public DbSet<Payment> Payments { get; set; }
-    // public DbSet<Rating> Ratings { get; set; }
     // public DbSet<CustomizationRequest> CustomizationRequests { get; set; }
     // public DbSet<CustomizationBudget> CustomizationBudgets { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // User configuration
         modelBuilder.Entity<User>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -37,7 +29,6 @@ public class AppDbContext : DbContext
             entity.Property(e => e.Role).IsRequired().HasMaxLength(20);
         });
         
-        // Hotel configuration
         modelBuilder.Entity<Hotel>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -52,14 +43,11 @@ public class AppDbContext : DbContext
                 .HasForeignKey(e => e.HotelId)
                 .OnDelete(DeleteBehavior.Restrict);
         });
-
-        // Relação muitos-para-muitos entre Hotel e Amenity
         modelBuilder.Entity<Hotel>()
             .HasMany(h => h.Amenities)
             .WithMany(a => a.Hotels)
             .UsingEntity(j => j.ToTable("HotelAmenities"));
 
-        // Package configuration
         modelBuilder.Entity<Package>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -76,7 +64,6 @@ public class AppDbContext : DbContext
             entity.Navigation(e => e.Media).AutoInclude();
         });
 
-        // Reservation configuration
         modelBuilder.Entity<Reservation>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -93,19 +80,18 @@ public class AppDbContext : DbContext
                 .HasForeignKey(r => r.PackageId)
                 .OnDelete(DeleteBehavior.Restrict);
             
-            entity.OwnsMany(r => r.Guests, g =>
+            entity.OwnsMany(r => r.Guests, guest =>
                 {
-                    g.WithOwner().HasForeignKey("ReservationId");
-                    g.Property<int>("Id"); // Shadow property for primary key
-                    g.HasKey("Id");
-                    g.Property(g => g.Name).IsRequired().HasMaxLength(100);
-                    g.Property(g => g.BirthDate).IsRequired();
-                    g.Property(g => g.Email).HasMaxLength(100);
-                    g.Property(g => g.Cpf).IsRequired();
+                    guest.WithOwner().HasForeignKey("ReservationId");
+                    guest.Property<int>("Id");
+                    guest.HasKey("Id");
+                    guest.Property(g => g.Name).IsRequired().HasMaxLength(100);
+                    guest.Property(g => g.BirthDate).IsRequired();
+                    guest.Property(g => g.Email).HasMaxLength(100);
+                    guest.Property(g => g.Cpf).IsRequired();
                 });
         });
         
-        // Media configuration
         modelBuilder.Entity<Media>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -134,23 +120,22 @@ public class AppDbContext : DbContext
         //         .OnDelete(DeleteBehavior.Cascade);
         // });
 
-        // Rating configuration
-        // modelBuilder.Entity<Rating>(entity =>
-        // {
-        //     entity.HasKey(e => e.Id);
-        //     entity.Property(e => e.Rating).IsRequired();
-        //     entity.Property(e => e.Comment);
-        //
-        //     entity.HasOne(e => e.User)
-        //         .WithMany(u => u.Ratings)
-        //         .HasForeignKey(e => e.UserId)
-        //         .OnDelete(DeleteBehavior.Restrict);
-        //
-        //     entity.HasOne(e => e.Package)
-        //         .WithMany(tp => tp.Ratings)
-        //         .HasForeignKey(e => e.PackageId)
-        //         .OnDelete(DeleteBehavior.Restrict);
-        // });
+        modelBuilder.Entity<Rating>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Stars).IsRequired();
+            entity.Property(e => e.Comment);
+        
+            entity.HasOne(e => e.User)
+                .WithMany(u => u.Ratings)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        
+            entity.HasOne(e => e.Package)
+                .WithMany(tp => tp.Ratings)
+                .HasForeignKey(e => e.PackageId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
 
         // CustomizationRequest configuration
         // modelBuilder.Entity<CustomizationRequest>(entity =>

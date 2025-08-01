@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 
 export default function PackageCard({ package: pkg }) {
   const navigate = useNavigate();
-  console.log("Pacote no botão:", pkg);
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -27,19 +26,13 @@ export default function PackageCard({ package: pkg }) {
     return new Date(dateString).toLocaleDateString("pt-BR");
   };
 
- 
   return (
-    <Card
-      shadow="sm"
-      padding={0}
-      radius="md"
-      withBorder
-      h="auto" 
-    >
+    <Card shadow="sm" padding={0} radius="md" withBorder h="auto">
       <Image
-        src={pkg.image}
-        height={{ base: 160, sm: 200 }} 
-        alt={pkg.title}
+        src={pkg.image.path}
+        height={{ base: 160, sm: 200 }}
+        h={250}
+        alt={pkg.image.title}
         fallbackSrc="https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
       />
       <Box p={{ base: "sm", sm: "md" }}>
@@ -60,12 +53,12 @@ export default function PackageCard({ package: pkg }) {
             <Text size="sm">{pkg.destination}</Text>
           </Group>
 
-          <Group gap="xs" c="dimmed" wrap="nowrap">
+          {/* <Group gap="xs" c="dimmed" wrap="nowrap">
             <IconCalendar size={14} />
             <Text size="sm">
               {formatDate(pkg.startDate)} - {formatDate(pkg.endDate)}
             </Text>
-          </Group>
+          </Group> */}
 
           <Group gap="xs" c="dimmed" wrap="nowrap">
             <IconUsers size={14} />
@@ -90,17 +83,15 @@ export default function PackageCard({ package: pkg }) {
                 por pessoa
               </Text>
             </Box>
-            
+
             <Button
               variant="filled"
               size="sm"
               onClick={() => navigate(`/pacote/${pkg.hotel.id}`)}
               color="#DA7818"
-              
             >
               Ver Detalhes
             </Button>
-            
           </Group>
         </Stack>
       </Box>

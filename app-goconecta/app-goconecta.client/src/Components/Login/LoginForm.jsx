@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // 👈 ESSA LINHA É A QUE FALTOU!
+import { useNavigate } from "react-router-dom"; 
 import {
   TextInput,
   PasswordInput,
@@ -36,7 +36,16 @@ function LoginForm() {
         color: "success",
         autoClose: 5000,
       });
-      navigate("/Home");
+      const redirectData = JSON.parse(sessionStorage.getItem("redirectPath"));
+      sessionStorage.removeItem("redirectPath");
+      if (redirectData) {
+        navigate(redirectData.pathname + (redirectData.search || ""), {
+          state: redirectData.state,
+          replace: true,
+        });
+      } else {
+        navigate("/", { replace: true });
+      }
     } catch (error) {
       if (error?.response?.status === 401) {
         notifications.show({

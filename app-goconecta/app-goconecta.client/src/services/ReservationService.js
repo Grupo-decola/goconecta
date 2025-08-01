@@ -20,7 +20,7 @@ export const createReservation = async (createReservationDTO) => {
   }
 };
 
-export const getReservationById = async (id) => {
+export const getReservationByUser = async (id) => {
   try {
     const response = await api.get(`/reservations/${id}`);
     return response.data;
@@ -29,3 +29,14 @@ export const getReservationById = async (id) => {
     throw error;
   }
 };
+
+export const getReservationsByUserId = async () => {
+  try {
+    const response = await api.get('/User/Reservations');
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao buscar reservas do usuário:", error);
+    throw error;
+  }
+};
+

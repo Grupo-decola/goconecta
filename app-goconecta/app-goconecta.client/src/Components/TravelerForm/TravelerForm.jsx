@@ -1,8 +1,17 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { TextInput, Stack, Button, Group, Grid, Box, Card, Text } from "@mantine/core";
+import {
+  TextInput,
+  Stack,
+  Button,
+  Group,
+  Grid,
+  Box,
+  Card,
+  Text,
+} from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { IconUser, IconAt, IconId, IconCalendar } from '@tabler/icons-react';
+import { IconUser, IconAt, IconId, IconCalendar } from "@tabler/icons-react";
 
 const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
   const form = useForm({
@@ -10,7 +19,7 @@ const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
     initialValues: {
       name: "",
       email: "",
-      cpfPassport: "",
+      cpf: "",
       birthDate: null,
     },
     validate: {
@@ -26,7 +35,7 @@ const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
         }
         return /^\S+@\S+$/.test(value) ? null : "Email inválido";
       },
-      cpfPassport: (value) => {
+      cpf: (value) => {
         if (!value) {
           return "CPF ou Passaporte obrigatório";
         }
@@ -67,11 +76,7 @@ const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
   }));
 
   return (
-    <Box
-      maw={{ base: '100%', sm: 600, md: 700 }}
-      mx="auto"
-      px="md"
-    >
+    <Box maw={{ base: "100%", sm: 600, md: 700 }} mx="auto" px="md">
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Grid gutter="md">
           <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -100,8 +105,8 @@ const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
               withAsterisk
               label="CPF/Passaporte"
               placeholder="CPF ou Passaporte"
-              key={form.key("cpfPassport")}
-              {...form.getInputProps("cpfPassport")}
+              key={form.key("cpf")}
+              {...form.getInputProps("cpf")}
               leftSection={<IconId size={16} />}
             />
           </Grid.Col>

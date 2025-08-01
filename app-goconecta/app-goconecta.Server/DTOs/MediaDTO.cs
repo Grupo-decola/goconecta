@@ -15,5 +15,4 @@ public class MediaDTO
             Title = media.Title
         };
     }
-    
 }

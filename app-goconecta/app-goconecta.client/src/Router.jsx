@@ -9,6 +9,8 @@ import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
 import LogoutPage from "./Pages/Logout/LogoutPage";
 import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
 import ComingSoonPage from "./Pages/passagens/ComingSoonPage"; 
+import MinhasReservas from "./Pages/MinhasReservas/MinhaReservas";
+import Ajuda from "./Pages/ajuda/AjudaPage";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
@@ -25,25 +27,44 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
+   {
+    path: "/minhasreservas",
+    element: <MinhasReservas />,
+  },
+
   {
     path: "/logout",
     element: <LogoutPage />,
   },
+  { path: "/pacotes", element: <Packages /> },
+  { path: "/pacote/:id", element: <InfoPage /> },
   {
     element: <ProtectedRoute />, // wrapper para rotas protegidas
     children: [
-      { path: "/pacotes", element: <Packages /> },
-      { path: "/pacote/:id", element: <InfoPage /> },
+      {
+        path: "/passageiros",
+        element: <TravelerRegister />,
+      },
     ],
   },
+
   {
-    path: "/passageiros",
-    element: <TravelerRegister />,
+    path: "/beneficios",
+    element: <BeneficiosPage />,
   },
   {
     path: "/beneficios",
     element: <BeneficiosPage />,
   },
+
+
+ {
+    path: "/ajuda",
+    element: <Ajuda />,
+  },
+  
+
+ 
 ]);
 
 export function Router() {
