@@ -52,7 +52,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
             ClientReferenceId = reservation.Id.ToString(),
         };
         var session = await sessionService.CreateAsync(options);
-        return Redirect(session.Url);
+        return Ok(session.Url);
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]

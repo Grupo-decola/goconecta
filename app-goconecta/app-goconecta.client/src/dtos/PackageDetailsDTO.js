@@ -23,6 +23,7 @@ export class PackageDetailDTO {
     durationDays,
     priceAdults,
     priceChildren,
+    amenities,
     hotel,
     images,
     videos,
@@ -34,6 +35,7 @@ export class PackageDetailDTO {
     this.durationDays = durationDays;
     this.priceAdults = priceAdults;
     this.priceChildren = priceChildren;
+    this.amenities = amenities;
     this.hotel = hotel ? new HotelDTO(hotel) : null;
     this.images = images;
     this.videos = videos;

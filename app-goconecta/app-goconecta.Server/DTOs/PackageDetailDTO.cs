@@ -11,9 +11,12 @@ public class PackageDetailDTO
     public int DurationDays { get; set; }
     public decimal PriceAdults { get; set; }
     public decimal PriceChildren { get; set; }
+    public DateTime AvailabilityStartDate { get; set; }
+    public DateTime AvailabilityEndDate { get; set; }
     public HotelDTO Hotel { get; set; }
     public ICollection<MediaDTO> Images { get; set; } = new List<MediaDTO>();
     public ICollection<MediaDTO> Videos { get; set; } = new List<MediaDTO>();
+    public ICollection<AmenityDTO> Amenities { get; set; } = new List<AmenityDTO>();
     
     public static PackageDetailDTO FromModel(Package package)
     {
@@ -26,11 +29,14 @@ public class PackageDetailDTO
             DurationDays = package.DurationDays,
             PriceAdults = package.PriceAdults,
             PriceChildren = package.PriceChildren,
+            AvailabilityStartDate = package.AvailabilityStartDate,
+            AvailabilityEndDate = package.AvailabilityEndDate,
             Hotel = HotelDTO.FromModel(package.Hotel!),
             Images = package.Media.Where(p=> p.Type=="Image")
                                   .Select(MediaDTO.FromModel).ToList(),
             Videos = package.Media.Where(p=> p.Type=="Video")
                                   .Select(MediaDTO.FromModel).ToList(),
+            Amenities = package.Hotel.Amenities.Select(AmenityDTO.FromModel).ToList()
         };
     }
     

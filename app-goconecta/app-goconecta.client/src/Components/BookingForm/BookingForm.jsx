@@ -6,13 +6,18 @@ import {
   Stack,
   Button,
   Text,
-  Grid, 
-  Flex, 
+  Grid,
+  Flex,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
-import { IconCalendar, IconUsers, IconUser, IconCurrencyDollar } from '@tabler/icons-react';
+import {
+  IconCalendar,
+  IconUsers,
+  IconUser,
+  IconCurrencyDollar,
+} from "@tabler/icons-react";
 
 export default function BookingForm({ priceAdults, priceChildren, packageId }) {
   const navigate = useNavigate();
@@ -52,8 +57,8 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
   return (
     <Card shadow="sm" p="lg" radius="md" withBorder>
       <Grid>
-        <Grid.Col span={12}> 
-          <Stack gap="md"> 
+        <Grid.Col span={12}>
+          <Stack gap="md">
             <Title size="h2">Agende seu Pacote</Title>
 
             <DatePickerInput
@@ -64,26 +69,26 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
                 form.setFieldValue("date", value);
                 form.validateField("date");
               }}
-              leftSection={<IconCalendar size={16} />} 
+              leftSection={<IconCalendar size={16} />}
             />
 
-            <Group grow> 
+            <Group grow>
               <NumberInput
                 label="Adultos"
                 min={1}
                 {...form.getInputProps("adultos")}
-                leftSection={<IconUsers size={16} />} 
+                leftSection={<IconUsers size={16} />}
               />
               <NumberInput
                 label="Crianças"
                 min={0}
                 {...form.getInputProps("crianca")}
-                leftSection={<IconUser size={16} />} 
+                leftSection={<IconUser size={16} />}
               />
             </Group>
             <Button
               type="submit"
-              fullWidth 
+              fullWidth
               size="compact-sm"
               variant="filled"
               onClick={() => {
@@ -98,7 +103,7 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
                   state: {
                     adults: adultos,
                     childs: crianca,
-                    date: data,
+                    reservationDate: data,
                     packageId,
                   },
                 });
@@ -106,13 +111,13 @@ export default function BookingForm({ priceAdults, priceChildren, packageId }) {
             >
               Preencher Dados dos Viajantes
             </Button>
-            
+
             <Flex justify="space-between" align="center">
-                <Text fw={700}>Total:</Text>
-                <Group gap="xs">
-                    <IconCurrencyDollar size={16} />
-                    <Text fw={700}>{getTotalPrice()}</Text>
-                </Group>
+              <Text fw={700}>Total:</Text>
+              <Group gap="xs">
+                <IconCurrencyDollar size={16} />
+                <Text fw={700}>{getTotalPrice()}</Text>
+              </Group>
             </Flex>
           </Stack>
         </Grid.Col>
