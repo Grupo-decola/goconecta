@@ -1,12 +1,13 @@
 import { Stack, Title, Button, Group } from "@mantine/core";
 import TravelerForm from "../../Components/TravelerForm/TravelerForm";
-import { useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useRef, useEffect } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import { createReservation } from "../../services/ReservationService";
 import { CheckoutReservation } from "../../services/StripeService";
 
 export default function TravelerRegister() {
   const location = useLocation();
+ 
   const {
     adults = 1,
     childs = 0,
@@ -33,7 +34,7 @@ export default function TravelerRegister() {
       reservationDate,
       guests: allValues,
     };
-    console.log(payload);
+
     if (allValid) {
       createReservation(payload)
         .then((res) => {
@@ -42,14 +43,12 @@ export default function TravelerRegister() {
           };
           CheckoutReservation(sripePayload);
         })
-        .catch((error) => {
-          console.error("Erro ao criar reserva:", error);
-        });
+        .catch((error) => {});
     }
   };
 
   let idx = 0;
-  return (
+  return packageId ? (
     <Stack>
       {Array.from({ length: adults }).map((_, i) => (
         <Stack key={`adult-stack-${i}`}>
@@ -67,5 +66,7 @@ export default function TravelerRegister() {
         <Button onClick={handleSubmitAll}>Enviar todos</Button>
       </Group>
     </Stack>
+  ) : (
+    <Navigate to="/pacotes" />
   );
 }
