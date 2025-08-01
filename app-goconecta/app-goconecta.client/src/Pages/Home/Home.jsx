@@ -21,7 +21,6 @@ import amazonasImage from '../../assets/img/amazonas.jpg';
 import minasImage from '../../assets/img/minas-gerais.jpg';
 import cearaImage from '../../assets/img/ceara.jpg';
 import saoPauloImage from '../../assets/img/sao-paulo.jpg';
-import goiasImage from '../../assets/img/goias.jpg';
 
 
 function PackageCard({ pkg }) {
@@ -41,6 +40,7 @@ function PackageCard({ pkg }) {
           variant="filled" 
           fullWidth
           mt="md" 
+          color="#DA7818"
           onClick={() => navigate(`/pacote/${pkg.id}`)}
         >
           Ver Detalhes
@@ -124,7 +124,7 @@ export default function HomePage() {
             </Text>
             <Button
               size="lg"
-              color="orange"
+              color="#DA7818"
               mt="xl"
               onClick={() => navigate('/pacotes')}
             >
