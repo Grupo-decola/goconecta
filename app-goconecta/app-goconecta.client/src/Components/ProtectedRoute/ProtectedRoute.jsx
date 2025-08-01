@@ -1,10 +1,12 @@
 import { useAuth } from "../../Context/AuthContext";
 import { Center, Stack, Loader, Text } from "@mantine/core";
-import { Navigate, Outlet } from "react-router-dom";
+
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { notifications } from "@mantine/notifications";
 
 export default function ProtectedRoute() {
   const { isAuthenticated, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -18,6 +20,14 @@ export default function ProtectedRoute() {
   }
 
   if (!isAuthenticated) {
+    sessionStorage.setItem(
+      "redirectPath",
+      JSON.stringify({
+        pathname: location.pathname,
+        search: location.search,
+        state: location.state,
+      })
+    );
     notifications.show({
       id: "auth-required",
       title: "Acesso restrito",

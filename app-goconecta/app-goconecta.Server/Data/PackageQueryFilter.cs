@@ -9,13 +9,17 @@ public class PackageQueryFilter
   
   public List<int> SelectedAmenityIds { get; set; } = new List<int>();
   
+  public DateTime? AvailabilityStartDate { get; set; }
+  public DateTime? AvailabilityEndDate { get; set; }
+  
   public bool IsValid()
   {
-    // Verifica se o preço mínimo é maior que o máximo
     if (MinPrice.HasValue && MaxPrice.HasValue && MinPrice.Value > MaxPrice.Value)
-    {
       return false;
-    }
+
+    if (AvailabilityStartDate >= AvailabilityEndDate)
+      return false;
+    
     return true;
   }
 }

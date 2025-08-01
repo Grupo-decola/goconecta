@@ -11,7 +11,6 @@ import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
 import MinhasReservas from "./Pages/MinhasReservas/MinhaReservas";
 import Ajuda from "./Pages/ajuda/AjudaPage";
 
-
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/hospedagens", element: <Home /> },
@@ -32,20 +31,19 @@ const router = createBrowserRouter([
     path: "/logout",
     element: <LogoutPage />,
   },
+  { path: "/pacotes", element: <Packages /> },
+  { path: "/pacote/:id", element: <InfoPage /> },
   {
     element: <ProtectedRoute />, // wrapper para rotas protegidas
     children: [
-      { path: "/pacotes", element: <Packages /> },
-      { path: "/pacote/:id", element: <InfoPage /> },
+      {
+        path: "/passageiros",
+        element: <TravelerRegister />,
+      },
     ],
   },
+
   {
-    path: "/passageiros",
-    element: <TravelerRegister />,
-  },
-
-
- {
     path: "/beneficios",
     element: <BeneficiosPage />,
   },

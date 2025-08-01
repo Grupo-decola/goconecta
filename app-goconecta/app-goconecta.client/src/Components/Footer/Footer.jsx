@@ -21,7 +21,7 @@ export default function Footer() {
   return (
     <Box
       component="footer"
-      bg="#f2e7dc" // tom bege mais sólido que o header-top
+      bg="#C09C7C73" // tom bege mais sólido que o header-top
       py="xl"
       mt="xl"
       style={{ borderTop: '1px solid #e0e0e0' }}

@@ -56,6 +56,18 @@
                                 <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.AvailabilityStartDate" class="form-label"></label>
+                                <input asp-for="Package.AvailabilityStartDate" class="form-control" type="date"/>
+                                <span asp-validation-for="Package.AvailabilityStartDate" class="invalid-feedback d-block"></span>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Package.AvailabilityEndDate" class="form-label"></label>
+                                <input asp-for="Package.AvailabilityEndDate" class="form-control" type="date"/>
+                                <span asp-validation-for="Package.AvailabilityEndDate" class="invalid-feedback d-block"></span>
+                            </div>
+                        </div>
                         <div class="mb-3">
                             <label asp-for="Media1.File" class="form-label">Imagem 1</label>
                             <input asp-for="Media1.File" class="form-control" type="file" accept="image/*" />

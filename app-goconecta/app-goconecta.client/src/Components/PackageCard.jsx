@@ -31,6 +31,7 @@ export default function PackageCard({ package: pkg }) {
       <Image
         src={pkg.image.path}
         height={{ base: 160, sm: 200 }}
+        h={250}
         alt={pkg.image.title}
         fallbackSrc="https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
       />
