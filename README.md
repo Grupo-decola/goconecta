@@ -118,7 +118,7 @@ Acesse a aplicação: http://localhost:5173
 A API estará disponível em: https://localhost:xxxx (ver porta no console)
 
 
-👥 Autores (ordem alfabética)
+👥 Autores 
 Naiara Santos de Oliveira
 
 Pedro Ghiotti Martins
