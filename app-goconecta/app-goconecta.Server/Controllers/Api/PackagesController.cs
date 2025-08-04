@@ -1,5 +1,5 @@
 using app_goconecta.Server.Data;
-using app_goconecta.Server.DTOs;
+using app_goconecta.Server.DTOs.Package;
 using app_goconecta.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +18,7 @@ public class PackagesController(AppDbContext context) : ControllerBase
         [FromQuery] PaginationQuery pagination)
     {
         var query = context.Packages
+            .Include(p => p.Ratings)
             .Include(p => p.Hotel)
                 .ThenInclude(h => h!.Amenities)
             .AsQueryable();
@@ -88,6 +89,7 @@ public class PackagesController(AppDbContext context) : ControllerBase
     {
         var package = await context.Packages
             .AsNoTracking()
+            .Include(p => p.Ratings)
             .Include(p => p.Hotel)
                 .ThenInclude(h => h!.Amenities)
             .Include(p => p.Media)
@@ -96,12 +98,6 @@ public class PackagesController(AppDbContext context) : ControllerBase
         var packageDetailDto = PackageDetailDTO.FromModel(package);
         
         foreach (var mediaDto in packageDetailDto.Images)
-        {
-            if (mediaDto.Path == null || string.IsNullOrWhiteSpace(mediaDto.Path)) continue;
-            mediaDto.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{mediaDto.Path}";
-        }
-        
-        foreach (var mediaDto in packageDetailDto.Videos)
         {
             if (mediaDto.Path == null || string.IsNullOrWhiteSpace(mediaDto.Path)) continue;
             mediaDto.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{mediaDto.Path}";

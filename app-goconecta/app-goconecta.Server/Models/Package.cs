@@ -43,4 +43,9 @@ public class Package
     public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
 
     public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
+    public int TotalRatings => Ratings.Count;
+    public double AverageRating =>  Math.Round(Ratings.Average(r => r.Stars), 2);
+    public Dictionary<int, int> RatingDistribution => Ratings.GroupBy(x => x.Stars)
+        .OrderBy(g => g.Key)
+        .ToDictionary(g => g.Key, g => (int) Math.Round((double) g.Count() / TotalRatings * 100));
 }

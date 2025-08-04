@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace app_goconecta.Server.DTOs;
+namespace app_goconecta.Server.DTOs.Package;
 
 public class RatingCreateDTO
 {
