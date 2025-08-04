@@ -1,6 +1,4 @@
-﻿using app_goconecta.Server.Models;
-
-namespace app_goconecta.Server.DTOs;
+﻿namespace app_goconecta.Server.DTOs.Package;
 
 public class PackageDTO
 {
@@ -9,18 +7,15 @@ public class PackageDTO
     public required string Description { get; set; }
     public required string Destination { get; set; }
     public int DurationDays { get; set; }
-    
     public decimal PriceAdults { get; set; }
     public decimal PriceChildrens { get; set; }
-    
     public DateTime AvailabilityStartDate { get; set; }
     public DateTime AvailabilityEndDate { get; set; }
-
     public HotelDTO? Hotel { get; set; }
-    
     public MediaDTO? Image { get; set; } 
+    public required double AverageRating { get; set; }
     
-    public static PackageDTO FromModel(Package package)
+    public static PackageDTO FromModel(Models.Package package)
     {
         return new PackageDTO
         {
@@ -34,8 +29,8 @@ public class PackageDTO
             AvailabilityStartDate = package.AvailabilityStartDate,
             AvailabilityEndDate = package.AvailabilityEndDate,
             Hotel = HotelDTO.FromModel(package.Hotel!),
-            Image = package.Media.Where(p=> p.Type=="Image")
-                .Select(MediaDTO.FromModel).FirstOrDefault()
+            Image = package.Media.Where(p=> p.Type=="Image") .Select(MediaDTO.FromModel).FirstOrDefault(),
+            AverageRating = package.AverageRating
         };
     }
 }

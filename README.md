@@ -1,116 +1,137 @@
-# ✈️ Sistema de Gestão de Pacotes de Viagem
+# ✈️ GoConecta - Plataforma Web de Reservas de Viagens
 
-Este projeto tem como objetivo facilitar a gestão de pacotes de viagem, reservas, pagamentos e solicitações de personalização. Abaixo estão os principais componentes da base de dados:
+**GoConecta** é uma aplicação web fullstack desenvolvida para facilitar a busca, reserva e gerenciamento de pacotes de viagens, oferecendo uma experiência moderna, intuitiva e responsiva para clientes e administradores.
 
----
-
-## 👤 USUARIO
-Armazena os dados dos usuários do sistema.
-
-| Campo            | Tipo     | Restrições                           |
-|------------------|----------|--------------------------------------|
-| Id               | int      | PK                                   |
-| Nome             | string   |                                      |
-| Email            | string   | UK                                   |
-| SenhaHash        | string   |                                      |
-| Telefone         | string   |                                      |
-| CPFPassaporte    | string   |                                      |
-| Perfil           | string   | Cliente, Atendente, Administrador    |
+🔧 Projeto final da trilha **DecolaTech 6 - Avanade 2025**, com foco em boas práticas de desenvolvimento, segurança, performance e usabilidade.
 
 ---
 
-## 🌍 PACOTE_VIAGEM
-Define os pacotes disponíveis para reserva.
+## ✨ Funcionalidades
 
-| Campo                 | Tipo     | Restrições |
-|-----------------------|----------|------------|
-| Id                    | int      | PK         |
-| Titulo                | string   |            |
-| Descricao             | string   |            |
-| Destino               | string   |            |
-| DuracaoDias           | int      |            |
-| DataDisponivelInicio  | date     |            |
-| DataDisponivelFim     | date     |            |
-| Valor                 | decimal  |            |
-| ImagensURLs           | string   |            |
-| VideosURLs            | string   |            |
+### 👤 Cliente
 
----
+- Cadastro e login com validação
+- Autenticação via JWT
+- Visualização e filtros de pacotes turísticos
+- Detalhamento completo dos pacotes
+- Realização de reservas
+- Pagamento online
+- Histórico de reservas
+- Programa de fidelidade: **Passaporte GoConecta**
+- Página de ajuda com IA básica para dúvidas
 
-## 🧾 RESERVA
-Controla as reservas feitas pelos usuários.
+### 🔐 Administrador
 
-| Campo         | Tipo     | Descrição                           |
-|---------------|----------|-------------------------------------|
-| Id            | int      | PK                                  |
-| IdUsuario     | int      | FK para USUARIO                     |
-| IdPacoteViagem| int      | FK para PACOTE_VIAGEM               |
-| DataReserva   | date     |                                     |
-| Status        | string   | Pendente, Confirmada, Cancelada     |
-| NumeroReserva | string   |                                     |
-| ValorTotal    | decimal  |                                     |
+- Gerenciamento de pacotes e usuários
+- Relatórios de reservas
+- Painel de controle
 
 ---
 
-## 💳 PAGAMENTO
-Registro dos pagamentos efetuados pelas reservas.
+## 🎯 Objetivos do Projeto
 
-| Campo               | Tipo     | Descrição                             |
-|---------------------|----------|---------------------------------------|
-| Id                  | int      | PK                                    |
-| IdReserva           | int      | FK para RESERVA                       |
-| GatewayTransacaoId  | string   |                                        |
-| MetodoPagamento     | string   |                                        |
-| ValorPago           | decimal  |                                        |
-| DataPagamento       | date     |                                        |
-| StatusPagamento     | string   | Pendente, Aprovado, Recusado          |
-| ComprovanteURL      | string   |                                        |
+- 🌍 Oferecer uma plataforma acessível para explorar pacotes turísticos
+- 🔐 Autenticação segura com token JWT
+- 📱 Interface responsiva e amigável (Mobile First)
+- 🧱 Arquitetura bem estruturada e organizada
 
 ---
 
-## ⭐ AVALIACAO
-Feedback dos usuários sobre pacotes de viagem.
+## 🚀 Tecnologias Utilizadas
 
-| Campo           | Tipo     | Descrição                  |
-|------------------|----------|----------------------------|
-| Id               | int      | PK                         |
-| IdUsuario        | int      | FK para USUARIO            |
-| IdPacoteViagem   | int      | FK para PACOTE_VIAGEM      |
-| Nota             | int      | Avaliação de 1 a 5         |
-| Comentario       | string   |                            |
-| DataAvaliacao    | date     |                            |
+### Backend (C# .NET)
 
----
+- `ASP.NET Core 7.0`
+- `Entity Framework Core` + `SQL Server`
+- `JWT Authentication`
+- `DTOs`, `LINQ` e `Padrão Repositório`
 
-## 🎯 SOLICITACAO_PERSONALIZACAO
-Pedidos personalizados realizados pelos usuários.
+### Frontend (React)
 
-| Campo                   | Tipo     | Descrição                                                               |
-|--------------------------|----------|-------------------------------------------------------------------------|
-| Id                       | int      | PK                                                                      |
-| IdUsuario                | int      | FK para USUARIO                                                         |
-| IdPacoteViagem           | int      | FK (Opcional, se a personalização for baseada em um pacote existente)  |
-| DescricaoModificacoes    | string   |                                                                         |
-| Status                   | string   | Pendente, Em Orçamento, Aprovada, Recusada, Concluída                  |
-| DataSolicitacao          | date     |                                                                         |
+- `React.js` com `Vite`
+- `Mantine UI` para estilização
+- `React Router DOM` para rotas
+- `Axios` para consumo da API
+- `Context API` para autenticação
+- `Responsivo` e `Mobile First`
 
 ---
 
-## 💰 ORCAMENTO_PERSONALIZACAO
-Propostas de orçamento para solicitações personalizadas.
+## 🗂️ Estrutura do Projeto
 
-| Campo                   | Tipo     | Descrição                            |
-|--------------------------|----------|--------------------------------------|
-| Id                       | int      | PK                                   |
-| IdSolicitacaoPersonalizacao | int  | FK para SOLICITACAO_PERSONALIZACAO   |
-| ValorProposto            | decimal  |                                      |
-| DetalhesOrcamento        | string   |                                      |
-| DataValidade             | date     |                                      |
-| Status                   | string   | Enviado, Aceito, Recusado            |
+```
 
-
+app-goconecta/
+├── app-goconecta.server/ # 🔙 Backend (C#)
+│ ├── Controllers/
+│ ├── DTOs/
+│ ├── Models/
+│ ├── Data/
+│ ├── Repositories/
+│ ├── Migrations/
+│ └── Program.cs
+│
+└── app-goconecta.client/ # 💻 Frontend (React)
+└── src/
+├── components/
+├── pages/
+├── services/
+├── context/
+├── assets/
+└── App.jsx
+```
 
 ---
 
+## ▶️ Como Rodar o Projeto
+
+### 📌 Pré-requisitos
+
+- [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download)
+- [Node.js](https://nodejs.org/) com `npm` ou `yarn`
+- SQL Server ou LocalDB
+
+---
+
+### ⚙️ Backend
+
+```bash
+cd app-goconecta.server
+dotnet restore
+dotnet ef database update
+dotnet run
 
 
+cd app-goconecta.client
+npm install
+npm run dev
+
+
+💻 Frontend
+
+cd app-goconecta.client
+npm install
+npm run dev
+
+
+Acesse a aplicação: http://localhost:5173
+A API estará disponível em: https://localhost:xxxx (ver porta no console)
+
+
+👥 Autores 
+Naiara Santos de Oliveira
+
+Pedro Ghiotti Martins
+
+Rafael Decothé de Oliveira
+
+Rosilene Farias Domingues
+
+Samantha Ellen Gonçalves Araújo
+
+Vitor Marques Rodrigues
+
+William Lima da Silva
+
+Projeto desenvolvido em equipe durante o programa Avanade DecolaTech 6– 2025
+```
