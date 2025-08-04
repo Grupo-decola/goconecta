@@ -1,13 +1,14 @@
-import { Stack, Title, Button, Group } from "@mantine/core";
+import { Stack, Title, Button, Group, Loader } from "@mantine/core";
 import TravelerForm from "../../Components/TravelerForm/TravelerForm";
-import { useRef, useEffect } from "react";
+import { useRef, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { createReservation } from "../../services/ReservationService";
 import { CheckoutReservation } from "../../services/StripeService";
 
 export default function TravelerRegister() {
   const location = useLocation();
- 
+  const [submitting, setSubmitting] = useState(false);
+
   const {
     adults = 1,
     childs = 0,
@@ -18,6 +19,10 @@ export default function TravelerRegister() {
   const formRefs = Array.from({ length: total }, () => useRef());
 
   const handleSubmitAll = () => {
+    if (submitting) {
+      return;
+    }
+    setSubmitting(true);
     let allValid = true;
     const allValues = [];
     formRefs.forEach((ref) => {
@@ -42,8 +47,13 @@ export default function TravelerRegister() {
             reservationId: res.id,
           };
           CheckoutReservation(sripePayload);
+          // Não libera o botão, pois o usuário será redirecionado
         })
-        .catch((error) => {});
+        .catch(() => {
+          setSubmitting(false);
+        });
+    } else {
+      setSubmitting(false);
     }
   };
 
@@ -63,7 +73,15 @@ export default function TravelerRegister() {
         </Stack>
       ))}
       <Group justify="center" mt="md">
-        <Button onClick={handleSubmitAll}>Enviar todos</Button>
+        <Button
+          onClick={handleSubmitAll}
+          loading={submitting}
+          disabled={submitting}
+          leftSection={submitting ? <Loader size={18} color="white" /> : null}
+          aria-busy={submitting}
+        >
+          {submitting ? "Enviando..." : "Enviar todos"}
+        </Button>
       </Group>
     </Stack>
   ) : (
