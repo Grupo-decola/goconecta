@@ -7,7 +7,7 @@ public class PackageQueryFilter
   public decimal? MinPrice { get; set; }
   public decimal? MaxPrice { get; set; }
   
-  public List<int> SelectedAmenityIds { get; set; } = new List<int>();
+  public List<int> SelectedAmenityIds { get; set; } = [];
   
   public DateTime? AvailabilityStartDate { get; set; }
   public DateTime? AvailabilityEndDate { get; set; }
