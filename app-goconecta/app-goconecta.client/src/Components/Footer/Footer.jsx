@@ -72,7 +72,6 @@ export default function Footer() {
             </Group>
           </Grid.Col>
         </Grid>
-
         <Divider my="md" color="#DA7818" />
 
         <Text size="xs" align="center" style={{ color: '#182348' }}>
