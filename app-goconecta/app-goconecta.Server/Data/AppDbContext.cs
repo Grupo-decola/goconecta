@@ -12,10 +12,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Media> Media { get; set; }
     public DbSet<Amenity> Amenities { get; set; }
     public DbSet<Rating> Ratings { get; set; }
-    // public DbSet<Payment> Payments { get; set; }
-    // public DbSet<CustomizationRequest> CustomizationRequests { get; set; }
-    // public DbSet<CustomizationBudget> CustomizationBudgets { get; set; }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<User>(entity =>
@@ -60,7 +57,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .WithOne(e => e.Package)
                 .HasForeignKey(e => e.PackageId)
                 .OnDelete(DeleteBehavior.Cascade);
-
+            entity.HasOne(e => e.Hotel)
+                .WithMany(h => h.Packages)
+                .HasForeignKey(e => e.HotelId)
+                .OnDelete(DeleteBehavior.Restrict);
             entity.Navigation(e => e.Media).AutoInclude();
         });
 
@@ -69,12 +69,10 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.HasKey(e => e.Id);
             entity.Property(e => e.ReservationNumber).IsRequired().HasMaxLength(50);
             entity.Property(e => e.Status).IsRequired().HasMaxLength(20);
-
             entity.HasOne(r => r.User)
                 .WithMany(u => u.Reservations)
                 .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
+                .OnDelete(DeleteBehavior.Cascade);
             entity.HasOne(r => r.Package)
                 .WithMany(tp => tp.Reservations)
                 .HasForeignKey(r => r.PackageId)
@@ -104,22 +102,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .OnDelete(DeleteBehavior.Cascade);
         });
 
-        // Payment configuration
-        // modelBuilder.Entity<Payment>(entity =>
-        // {
-        //     entity.HasKey(e => e.Id);
-        //     entity.Property(e => e.GatewayTransactionId).HasMaxLength(100);
-        //     entity.Property(e => e.PaymentMethod).IsRequired().HasMaxLength(50);
-        //     entity.Property(e => e.PaidValue).HasColumnType("decimal(18,2)");
-        //     entity.Property(e => e.PaymentStatus).IsRequired().HasMaxLength(20);
-        //     entity.Property(e => e.ReceiptURL);
-        //
-        //     entity.HasOne(p => p.Reservation)
-        //         .WithMany(r => r.Payments)
-        //         .HasForeignKey(p => p.ReservationId)
-        //         .OnDelete(DeleteBehavior.Cascade);
-        // });
-
         modelBuilder.Entity<Rating>(entity =>
         {
             entity.HasKey(e => e.Id);
@@ -136,37 +118,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .HasForeignKey(e => e.PackageId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
-        // CustomizationRequest configuration
-        // modelBuilder.Entity<CustomizationRequest>(entity =>
-        // {
-        //     entity.HasKey(e => e.Id);
-        //     entity.Property(e => e.ModificationDescription).IsRequired();
-        //     entity.Property(e => e.Status).IsRequired().HasMaxLength(20);
-        //
-        //     entity.HasOne(cr => cr.User)
-        //         .WithMany(u => u.CustomizationRequests)
-        //         .HasForeignKey(cr => cr.UserId)
-        //         .OnDelete(DeleteBehavior.Restrict);
-        //
-        //     entity.HasOne(cr => cr.Package)
-        //         .WithMany(tp => tp.CustomizationRequests)
-        //         .HasForeignKey(cr => cr.PackageId)
-        //         .OnDelete(DeleteBehavior.Restrict);
-        // });
-
-        // CustomizationBudget configuration
-        // modelBuilder.Entity<CustomizationBudget>(entity =>
-        // {
-        //     entity.HasKey(e => e.Id);
-        //     entity.Property(e => e.ProposedValue).HasColumnType("decimal(18,2)");
-        //     entity.Property(e => e.BudgetDetails).IsRequired();
-        //     entity.Property(e => e.Status).IsRequired().HasMaxLength(20);
-        //
-        //     entity.HasOne(cb => cb.CustomizationRequest)
-        //         .WithMany(cr => cr.CustomizationBudgets)
-        //         .HasForeignKey(cb => cb.CustomizationRequestId)
-        //         .OnDelete(DeleteBehavior.Cascade);
-        // });
     }
 }

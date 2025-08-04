@@ -19,7 +19,13 @@ import {
   IconCurrencyDollar,
 } from "@tabler/icons-react";
 
-export default function BookingForm({ priceAdults, priceChildren, packageId }) {
+export default function BookingForm({
+  priceAdults,
+  priceChildren,
+  packageId,
+  startDate,
+  endDate,
+}) {
   const navigate = useNavigate();
   const form = useForm({
     initialValues: {

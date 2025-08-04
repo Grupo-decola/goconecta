@@ -25,6 +25,7 @@ export default function Packages() {
     setError(null);
     fetchPackages()
       .then((data) => {
+        console.log("Pacotes recebidos do servidor:", data);
         setPackages(data);
         setFilteredPackages(data);
       })

@@ -31,7 +31,7 @@ const Header = () => {
       const decoded = getDecodedToken();
       setUserName(decoded?.unique_name || "");
     }
-  }, []);
+  }, [isAuthenticated]);
 
   const isActive = (path) => window.location.pathname === path;
 
