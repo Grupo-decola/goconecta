@@ -20,8 +20,12 @@ export default function InfoPage() {
     setLoading(true);
     setError(null);
     fetchPackageDetail(id)
-      .then((data) => setPackageDetail(new PackageDetailDTO(data)))
-      .catch((err) => setError(err))
+      .then((data) => {
+        setPackageDetail(new PackageDetailDTO(data));
+      })
+      .catch((err) => {
+        setError(err);
+      })
       .finally(() => {
         setLoading(false);
       });
@@ -38,12 +42,11 @@ export default function InfoPage() {
     );
   }
   if (error) {
-    return <Text color="red">Erro ao carregar pacote.</Text>;
+    return <Text c="red">Erro ao carregar pacote.</Text>;
   }
   if (!packageDetail) {
     return null;
   }
-  console.log(packageDetail);
 
   return (
     <Box maw={{ base: "95%", md: "90%", lg: 1200 }} mx="auto" mt="xl" px="md">
@@ -67,6 +70,8 @@ export default function InfoPage() {
             priceAdults={packageDetail?.priceAdults}
             priceChildren={packageDetail?.priceChildren}
             packageId={packageDetail?.id}
+            startDate={packageDetail?.availabilityStartDate}
+            endDate={packageDetail?.availabilityEndDate}
           />
         </Grid.Col>
       </Grid>

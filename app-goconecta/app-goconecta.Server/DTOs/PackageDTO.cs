@@ -4,6 +4,7 @@ namespace app_goconecta.Server.DTOs;
 
 public class PackageDTO
 {
+    public int Id { get; set; }
     public required string Title { get; set; }
     public required string Description { get; set; }
     public required string Destination { get; set; }
@@ -23,6 +24,7 @@ public class PackageDTO
     {
         return new PackageDTO
         {
+            Id = package.Id,
             Title = package.Title,
             Description = package.Description,
             Destination = package.Destination,
