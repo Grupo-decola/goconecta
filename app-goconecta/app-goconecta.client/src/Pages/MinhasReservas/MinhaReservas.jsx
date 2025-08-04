@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Card,
   Text,
@@ -11,16 +11,27 @@ import {
   Paper,
   Button,
   Image,
-} from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
-import { IconCheck, IconClock, IconCalendar, IconMapPin } from '@tabler/icons-react';
+  Modal,
+} from "@mantine/core";
+import { useNavigate } from "react-router-dom";
+import {
+  IconCheck,
+  IconClock,
+  IconCalendar,
+  IconMapPin,
+  IconStar,
+} from "@tabler/icons-react";
 
-import { getReservationsByUserId } from '../../services/ReservationService';
-import noReservation from '../../assets/img/undraw_travelers_kud9.svg';
+import { getReservationsByUserId } from "../../services/ReservationService";
+import noReservation from "../../assets/img/undraw_travelers_kud9.svg";
+import ReviewCreate from "../../Components/ReviewCreate/ReviewCreate";
+import { createRating } from "../../services/RatingService";
 
 function MinhasReservas() {
   const [reservas, setReservas] = useState([]);
   const [carregando, setCarregando] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPackageId, setSelectedPackageId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,10 +56,36 @@ function MinhasReservas() {
   }
 
   return (
-    <Container py="xl" px={{ base: 'sm', sm: 'md', md: 'xl' }}>
+    <Container py="xl" px={{ base: "sm", sm: "md", md: "xl" }}>
       <Text size="xl" fw={700} mb="md" ta="center">
         Minhas Reservas
       </Text>
+
+      <Modal
+        opened={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title="Avaliar pacote"
+        centered
+        size="lg"
+      >
+        {selectedPackageId && (
+          <ReviewCreate
+            onSubmit={async (values) => {
+              try {
+                await createRating(selectedPackageId, {
+                  rating: values.rating,
+                  comment: values.comment,
+                });
+                // Aqui você pode exibir um toast/sucesso se desejar
+              } catch (error) {
+                // Aqui você pode exibir um toast/erro se desejar
+              } finally {
+                setModalOpen(false);
+              }
+            }}
+          />
+        )}
+      </Modal>
 
       {reservas.length === 0 ? (
         <Center mih="60vh">
@@ -79,7 +116,7 @@ function MinhasReservas() {
                 Que tal começar agora sua próxima aventura?
               </Text>
               <Button
-                onClick={() => navigate('/pacotes')}
+                onClick={() => navigate("/pacotes")}
                 color="orange"
                 radius="md"
                 fullWidth
@@ -100,21 +137,27 @@ function MinhasReservas() {
               radius="md"
               withBorder
               style={{
-                transition: 'transform 0.2s',
-                cursor: 'pointer',
+                transition: "transform 0.2s",
+                cursor: "pointer",
               }}
-              onMouseEnter={(e) => (e.currentTarget.style.transform = 'scale(1.01)')}
-              onMouseLeave={(e) => (e.currentTarget.style.transform = 'scale(1)')}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "scale(1.01)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "scale(1)")
+              }
             >
               {/* IMAGEM REMOVIDA AQUI */}
 
               <Stack spacing="xs" mt="sm">
                 <Group position="apart" mb="xs" wrap="wrap">
-                  <Text fw={600} size="lg">{reserva.package.title}</Text>
+                  <Text fw={600} size="lg">
+                    {reserva.package.title}
+                  </Text>
                   <Badge
-                    color={reserva.status === 'Confirmada' ? 'green' : 'orange'}
+                    color={reserva.status === "Confirmada" ? "green" : "orange"}
                     leftSection={
-                      reserva.status === 'Confirmada' ? (
+                      reserva.status === "Confirmada" ? (
                         <IconCheck size={12} />
                       ) : (
                         <IconClock size={12} />
@@ -126,7 +169,8 @@ function MinhasReservas() {
                 </Group>
 
                 <Text size="sm" color="dimmed">
-                  Número da reserva: <strong>{reserva.reservationNumber}</strong>
+                  Número da reserva:{" "}
+                  <strong>{reserva.reservationNumber}</strong>
                 </Text>
 
                 <Group spacing="xs">
@@ -139,14 +183,30 @@ function MinhasReservas() {
                 <Group spacing="xs">
                   <IconCalendar size={16} />
                   <Text size="sm">
-                    Data da reserva:{' '}
-                    {new Date(reserva.reservationDate).toLocaleDateString('pt-BR')}
+                    Data da reserva:{" "}
+                    {new Date(reserva.reservationDate).toLocaleDateString(
+                      "pt-BR"
+                    )}
                   </Text>
                 </Group>
 
                 <Text size="sm">
                   Preço (Adulto): R$ {reserva.package.priceAdults.toFixed(2)}
                 </Text>
+
+                <Group position="right" mt="xs">
+                  <Button
+                    leftSection={<IconStar size={16} />}
+                    color="yellow"
+                    variant="light"
+                    onClick={() => {
+                      setSelectedPackageId(reserva.package.id);
+                      setModalOpen(true);
+                    }}
+                  >
+                    Avaliar pacote
+                  </Button>
+                </Group>
               </Stack>
             </Card>
           ))}

@@ -16,5 +16,6 @@ export class PackageDetailDTO {
     this.hotel = data.hotel ? new HotelDTO(data.hotel) : null;
     this.images = data.images;
     this.videos = data.videos;
+    this.ratingData = data.ratingData;
   }
 }
