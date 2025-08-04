@@ -9,6 +9,7 @@
 ## ✨ Funcionalidades
 
 ### 👤 Cliente
+
 - Cadastro e login com validação
 - Autenticação via JWT
 - Visualização e filtros de pacotes turísticos
@@ -19,7 +20,8 @@
 - Programa de fidelidade: **Passaporte GoConecta**
 - Página de ajuda com IA básica para dúvidas
 
-### 🔐 Administrador 
+### 🔐 Administrador
+
 - Gerenciamento de pacotes e usuários
 - Relatórios de reservas
 - Painel de controle
@@ -38,12 +40,14 @@
 ## 🚀 Tecnologias Utilizadas
 
 ### Backend (C# .NET)
+
 - `ASP.NET Core 7.0`
 - `Entity Framework Core` + `SQL Server`
 - `JWT Authentication`
 - `DTOs`, `LINQ` e `Padrão Repositório`
 
 ### Frontend (React)
+
 - `React.js` com `Vite`
 - `Mantine UI` para estilização
 - `React Router DOM` para rotas
@@ -54,6 +58,8 @@
 ---
 
 ## 🗂️ Estrutura do Projeto
+
+```
 
 app-goconecta/
 ├── app-goconecta.server/ # 🔙 Backend (C#)
@@ -73,7 +79,7 @@ app-goconecta/
 ├── context/
 ├── assets/
 └── App.jsx
-
+```
 
 ---
 
@@ -128,3 +134,4 @@ Vitor Marques Rodrigues
 William Lima da Silva
 
 Projeto desenvolvido em equipe durante o programa Avanade DecolaTech 6– 2025
+```
