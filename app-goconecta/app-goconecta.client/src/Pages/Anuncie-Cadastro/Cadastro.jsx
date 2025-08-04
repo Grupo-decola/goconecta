@@ -56,10 +56,10 @@ return (
         <label>Tipo de Propriedade:</label>
         <select name="tipoPropriedade" onChange={handleChange} required>
           <option value="">Selecione</option>
-          <option value="casa">Casa</option>
-          <option value="apartamento">Apartamento</option>
+          <option value="hotel">Hotel</option>
+          {/* <option value="apartamento">Apartamento</option>
           <option value="chalé">Chalé</option>
-          <option value="fazenda">Fazenda</option>
+          <option value="fazenda">Fazenda</option> */}
         </select>
 
         <button type="submit">Cadastrar</button>
