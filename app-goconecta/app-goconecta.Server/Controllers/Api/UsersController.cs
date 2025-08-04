@@ -38,8 +38,9 @@ public class UsersController(AppDbContext context, UserService userService) : Co
         if (currentUser == null) return Unauthorized();
         var reservations = await context.Reservations
             .Where(r => r.UserId == currentUser.Id)
+            .Include(r => r.Guests)
             .Include(r => r.Package)
-            .ThenInclude(p => p.Hotel)
+                .ThenInclude(p => p.Hotel)
             .ToListAsync();
         return reservations.Select(ReservationDTO.FromModel).ToList();
     }
