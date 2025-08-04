@@ -1,5 +1,6 @@
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
+using app_goconecta.Server.DTOs.Package;
 using app_goconecta.Server.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

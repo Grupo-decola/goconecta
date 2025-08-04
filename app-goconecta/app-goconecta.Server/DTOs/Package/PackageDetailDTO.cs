@@ -1,6 +1,4 @@
-using app_goconecta.Server.Models;
-
-namespace app_goconecta.Server.DTOs;
+namespace app_goconecta.Server.DTOs.Package;
 
 public class PackageDetailDTO
 {
@@ -15,10 +13,11 @@ public class PackageDetailDTO
     public DateTime AvailabilityEndDate { get; set; }
     public HotelDTO Hotel { get; set; }
     public ICollection<MediaDTO> Images { get; set; } = new List<MediaDTO>();
-    public ICollection<MediaDTO> Videos { get; set; } = new List<MediaDTO>();
     public ICollection<AmenityDTO> Amenities { get; set; } = new List<AmenityDTO>();
     
-    public static PackageDetailDTO FromModel(Package package)
+    public required PackageRatingDataDto RatingData { get; set; }
+    
+    public static PackageDetailDTO FromModel(Models.Package package)
     {
         return new PackageDetailDTO
         {
@@ -32,11 +31,9 @@ public class PackageDetailDTO
             AvailabilityStartDate = package.AvailabilityStartDate,
             AvailabilityEndDate = package.AvailabilityEndDate,
             Hotel = HotelDTO.FromModel(package.Hotel!),
-            Images = package.Media.Where(p=> p.Type=="Image")
-                                  .Select(MediaDTO.FromModel).ToList(),
-            Videos = package.Media.Where(p=> p.Type=="Video")
-                                  .Select(MediaDTO.FromModel).ToList(),
-            Amenities = package.Hotel.Amenities.Select(AmenityDTO.FromModel).ToList()
+            Images = package.Media.Where(p=> p.Type=="Image") .Select(MediaDTO.FromModel).ToList(),
+            Amenities = package.Hotel!.Amenities.Select(AmenityDTO.FromModel).ToList(),
+            RatingData = PackageRatingDataDto.FromPackage(package)
         };
     }
     

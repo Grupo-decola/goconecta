@@ -1,5 +1,6 @@
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
+using app_goconecta.Server.DTOs.Package;
 using app_goconecta.Server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -11,21 +12,15 @@ namespace app_goconecta.Server.Controllers.Api;
 [AllowAnonymous]
 [ApiController]
 [Route("api/[controller]")]
-public class PackagesController : ControllerBase
+public class PackagesController(AppDbContext context) : ControllerBase
 {
-    private readonly AppDbContext _context;
-
-    public PackagesController(AppDbContext context)
-    {
-        _context = context;
-    }
-    
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<PackageDTO>>> GetAll(
         [FromQuery] PackageQueryFilter filter,
         [FromQuery] PaginationQuery pagination)
     {
-        var query = _context.Packages
+        var query = context.Packages
+            .Include(p => p.Ratings)
             .Include(p => p.Hotel)
                 .ThenInclude(h => h.Amenities)
             .AsQueryable();
@@ -94,8 +89,9 @@ public class PackagesController : ControllerBase
     [HttpGet("{id}")]
     public async Task<ActionResult<PackageDetailDTO>> GetById(int id)
     {
-        var package = await _context.Packages
+        var package = await context.Packages
             .AsNoTracking()
+            .Include(p => p.Ratings)
             .Include(p => p.Hotel)
             .ThenInclude(h => h.Amenities)
             .Include(p => p.Media)
@@ -104,12 +100,6 @@ public class PackagesController : ControllerBase
         var packageDetailDto = PackageDetailDTO.FromModel(package);
         
         foreach (var mediaDto in packageDetailDto.Images)
-        {
-            if (mediaDto.Path == null || string.IsNullOrWhiteSpace(mediaDto.Path)) continue;
-            mediaDto.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{mediaDto.Path}";
-        }
-        
-        foreach (var mediaDto in packageDetailDto.Videos)
         {
             if (mediaDto.Path == null || string.IsNullOrWhiteSpace(mediaDto.Path)) continue;
             mediaDto.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{mediaDto.Path}";
