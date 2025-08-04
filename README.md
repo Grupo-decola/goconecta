@@ -2,7 +2,7 @@
 
 **GoConecta** é uma aplicação web fullstack desenvolvida para facilitar a busca, reserva e gerenciamento de pacotes de viagens, oferecendo uma experiência moderna, intuitiva e responsiva para clientes e administradores.
 
-🔧 Projeto final da trilha **DecolaTech VI - Avanade 2025**, com foco em boas práticas de desenvolvimento, segurança, performance e usabilidade.
+🔧 Projeto final da trilha **DecolaTech 6 - Avanade 2025**, com foco em boas práticas de desenvolvimento, segurança, performance e usabilidade.
 
 ---
 
