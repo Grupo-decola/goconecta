@@ -184,7 +184,21 @@ public class MvcPackagesController : Controller
             _context.Packages.Remove(package);
         }
 
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException)
+        {
+            ModelState.AddModelError(string.Empty, "Não foi possível excluir o pacote. Ele pode estar associado a outras entidades.");
+            return View(package);
+        }
+        catch (Exception e)
+        {
+            ModelState.AddModelError(string.Empty, "Erro ao excluir o pacote: " + e.Message);
+            return View(package);
+        }
+
         return RedirectToAction(nameof(Index));
     }
 

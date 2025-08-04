@@ -194,7 +194,20 @@ public class MvcHotelsController : Controller
             _context.Hotels.Remove(hotel);
         }
 
-        await _context.SaveChangesAsync();
+        try
+        {
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateException)
+        {
+            ModelState.AddModelError(string.Empty, "Não foi possível excluir o hotel. Ele pode estar associado a outras entidades.");
+            return View(hotel);
+        }
+        catch (Exception e)
+        {
+            ModelState.AddModelError(string.Empty, "Erro ao excluir o pacote: " + e.Message);
+            return View(hotel);
+        }
         return RedirectToAction(nameof(Index));
     }
 

@@ -13,6 +13,13 @@
                     <span>Excluir Hotel</span>
                 </div>
                 <div class="card-body">
+                    @* Show validation errors if any *@
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                        </div>
+                    }
                     <h5 class="text-danger mb-4"><i class="bi bi-exclamation-triangle me-2" aria-hidden="true"></i>Tem certeza que deseja excluir este hotel?</h5>
                     <dl class="row mb-0">
                         <dt class="col-sm-4"><i class="bi bi-type me-1 text-secondary" aria-hidden="true"></i>Nome</dt>
