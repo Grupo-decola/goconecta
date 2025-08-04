@@ -1,0 +1,121 @@
+import React from "react";
+import { Card, Text, Stack, Badge, Group, Button } from "@mantine/core";
+import {
+  IconCheck,
+  IconClock,
+  IconCalendar,
+  IconMapPin,
+  IconStar,
+} from "@tabler/icons-react";
+
+/**
+ * Componente de apresentação de uma reserva individual.
+ * @param {object} props
+ * @param {object} props.reserva - Objeto da reserva
+ * @param {string} props.status - Status calculado (confirmed, pending, conclude)
+ * @param {function} props.onAvaliar - Função chamada ao clicar em "Avaliar pacote"
+ */
+function ReservaCard({ reserva, status, onAvaliar }) {
+  // Feedback visual baseado no status
+  let badgeProps = {
+    color: "gray",
+    leftSection: null,
+    children: "Desconhecido",
+  };
+  let cardBorder = undefined;
+  let cardBg = undefined;
+  switch (status) {
+    case "confirmed":
+      badgeProps = {
+        color: "green",
+        leftSection: <IconCheck size={12} />,
+        children: "Confirmada",
+      };
+      cardBorder = "2px solid #51cf66";
+      cardBg = "#f0fff4";
+      break;
+    case "pending":
+      badgeProps = {
+        color: "orange",
+        leftSection: <IconClock size={12} />,
+        children: "Pendente",
+      };
+      cardBorder = "2px solid #fab005";
+      cardBg = "#fff9f0";
+      break;
+    case "conclude":
+      badgeProps = {
+        color: "blue",
+        leftSection: <IconCheck size={12} />,
+        children: "Concluída",
+      };
+      cardBorder = "2px solid #228be6";
+      cardBg = "#f0f4ff";
+      break;
+    default:
+      badgeProps = { color: "gray", leftSection: null, children: status };
+      cardBorder = undefined;
+      cardBg = undefined;
+  }
+
+  return (
+    <Card
+      key={reserva.id}
+      shadow="md"
+      padding="md"
+      radius="md"
+      withBorder
+      style={{
+        transition: "transform 0.2s",
+        cursor: "pointer",
+        border: cardBorder,
+        background: cardBg,
+      }}
+      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.01)")}
+      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+    >
+      {/* Imagem do pacote pode ser adicionada aqui se necessário */}
+      <Stack spacing="xs" mt="sm">
+        <Group position="apart" mb="xs" wrap="wrap">
+          <Text fw={600} size="lg">
+            {reserva.package.title}
+          </Text>
+          <Badge {...badgeProps} />
+        </Group>
+        <Text size="sm" color="dimmed">
+          Número da reserva: <strong>{reserva.reservationNumber}</strong>
+        </Text>
+        <Group spacing="xs">
+          <IconMapPin size={16} />
+          <Text size="sm">Destino: {reserva.package.destination}</Text>
+        </Group>
+        <Text size="sm">Hotel: {reserva.package.hotel?.name}</Text>
+        <Group spacing="xs">
+          <IconCalendar size={16} />
+          <Text size="sm">
+            Data da reserva:{" "}
+            {new Date(reserva.reservationDate).toLocaleDateString("pt-BR")}
+          </Text>
+        </Group>
+        <Text size="sm">
+          Preço (Adulto): R$ {reserva.package.priceAdults.toFixed(2)}
+        </Text>
+        <Group position="right" mt="xs">
+          {status === "conclude" ? (
+            <Button
+              leftSection={<IconStar size={16} />}
+              color="yellow"
+              S
+              variant="light"
+              onClick={() => onAvaliar(reserva.package.id)}
+            >
+              Avaliar pacote
+            </Button>
+          ) : null}
+        </Group>
+      </Stack>
+    </Card>
+  );
+}
+
+export default ReservaCard;

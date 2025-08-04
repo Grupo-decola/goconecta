@@ -1,31 +1,21 @@
 import React, { useEffect, useState } from "react";
 import {
-  Card,
   Text,
   Stack,
-  Badge,
-  Group,
   Container,
   Loader,
   Center,
   Paper,
   Button,
   Image,
-  Modal,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import {
-  IconCheck,
-  IconClock,
-  IconCalendar,
-  IconMapPin,
-  IconStar,
-} from "@tabler/icons-react";
 
 import { getReservationsByUserId } from "../../services/ReservationService";
 import noReservation from "../../assets/img/undraw_travelers_kud9.svg";
-import ReviewCreate from "../../Components/ReviewCreate/ReviewCreate";
 import { createRating } from "../../services/RatingService";
+import ReservaCard from "./ReservaCard";
+import ModalAvaliacao from "./ModalAvaliacao";
 
 function MinhasReservas() {
   const [reservas, setReservas] = useState([]);
@@ -37,14 +27,73 @@ function MinhasReservas() {
   useEffect(() => {
     getReservationsByUserId()
       .then((data) => {
-        console.log("Reservas carregadas:", data);
-        setReservas(data);
+        const ordenadas = ordenarReservas(data);
+        setReservas(ordenadas);
+        // console.log(ordenadas);
       })
       .catch((error) => {
-        console.error("Erro ao buscar reservas:", error);
+        // Pode-se adicionar um toast de erro aqui
+        // console.error("Erro ao buscar reservas:", error);
       })
       .finally(() => setCarregando(false));
   }, []);
+
+  const handleAvaliar = (packageId) => {
+    setSelectedPackageId(packageId);
+    setModalOpen(true);
+  };
+
+  const handleSubmitAvaliacao = async (values) => {
+    try {
+      await createRating(selectedPackageId, {
+        rating: values.rating,
+        comment: values.comment,
+      });
+      // Sucesso: pode exibir um toast
+    } catch (error) {
+      // Erro: pode exibir um toast
+    } finally {
+      setModalOpen(false);
+    }
+  };
+  // Função para determinar status calculado (conclude)
+  function getStatusReserva(reserva) {
+    const statusApi = reserva.status?.toLowerCase();
+    const dataReserva = new Date(reserva.reservationDate);
+    const duracao = Number(reserva.package?.durationDays) || 0;
+    const dataFim = new Date(dataReserva);
+    dataFim.setDate(dataFim.getDate() + duracao);
+    const agora = new Date();
+
+    if (statusApi === "confirmed") {
+      // Se a data de fim já passou, vira concluída
+      if (agora > dataFim) {
+        return "conclude";
+      }
+      return "confirmed";
+    }
+    if (statusApi === "pending") {
+      return "pending";
+    }
+    // Se não for confirmada ou pendente, mas já passou do fim, considera concluída
+    if (agora > dataFim) {
+      return "conclude";
+    }
+    // Se não for concluída e não tiver status conhecido, mantém o original
+    return statusApi || "unknown";
+  }
+
+  // Função para ordenar reservas por status: confirmed > pending > conclude > outros
+  function ordenarReservas(reservas) {
+    const statusOrder = { confirmed: 0, pending: 2, conclude: 1 };
+    return [...reservas].sort((a, b) => {
+      const statusA = getStatusReserva(a);
+      const statusB = getStatusReserva(b);
+      const orderA = statusOrder[statusA] ?? 99;
+      const orderB = statusOrder[statusB] ?? 99;
+      return orderA - orderB;
+    });
+  }
 
   if (carregando) {
     return (
@@ -61,31 +110,12 @@ function MinhasReservas() {
         Minhas Reservas
       </Text>
 
-      <Modal
+      <ModalAvaliacao
         opened={modalOpen}
         onClose={() => setModalOpen(false)}
-        title="Avaliar pacote"
-        centered
-        size="lg"
-      >
-        {selectedPackageId && (
-          <ReviewCreate
-            onSubmit={async (values) => {
-              try {
-                await createRating(selectedPackageId, {
-                  rating: values.rating,
-                  comment: values.comment,
-                });
-                // Aqui você pode exibir um toast/sucesso se desejar
-              } catch (error) {
-                // Aqui você pode exibir um toast/erro se desejar
-              } finally {
-                setModalOpen(false);
-              }
-            }}
-          />
-        )}
-      </Modal>
+        packageId={selectedPackageId}
+        onSubmit={handleSubmitAvaliacao}
+      />
 
       {reservas.length === 0 ? (
         <Center mih="60vh">
@@ -129,87 +159,18 @@ function MinhasReservas() {
         </Center>
       ) : (
         <Stack spacing="md">
-          {reservas.map((reserva) => (
-            <Card
-              key={reserva.id}
-              shadow="md"
-              padding="md"
-              radius="md"
-              withBorder
-              style={{
-                transition: "transform 0.2s",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.01)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            >
-              {/* IMAGEM REMOVIDA AQUI */}
-
-              <Stack spacing="xs" mt="sm">
-                <Group position="apart" mb="xs" wrap="wrap">
-                  <Text fw={600} size="lg">
-                    {reserva.package.title}
-                  </Text>
-                  <Badge
-                    color={reserva.status === "Confirmada" ? "green" : "orange"}
-                    leftSection={
-                      reserva.status === "Confirmada" ? (
-                        <IconCheck size={12} />
-                      ) : (
-                        <IconClock size={12} />
-                      )
-                    }
-                  >
-                    {reserva.status}
-                  </Badge>
-                </Group>
-
-                <Text size="sm" color="dimmed">
-                  Número da reserva:{" "}
-                  <strong>{reserva.reservationNumber}</strong>
-                </Text>
-
-                <Group spacing="xs">
-                  <IconMapPin size={16} />
-                  <Text size="sm">Destino: {reserva.package.destination}</Text>
-                </Group>
-
-                <Text size="sm">Hotel: {reserva.package.hotel?.name}</Text>
-
-                <Group spacing="xs">
-                  <IconCalendar size={16} />
-                  <Text size="sm">
-                    Data da reserva:{" "}
-                    {new Date(reserva.reservationDate).toLocaleDateString(
-                      "pt-BR"
-                    )}
-                  </Text>
-                </Group>
-
-                <Text size="sm">
-                  Preço (Adulto): R$ {reserva.package.priceAdults.toFixed(2)}
-                </Text>
-
-                <Group position="right" mt="xs">
-                  <Button
-                    leftSection={<IconStar size={16} />}
-                    color="yellow"
-                    variant="light"
-                    onClick={() => {
-                      setSelectedPackageId(reserva.package.id);
-                      setModalOpen(true);
-                    }}
-                  >
-                    Avaliar pacote
-                  </Button>
-                </Group>
-              </Stack>
-            </Card>
-          ))}
+          {reservas.map((reserva) => {
+            const status = getStatusReserva(reserva);
+            console.log(`Reserva #${reserva.reservationNumber} status:`, status);
+            return (
+              <ReservaCard
+                key={reserva.id}
+                reserva={reserva}
+                status={status}
+                onAvaliar={handleAvaliar}
+              />
+            );
+          })}
         </Stack>
       )}
     </Container>
