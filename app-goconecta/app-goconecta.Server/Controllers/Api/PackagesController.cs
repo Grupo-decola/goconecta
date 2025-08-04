@@ -111,6 +111,7 @@ public class PackagesController(AppDbContext context) : ControllerBase
         => Ok(
             (await context.Ratings
                 .Include(r => r.User)
+                .Where(r => r.PackageId == id)
                 .ToListAsync())
             .Select(RatingDTO.FromModel)
             .ToList()
