@@ -4,19 +4,21 @@ namespace app_goconecta.Server.DTOs.Package;
 
 public class RatingDTO
 {
-    public UserDTO User { get; set; } = null!;
+    public int Id { get; set; }
+    public string UserName { get; set; } = string.Empty;
+    public string Comment { get; set; } = string.Empty;
+    public int Rating { get; set; }
     public DateTime CreatedAt { get; set; }
-    public int Stars { get; set; }
-    public string? Comment { get; set; }
     
     public static RatingDTO FromModel(Rating rating)
     {
         return new RatingDTO
         {
-            User = UserDTO.FromModel(rating.User!),
-            CreatedAt = rating.CreatedAt,
-            Stars = rating.Stars,
-            Comment = rating.Comment
+            Id = rating.Id,
+            UserName = rating.User!.Name,
+            Comment = rating.Comment!,
+            Rating = rating.Stars,
+            CreatedAt = rating.CreatedAt
         };
     }
 }

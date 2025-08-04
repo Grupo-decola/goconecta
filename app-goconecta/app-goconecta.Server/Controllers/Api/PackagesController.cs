@@ -1,8 +1,6 @@
 using app_goconecta.Server.Data;
-using app_goconecta.Server.DTOs;
 using app_goconecta.Server.DTOs.Package;
 using app_goconecta.Server.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +20,7 @@ public class PackagesController(AppDbContext context) : ControllerBase
         var query = context.Packages
             .Include(p => p.Ratings)
             .Include(p => p.Hotel)
-                .ThenInclude(h => h.Amenities)
+                .ThenInclude(h => h!.Amenities)
             .AsQueryable();
 
         if (!string.IsNullOrEmpty(filter.Destination))
@@ -58,11 +56,11 @@ public class PackagesController(AppDbContext context) : ControllerBase
             query = query.Where(p => p.AvailabilityStartDate <= filter.AvailabilityEndDate.Value);   
         }
         
-        if (filter.SelectedAmenityIds != null && filter.SelectedAmenityIds.Any())
+        if (filter.SelectedAmenityIds.Count != 0)
         {
             var amenityIds = filter.SelectedAmenityIds;
             query = query.Where(p =>
-                p.Hotel.Amenities.Any() &&
+                p.Hotel!.Amenities.Any() &&
                 amenityIds.All(id => p.Hotel.Amenities.Select(a => a.Id).Contains(id))
             );
         }
@@ -86,14 +84,14 @@ public class PackagesController(AppDbContext context) : ControllerBase
     }
     
 
-    [HttpGet("{id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<PackageDetailDTO>> GetById(int id)
     {
         var package = await context.Packages
             .AsNoTracking()
             .Include(p => p.Ratings)
             .Include(p => p.Hotel)
-            .ThenInclude(h => h.Amenities)
+                .ThenInclude(h => h!.Amenities)
             .Include(p => p.Media)
             .FirstOrDefaultAsync(p => p.Id == id);
         if (package == null) return NotFound();
@@ -106,6 +104,54 @@ public class PackagesController(AppDbContext context) : ControllerBase
         }
         
         return Ok(packageDetailDto);
+    }
+    
+    [HttpGet("{id:int}/ratings")]
+    public async Task<ActionResult<IReadOnlyList<RatingDTO>>> GetAll(int id)
+        => Ok(
+            (await context.Ratings
+                .Include(r => r.User)
+                .ToListAsync())
+            .Select(RatingDTO.FromModel)
+            .ToList()
+        );
+    
+    [HttpPost("{id:int}/ratings")]
+    [Authorize("RequireAuthenticated")]
+    public async Task<ActionResult<RatingDTO>> Rate(int id, RatingCreateDTO createDto)
+    {
+        if (!ModelState.IsValid) return BadRequest(ModelState);
         
+        var currentUserId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "UserId")!.Value);
+        
+        var newRating = new Rating
+        {
+            Stars = createDto.Rating!.Value,
+            Comment = createDto.Comment,
+            PackageId = id,
+            UserId = currentUserId
+        };
+        
+        await context.Ratings.AddAsync(newRating);
+        await context.SaveChangesAsync();
+        
+        await context.Entry(newRating).Reference(r => r.User).LoadAsync();
+        
+        return CreatedAtAction(nameof(GetById), RatingDTO.FromModel(newRating));
+    }
+
+    [HttpDelete("{packageId:int}/ratings/{ratingId:int}")]
+    [Authorize("RequireAuthenticated")]
+    public async Task<IActionResult> DeleteRating(int packageId, int ratingId)
+    {
+        var rating = await context.Ratings.FirstOrDefaultAsync(r => r.Id == ratingId);
+        if (rating == null) return NotFound();
+        var currentUserId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "UserId")!.Value);
+        if (currentUserId != rating.UserId) return Unauthorized("Usuário pode remover apenas suas próprias reviews.");
+        
+        context.Ratings.Remove(rating);
+        await context.SaveChangesAsync();
+        
+        return NoContent();
     }
 }
