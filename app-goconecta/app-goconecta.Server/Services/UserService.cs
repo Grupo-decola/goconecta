@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace app_goconecta.Server.Services;
 
-public class UserService(AppDbContext dbContext)
+public class UserService(AppDbContext dbContext, EmailService emailService)
 {
     public async Task<User> CreateAsync(UserCreateDTO createDto, string role)
     {
@@ -34,6 +34,12 @@ public class UserService(AppDbContext dbContext)
         
         dbContext.Users.Add(newUser);
         await dbContext.SaveChangesAsync();
+
+        await emailService.SendEmailAsync(
+            newUser, 
+            "Bem-vindo ao GoConecta!",
+            $"Olá {newUser.Name},<br/>Sua conta foi criada com sucesso!"
+        );
         
         return newUser;
     }

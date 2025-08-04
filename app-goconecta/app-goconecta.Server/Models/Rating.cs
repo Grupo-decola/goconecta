@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-
 namespace app_goconecta.Server.Models;
 
 public class Rating

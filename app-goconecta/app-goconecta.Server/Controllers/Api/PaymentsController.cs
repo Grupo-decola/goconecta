@@ -1,5 +1,6 @@
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
+using app_goconecta.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,9 @@ namespace app_goconecta.Server.Controllers.Api;
 
 [ApiController]
 [Route("api/[controller]")]
-public class PaymentsController(AppDbContext context, IConfiguration configuration, SessionService sessionService) : ControllerBase
+public class PaymentsController(AppDbContext context, IConfiguration configuration, SessionService sessionService, EmailService emailService) : ControllerBase
 {
-    private readonly string _spaProxyUrl = configuration["SpaProxy:ServerUrl"] ?? "https://localhost";
+    private readonly string _spaProxyUrl = configuration["SpaProxyServerUrl"] ?? "";
 
     [HttpPost("checkout")]
     public async Task<IActionResult> Checkout(CheckoutDTO checkoutDto)
@@ -77,10 +78,26 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
         reservation.Status = "Confirmed";
         context.Reservations.Update(reservation);
         await context.SaveChangesAsync();
+        
+        await context.Entry(reservation).Reference(r => r.Package).LoadAsync();
+        await context.Entry(reservation).Reference(r => r.User).LoadAsync();
 
-        if (!string.IsNullOrEmpty(redirectUrl) && IsValidRedirectUrl(redirectUrl))
-            return Redirect(redirectUrl);
-        return Redirect("/");
+        await emailService.SendEmailAsync(
+            reservation.User!,
+            "Sua reserva foi confirmada!",
+            $"""
+            Olá, {reservation.User!.Name}.
+            Sua reserva para o pacote {reservation.Package!.Title} foi confirmada com sucesso!
+            Confira os detalhes:
+            <ul>
+                <li> Número da reserva: {reservation.ReservationNumber} </li>
+                <li> Data da reserva: {reservation.ReservationDate:dd/MM/yyyy} </li>
+                <li> Total pago: R$ {reservation.TotalPrice:F2} </li>
+            </ul>
+            Agradecemos por escolher a GoConecta para sua viagem. Estamos ansiosos para proporcionar uma experiência incrível!
+            """);
+        
+        return !string.IsNullOrWhiteSpace(redirectUrl) && IsValidRedirectUrl(redirectUrl) ? Redirect(redirectUrl) : Redirect("/");
     }
 
     [ApiExplorerSettings(IgnoreApi = true)]
