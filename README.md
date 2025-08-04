@@ -19,7 +19,7 @@
 - Programa de fidelidade: **Passaporte GoConecta**
 - Página de ajuda com IA básica para dúvidas
 
-### 🔐 Administrador *(em desenvolvimento)*
+### 🔐 Administrador 
 - Gerenciamento de pacotes e usuários
 - Relatórios de reservas
 - Painel de controle
