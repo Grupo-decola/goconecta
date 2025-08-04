@@ -1,7 +1,15 @@
 import React from 'react';
-import './Anuncie.css'; // Optional: for external styling
+import './Anuncie.css';
+import { useNavigate } from 'react-router-dom';
+
+
 
 function AnuncieSuaPropriedade() {
+    const navigate = useNavigate();
+
+    const handleClick = () => {
+        navigate('/anuncie/cadastro');
+    };
     return (
         <div className='anuncieContainer' style={{ backgroundColor: '#fff', padding: '2rem', fontFamily: 'Arial, sans-serif', color: '#333' }}>
             <h2 style={{ color: '#DA7818' }}>🏡 Anuncie sua Propriedade e Conquiste Mais Hóspedes!</h2>
@@ -20,7 +28,7 @@ function AnuncieSuaPropriedade() {
             </ol>
 
             <p style={{ marginTop: '1rem' }}>
-                👉 <button className="btn-comunidade">Comece agora e faça parte da nossa comunidade de anfitriões!</button>
+                👉 <button className="btn-comunidade" onClick={handleClick}>Comece agora e faça parte da nossa comunidade de anfitriões!</button>
             </p>
 
         </div>
