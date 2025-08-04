@@ -1,5 +1,4 @@
 using app_goconecta.Server.DTOs;
-using app_goconecta.Server.Models;
 using app_goconecta.Server.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

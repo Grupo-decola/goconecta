@@ -1,6 +1,4 @@
-﻿using app_goconecta.Server.DTOs;
-
-namespace app_goconecta.Server.Models;
+﻿namespace app_goconecta.Server.Models;
 
 public class Reservation
 {

@@ -1,5 +1,3 @@
-using Microsoft.Extensions.FileSystemGlobbing.Internal.PatternContexts;
-
 namespace app_goconecta.Server.Models;
 
 public class Media

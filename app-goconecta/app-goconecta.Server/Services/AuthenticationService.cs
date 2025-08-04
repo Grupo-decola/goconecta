@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Text;
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
-using app_goconecta.Server.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;

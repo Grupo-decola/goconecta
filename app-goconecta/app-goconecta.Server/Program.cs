@@ -21,6 +21,13 @@ builder.Services.AddScoped<AuthenticationService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddSingleton<Stripe.Checkout.SessionService>();
 
+builder.Services.Configure<SmtpSettings>(builder.Configuration.GetSection("Smtp"));
+builder.Services.AddScoped<EmailService>(sp =>
+{
+    var smtpSettings = sp.GetRequiredService<Microsoft.Extensions.Options.IOptions<SmtpSettings>>().Value;
+    return new EmailService(smtpSettings);
+});
+
 // CORS
 builder.Services.AddCors(options =>
 {
