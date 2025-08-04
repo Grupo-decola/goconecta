@@ -1,20 +1,29 @@
-import { Stack, Text, Title, Box, Grid, Center, Loader } from "@mantine/core";
+import { Box, Grid, Stack, Text, Title, Center, Loader } from "@mantine/core";
 import ImageCarousel from "../../Components/ImageCarousel/ImageCarousel";
-import ReviewView from "../../Components/ReviewView/ReviewView";
 import Attractions from "../../Components/Attractions/Attractions";
-import MediaGallery from "../../Components/MediaGallery/MediaGallery";
+import ReviewView from "../../Components/ReviewView/ReviewView";
 import BookingForm from "../../Components/BookingForm/BookingForm";
-import { useEffect, useState } from "react";
+import UserReview from "../../Components/UserReview/UserReview";
 
 import { PackageDetailDTO } from "../../dtos/PackageDetailsDTO";
 import { useParams } from "react-router-dom";
 import { fetchPackageDetail } from "../../services/PackageService";
+import { useState, useEffect } from "react";
+import { fetchRatings } from "../../services/RatingService";
 
 export default function InfoPage() {
   const [packageDetail, setPackageDetail] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { id } = useParams(); // captura o id da URL
+  // Controle de expansão dos comentários
+  const [expandedReviews, setExpandedReviews] = useState({});
+  const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
+  const [reviewsError, setReviewsError] = useState(null);
+  const handleToggleExpand = (idx) => {
+    setExpandedReviews((prev) => ({ ...prev, [idx]: !prev[idx] }));
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -28,6 +37,25 @@ export default function InfoPage() {
       })
       .finally(() => {
         setLoading(false);
+      });
+  }, [id]);
+
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    setReviewsLoading(true);
+    setReviewsError(null);
+    fetchRatings(id)
+      .then((data) => {
+        setReviews(Array.isArray(data) ? data : []);
+      })
+      .catch((err) => {
+        setReviewsError(err);
+        setReviews([]);
+      })
+      .finally(() => {
+        setReviewsLoading(false);
       });
   }, [id]);
 
@@ -61,7 +89,29 @@ export default function InfoPage() {
             <ReviewView title={packageDetail?.title} />
             <Text>{packageDetail?.description}</Text>
             <Attractions amenities={packageDetail?.amenities} />
-            <MediaGallery />
+            {/* Reviews dos usuários */}
+            <Box mt="md">
+              {reviewsLoading ? (
+                <Text size="sm">Carregando avaliações...</Text>
+              ) : reviewsError ? (
+                <Text size="sm" color="red">
+                  Erro ao carregar avaliações.
+                </Text>
+              ) : reviews.length === 0 ? (
+                <Text size="sm" color="dimmed">
+                  Nenhuma avaliação para este pacote ainda.
+                </Text>
+              ) : (
+                reviews.map((review, idx) => (
+                  <UserReview
+                    key={idx}
+                    {...review}
+                    expanded={!!expandedReviews[idx]}
+                    onToggleExpand={() => handleToggleExpand(idx)}
+                  />
+                ))
+              )}
+            </Box>
           </Stack>
         </Grid.Col>
 
