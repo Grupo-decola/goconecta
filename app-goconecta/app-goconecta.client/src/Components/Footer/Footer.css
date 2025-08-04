@@ -1,15 +1,27 @@
+/* Telefone de televendas destacado no footer */
+.footer-phone .phone {
+  background: #DA7818;
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 16px;
+  font-weight: bold;
+  display: inline-block;
+  margin: 0 auto;
+  font-size: 1.05em;
+}
 /* FOOTER BONITO E RESPONSIVO */
 .footer {
-  background-color: #fdf3e7;
+  background: #fff;
   padding: 2rem 2rem;
   margin-top: 2rem;
-  font-size: 0.9rem;
-  color: #213547;
-
+  font-size: 0.95rem;
+  color: #182348;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 2rem;
+  box-shadow: 0 2px 16px 0 rgba(26,35,72,0.06);
+  border-top: 1px solid #ececec;
 }
 
 .footer a {
@@ -40,7 +52,6 @@
     text-align: center;
     align-items: center;
   }
-
   .footer-coluna {
     margin-bottom: 1.5rem;
   }

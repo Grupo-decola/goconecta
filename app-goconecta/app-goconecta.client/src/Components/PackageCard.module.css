@@ -1,0 +1,98 @@
+.btnVerDetalhes {
+  background: linear-gradient(90deg, #DA7818 60%, #182348 100%);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px 0 rgba(218,120,24,0.10);
+  padding: 0 22px;
+  min-width: 120px;
+  transition: background 0.18s, box-shadow 0.18s, transform 0.13s;
+}
+.btnVerDetalhes:hover, .btnVerDetalhes:focus {
+  background: linear-gradient(90deg, #182348 60%, #DA7818 100%);
+  color: #fff;
+  box-shadow: 0 4px 16px 0 rgba(218,120,24,0.18);
+  transform: translateY(-2px) scale(1.04);
+}
+.btnVerDetalhes:active {
+  background: #DA7818;
+  color: #fff;
+  box-shadow: 0 2px 8px 0 rgba(218,120,24,0.10);
+  transform: scale(0.98);
+}
+.badgeDestaque {
+  animation: destaquePulse 1.2s infinite alternate;
+  box-shadow: 0 0 0 0 rgba(218,120,24,0.18);
+  transition: box-shadow 0.2s;
+}
+
+@keyframes destaquePulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(218,120,24,0.18);
+  }
+  100% {
+    box-shadow: 0 0 12px 6px rgba(218,120,24,0.22);
+  }
+}
+.cardHotel {
+  border: none;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 2px 10px 0 rgba(26,35,72,0.08), 0 1px 3px 0 rgba(218,120,24,0.06);
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s, border-width 0.2s;
+  overflow: hidden;
+  max-width: 340px;
+  min-width: 0;
+  width: 100%;
+  padding: 12px 10px 10px 10px;
+}
+.cardHotel:hover,
+.cardHotel:focus-within {
+  background: #fff7f0;
+  box-shadow: 0 12px 40px 0 rgba(218,120,24,0.22), 0 4px 16px 0 rgba(26,35,72,0.13);
+  transform: scale(1.025);
+}
+
+.cardHotel:active {
+  background: #fff3e0;
+  box-shadow: 0 16px 48px 0 rgba(218,120,24,0.28), 0 6px 20px 0 rgba(26,35,72,0.16);
+  transform: scale(1.04);
+}
+.cardHotel .mantine-Image-root img {
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  height: 120px !important;
+  object-fit: cover;
+}
+
+@media (max-width: 700px) {
+  .cardHotel {
+    border-radius: 10px;
+    padding: 8px 4px 8px 4px;
+    box-shadow: 0 1px 4px 0 rgba(26,35,72,0.07), 0 0.5px 2px 0 rgba(218,120,24,0.04);
+    min-width: 0;
+    max-width: 98vw;
+    margin: 6px 0;
+  }
+  .cardHotel .mantine-Image-root img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 90px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .cardHotel {
+    border-radius: 6px;
+    padding: 4px 1px 6px 1px;
+    box-shadow: 0 1px 2px 0 rgba(26,35,72,0.06), 0 0.5px 1px 0 rgba(218,120,24,0.03);
+    margin: 2px 0;
+    max-width: 99vw;
+  }
+  .cardHotel .mantine-Image-root img {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    height: 60px !important;
+  }
+}
