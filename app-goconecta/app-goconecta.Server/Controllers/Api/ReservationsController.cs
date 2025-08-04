@@ -10,30 +10,24 @@ namespace app_goconecta.Server.Controllers.Api;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ReservationsController : ControllerBase
+public class ReservationsController(AppDbContext context) : ControllerBase
 {
-    private readonly AppDbContext _context;
-
-    public ReservationsController(AppDbContext context)
-    {
-        _context = context;
-    }
-    
     [HttpGet]
     [AllowAnonymous]
     public async Task<ActionResult<IReadOnlyList<ReservationDTO>>> GetAll()
     {
-        return (await _context.Reservations.
-            Include(r => r.Package).
-            ThenInclude(p =>p.Hotel).
-            ToListAsync()).Select(ReservationDTO.FromModel).ToList();
+        return (await context.Reservations.
+            Include(r => r.Package)
+            .ThenInclude(p => p.Hotel)
+            . ToListAsync()).Select(ReservationDTO.FromModel).ToList();
     }
 
-    [HttpGet("{id}", Name = "GetReservationById")]
+    [HttpGet("{id:int}", Name = "GetReservationById")]
     [AllowAnonymous]
     public async Task<ActionResult<ReservationDTO>> GetById(int id)
     {
-        var reservation = await _context.Reservations
+        var reservation = await context.Reservations
+            .Include(r => r.Guests)
             .Include(r => r.Package)
             .ThenInclude(p => p.Hotel)
             .FirstOrDefaultAsync(x => x.Id == id);
@@ -50,7 +44,7 @@ public class ReservationsController : ControllerBase
     {
         var userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == "UserId")!.Value);
         
-        if ((await _context.Packages.FirstOrDefaultAsync(p => p.Id == createDto.PackageId)) == null)
+        if ((await context.Packages.FirstOrDefaultAsync(p => p.Id == createDto.PackageId)) == null)
         {
             return BadRequest("Package not found.");
         }
@@ -70,11 +64,11 @@ public class ReservationsController : ControllerBase
             Guests = createDto.Guests
         };
 
-        _context.Reservations.Add(reservation);
-        await _context.SaveChangesAsync();
+        context.Reservations.Add(reservation);
+        await context.SaveChangesAsync();
         
-        await _context.Entry(reservation).Reference(r => r.Package).LoadAsync();
-        await _context.Entry(reservation.Package).Reference(p => p.Hotel).LoadAsync();
+        await context.Entry(reservation).Reference(r => r.Package).LoadAsync();
+        await context.Entry(reservation.Package).Reference(p => p.Hotel).LoadAsync();
         
         return CreatedAtRoute("GetReservationById", new { id = reservation.Id }, ReservationDTO.FromModel(reservation));
     }

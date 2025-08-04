@@ -20,6 +20,6 @@ public class Reservation
     public Package? Package { get; set; }
 
     public int NumberOfAdults => Guests.Count(g => g.IsAdult);
-    public int NumberOfChildren => Guests.Count(g => !g.IsAdult);
+    public int NumberOfChildren => Guests.Count(g => g.IsAdult);
     public decimal TotalPrice => Package == null ? 0 : (NumberOfAdults * Package.PriceAdults) + (NumberOfChildren * Package.PriceChildren);
 }
