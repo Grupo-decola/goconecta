@@ -10,10 +10,14 @@ export const createRating = async (packageId, data) => {
   if (!packageId) {
     throw new Error("packageId é obrigatório");
   }
-  if (!data?.stars || !data?.comment) {
+  if (!data?.rating || !data?.comment) {
     throw new Error("Dados de avaliação incompletos");
   }
   try {
+    console.log("Enviando review:", {
+      endpoint: `packages/${packageId}/ratings`,
+      payload: data,
+    });
     const response = await api.post(`packages/${packageId}/ratings`, data);
     return response.data;
   } catch (error) {

@@ -32,7 +32,7 @@ import { useMemo } from "react";
 export default function UserReview({
   userName,
   comment,
-  stars,
+  rating,
   createdAt,
   expanded = false,
   onToggleExpand,
@@ -85,7 +85,7 @@ export default function UserReview({
           </Text>
           <Group spacing={8} align="center" wrap="nowrap">
             <Rating
-              value={stars}
+              value={rating}
               readOnly
               size={isMobile ? "md" : "lg"}
               count={5}

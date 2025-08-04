@@ -73,7 +73,7 @@ function MinhasReservas() {
             onSubmit={async (values) => {
               try {
                 await createRating(selectedPackageId, {
-                  stars: values.rating,
+                  rating: values.rating,
                   comment: values.comment,
                 });
                 // Aqui você pode exibir um toast/sucesso se desejar

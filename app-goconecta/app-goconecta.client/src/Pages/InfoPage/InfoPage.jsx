@@ -86,7 +86,11 @@ export default function InfoPage() {
             <Text c="gray-medium.4" size="xs">
               {packageDetail?.destination}
             </Text>
-            <ReviewView title={packageDetail?.title} />
+            {(() => {
+              return (
+                <ReviewView title={packageDetail?.title} ratingData={packageDetail?.ratingData} />
+              );
+            })()}
             <Text>{packageDetail?.description}</Text>
             <Attractions amenities={packageDetail?.amenities} />
             {/* Reviews dos usuários */}
