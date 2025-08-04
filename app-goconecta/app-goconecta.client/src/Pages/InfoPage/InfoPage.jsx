@@ -88,11 +88,14 @@ export default function InfoPage() {
             </Text>
             {(() => {
               return (
-                <ReviewView title={packageDetail?.title} ratingData={packageDetail?.ratingData} />
+                <ReviewView
+                  title={packageDetail?.title}
+                  ratingData={packageDetail?.ratingData}
+                />
               );
             })()}
             <Text>{packageDetail?.description}</Text>
-            <Attractions amenities={packageDetail?.amenities} />
+            <Attractions amenities={packageDetail.amenities} />
             {/* Reviews dos usuários */}
             <Box mt="md">
               {reviewsLoading ? (
