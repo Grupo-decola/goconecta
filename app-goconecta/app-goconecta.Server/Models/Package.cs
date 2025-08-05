@@ -47,12 +47,19 @@ public class Package
     public int HotelId { get; set; }
     
     public Hotel? Hotel { get; set; }
+    
     public ICollection<Media> Media { get; set; } = new List<Media>();
     public ICollection<Reservation> Reservations { get; set; } = new List<Reservation>();
     public ICollection<Rating> Ratings { get; set; } = new List<Rating>();
-    public int TotalRatings => Ratings.Count;
-    public double AverageRating => TotalRatings > 0 ? Math.Round(Ratings.Average(r => r.Stars), 2) : 0;
-    public Dictionary<int, int> RatingDistribution => Ratings.GroupBy(x => x.Stars)
-        .OrderBy(g => g.Key)
-        .ToDictionary(g => g.Key, g => (int) Math.Round((double) g.Count() / TotalRatings * 100));
+    
+    public int TotalRatings()
+        => Ratings.Count;
+    
+    public double AverageRating()
+        => TotalRatings() > 0 ? Math.Round(Ratings.Average(r => r.Stars), 2) : 0;
+    
+    public Dictionary<int, int> RatingDistribution()
+        => Ratings.GroupBy(x => x.Stars)
+            .OrderBy(g => g.Key)
+            .ToDictionary(g => g.Key, g => (int) Math.Round((double) g.Count() / TotalRatings() * 100));
 }

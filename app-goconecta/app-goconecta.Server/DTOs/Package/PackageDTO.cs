@@ -32,7 +32,7 @@ public class PackageDTO
             AvailabilityEndDate = package.AvailabilityEndDate,
             Hotel = HotelDTO.FromModel(package.Hotel!),
             Image = package.Media.Where(p=> p.Type=="Image") .Select(MediaDTO.FromModel).FirstOrDefault(),
-            AverageRating = package.AverageRating
+            AverageRating = package.AverageRating()
         };
     }
 }

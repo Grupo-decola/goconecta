@@ -70,35 +70,36 @@
                             </div>
                         </div>
                         <!-- Bloco de imagens anexadas, fora do form principal -->
-                        <div class="mb-4">
-                            <label class="form-label">Imagens anexadas</label>
-                            <div class="row g-3">
-                                @if (Model.Media != null && Model.Media.Any())
-                                {
-                                    foreach (var image in Model.Media)
-                                    {
-                                        <div class="col-6 col-md-4 col-lg-3">
-                                            <div class="card h-100 shadow-sm position-relative">
-                                                <img src="@Url.Content(image.Path.StartsWith("~") || image.Path.StartsWith("/") ? image.Path : "~/" + image.Path)" class="card-img-top" alt="@image.Title" style="object-fit:cover; height:160px;" />
-                                                <div class="card-body p-2">
-                                                    <span class="small text-truncate" title="@image.Title">@image.Title</span>
-                                                </div>
-                                                <!-- Botão de remover imagem, usando atributo form -->
-                                                <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" aria-label="Remover imagem" form="remove-image-@image.Id">
-                                                    <i class="bi bi-trash" aria-hidden="true"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="col-12">
-                                        <span class="text-muted">Nenhuma imagem anexada.</span>
-                                    </div>
-                                }
-                            </div>
-                        </div>
+                        @* <div class="mb-4"> *@
+                        @*     <label class="form-label">Imagens anexadas</label> *@
+                        @*     <div class="row g-3"> *@
+                        @*         @if (Model.Media.Any()) *@
+                        @*         { *@
+                        @*             foreach (var image in Model.Media) *@
+                        @*             { *@
+                        @*                 <div class="col-6 col-md-4 col-lg-3"> *@
+                        @*                     <div class="card h-100 shadow-sm position-relative"> *@
+                        @*                         <img src="@Url.Content(image.Path != null && (image.Path.StartsWith("~") || image.Path.StartsWith("/")) ? image.Path : "~/" + image.Path)" class="card-img-top" alt="@image.Title" style="object-fit:cover; height:160px;" /> *@
+                        @*                         <div class="card-body p-2"> *@
+                        @*                             <span class="small text-truncate" title="@image.Title">@image.Title</span> *@
+                        @*                         </div> *@
+                        @*                         <form asp-action="DeleteMedia" asp-route-packageId="@Model.Package.Id" asp-route-imageId="@image.Id" method="post"> *@
+                        @*                             <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" aria-label="Remover imagem" form="remove-image-@image.Id"> *@
+                        @*                                 <i class="bi bi-trash" aria-hidden="true"></i> *@
+                        @*                             </button> *@
+                        @*                         </form> *@
+                        @*                     </div> *@
+                        @*                 </div> *@
+                        @*             } *@
+                        @*         } *@
+                        @*         else *@
+                        @*         { *@
+                        @*             <div class="col-12"> *@
+                        @*                 <span class="text-muted">Nenhuma imagem anexada.</span> *@
+                        @*             </div> *@
+                        @*         } *@
+                        @*     </div> *@
+                        @* </div> *@
                         <!-- Upload de nova imagem -->
                         <div class="mb-4">
                             <label class="form-label">Adicionar nova imagem</label>
