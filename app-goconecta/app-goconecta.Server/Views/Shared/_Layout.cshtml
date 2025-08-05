@@ -25,12 +25,12 @@
             </button>
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Hotels" ? "active fw-bold" : "")" asp-controller="MvcHotels" asp-action="Index"><i class="bi bi-building"></i> Hotels</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Packages" ? "active fw-bold" : "")" asp-controller="MvcPackages" asp-action="Index"><i class="bi bi-box-seam"></i> Packages</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reservations" ? "active fw-bold" : "")" asp-controller="MvcReservations" asp-action="Index"><i class="bi bi-calendar-check"></i> Reservations</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active fw-bold" : "")" asp-controller="MvcUsers" asp-action="Index"><i class="bi bi-people"></i> Users</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Amenities" ? "active fw-bold" : "")" asp-controller="MvcAmenities" asp-action="Index"><i class="bi bi-stars"></i> Amenities</a> </li>
-                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Ratings" ? "active fw-bold" : "")" asp-controller="MvcRatings" asp-action="Index"><i class="bi bi-star-fill"></i> Ratings</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Hotels" ? "active fw-bold" : "")" asp-controller="MvcHotels" asp-action="Index"><i class="bi bi-building"></i> Hotéis</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Packages" ? "active fw-bold" : "")" asp-controller="MvcPackages" asp-action="Index"><i class="bi bi-box-seam"></i> Pacotes</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Reservations" ? "active fw-bold" : "")" asp-controller="MvcReservations" asp-action="Index"><i class="bi bi-calendar-check"></i> Reservas</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Users" ? "active fw-bold" : "")" asp-controller="MvcUsers" asp-action="Index"><i class="bi bi-people"></i> Usuários</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Amenities" ? "active fw-bold" : "")" asp-controller="MvcAmenities" asp-action="Index"><i class="bi bi-stars"></i> Amenidades</a> </li>
+                    <li class="nav-item"> <a class="nav-link text-dark @(ViewContext.RouteData.Values["controller"]?.ToString() == "Ratings" ? "active fw-bold" : "")" asp-controller="MvcRatings" asp-action="Index"><i class="bi bi-star-fill"></i> Avaliações</a> </li>
                 </ul>
             </div>
         </div>
@@ -59,7 +59,7 @@
     <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center">
         <span>&copy; 2025 - GoConecta</span>
         <a asp-controller="MvcHome" asp-action="Privacy" class="text-decoration-none text-muted ms-md-3">
-            <i class="bi bi-shield-lock" aria-hidden="true"></i> Privacy
+            <i class="bi bi-shield-lock" aria-hidden="true"></i> Privacidade
         </a>
     </div>
 </footer>

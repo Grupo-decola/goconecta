@@ -16,37 +16,37 @@
                     <form asp-action="Create" novalidate>
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         <div class="mb-3">
-                            <label asp-for="Name" class="form-label"></label>
+                            <label asp-for="Name" class="form-label">Nome</label>
                             <input asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Description" class="form-label"></label>
+                            <label asp-for="Description" class="form-label">Descrição</label>
                             <input asp-for="Description" class="form-control" />
                             <span asp-validation-for="Description" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Rating" class="form-label"></label>
+                            <label asp-for="Rating" class="form-label">Avaliação</label>
                             <input asp-for="Rating" class="form-control" />
                             <span asp-validation-for="Rating" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="RoomsAvailable" class="form-label"></label>
+                            <label asp-for="RoomsAvailable" class="form-label">Quartos Disponíveis</label>
                             <input asp-for="RoomsAvailable" class="form-control" />
                             <span asp-validation-for="RoomsAvailable" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Region" class="form-label"></label>
+                            <label asp-for="Region" class="form-label">Região</label>
                             <input asp-for="Region" class="form-control" />
                             <span asp-validation-for="Region" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Address" class="form-label"></label>
+                            <label asp-for="Address" class="form-label">Endereço</label>
                             <input asp-for="Address" class="form-control" />
                             <span asp-validation-for="Address" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label>Amenities</label>
+                            <label>Amenidades</label>
                             @foreach (var amenity in Model.Amenities)
                             {
                                 <div class="form-check">
