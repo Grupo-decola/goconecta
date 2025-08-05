@@ -110,7 +110,7 @@ function ReservaCard({ reserva, onAvaliar }) {
           Preço (Adulto): R$ {reserva.package.priceAdults.toFixed(2)}
         </Text>
         <Group position="right" mt="xs">
-          {status === "conclude" ? (
+          {reserva.status === "Completed" ? (
             <Button
               leftSection={<IconStar size={16} />}
               color="yellow"
