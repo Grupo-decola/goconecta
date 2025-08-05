@@ -13,7 +13,7 @@
                     <span>Novo Hotel</span>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Create" novalidate>
+                    <form asp-action="Create" enctype="multipart/form-data" novalidate>
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         <div class="mb-3">
                             <label asp-for="Name" class="form-label"></label>
@@ -44,6 +44,21 @@
                             <label asp-for="Address" class="form-label"></label>
                             <input asp-for="Address" class="form-control" />
                             <span asp-validation-for="Address" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Media[0].File" class="form-label">Imagem 1</label>
+                            <input asp-for="Media[0].File" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="Media[0].File" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Media[1].File" class="form-label">Imagem 2</label>
+                            <input asp-for="Media[1].File" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="Media[1].File" class="invalid-feedback d-block"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Media[2].File" class="form-label">Imagem 3</label>
+                            <input asp-for="Media[2].File" class="form-control" type="file" accept="image/*" />
+                            <span asp-validation-for="Media[2].File" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
                             <label>Amenities</label>

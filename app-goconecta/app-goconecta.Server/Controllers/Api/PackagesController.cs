@@ -80,7 +80,7 @@ public class PackagesController(AppDbContext context) : ControllerBase
             packageDto.Image!.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{packageDto.Image.Path!}";
         }
 
-        return packageDtos;
+        return Ok(packageDtos);
     }
     
 
@@ -94,7 +94,10 @@ public class PackagesController(AppDbContext context) : ControllerBase
                 .ThenInclude(h => h!.Amenities)
             .Include(p => p.Media)
             .FirstOrDefaultAsync(p => p.Id == id);
-        if (package == null) return NotFound();
+        
+        if (package == null)
+            return NotFound();
+        
         var packageDetailDto = PackageDetailDTO.FromModel(package);
         
         foreach (var mediaDto in packageDetailDto.Images)

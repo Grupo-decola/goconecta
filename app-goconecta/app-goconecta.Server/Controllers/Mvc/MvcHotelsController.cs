@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using app_goconecta.Server.Data;
+using app_goconecta.Server.Extensions;
 using app_goconecta.Server.Models;
 using app_goconecta.Server.ViewModels;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -9,43 +10,29 @@ using Microsoft.AspNetCore.Authorization;
 namespace app_goconecta.Server.Controllers.Mvc;
 
 [Authorize (Policy="RequireAdmin")]
-public class MvcHotelsController : Controller
+public class MvcHotelsController(AppDbContext context) : Controller
 {
-    private readonly AppDbContext _context;
-
-    public MvcHotelsController(AppDbContext context)
-    {
-        _context = context;
-    }
-
-    // GET: Hotels
     public async Task<IActionResult> Index()
-    {
-        return View(await _context.Hotels.ToListAsync());
-    }
+        => View(await context.Hotels.ToListAsync());
+    
 
-    // GET: Hotels/Details/5
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
-        var hotel = await _context.Hotels
+        var hotel = await context.Hotels
             .FirstOrDefaultAsync(m => m.Id == id);
+        
         if (hotel == null)
-        {
             return NotFound();
-        }
 
         return View(hotel);
     }
 
-    // GET: Hotels/Create
     public async Task<IActionResult> Create()
     {
-        var amenities = await _context.Amenities.ToListAsync();
+        var amenities = await context.Amenities.ToListAsync();
         var viewModel = new HotelEditViewModel
         {
             Amenities = amenities.Select(a => new AmenityCheckboxItem
@@ -58,15 +45,15 @@ public class MvcHotelsController : Controller
         return View(viewModel);
     }
 
-    // POST: Hotels/Create
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(HotelEditViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+                throw new Exception("Dados do formulário inválidos.");
+            
             var hotel = new Hotel
             {
                 Name = viewModel.Name,
@@ -75,36 +62,59 @@ public class MvcHotelsController : Controller
                 RoomsAvailable = viewModel.RoomsAvailable,
                 Region = viewModel.Region,
                 Address = viewModel.Address,
-                Amenities = await _context.Amenities.Where(a => viewModel.SelectedAmenityIds.Contains(a.Id)).ToListAsync()
+                Amenities = await context.Amenities.Where(a => viewModel.SelectedAmenityIds.Contains(a.Id)).ToListAsync(),
+                Media = viewModel.Media.Where(m => m.File is { Length: > 0 }).Select(async m =>
+                {
+                    var newMedia = new Media
+                    {
+                        Path =
+                            $"assets/media/{m.File.GetExtensionType()}/{Guid.NewGuid()}-{m.File.GetName()}.{m.File.GetExtension()}",
+                        Title = m.File!.Name,
+                        Type = m.File.GetExtensionType()
+                    };
+                
+                    var fullPath = $"wwwroot/{newMedia.Path}";
+                
+                    if (!Directory.Exists(Path.GetDirectoryName(fullPath)))
+                        Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+                
+                    await using var stream = new FileStream(fullPath, FileMode.Create);
+                    await m.File!.CopyToAsync(stream);
+                
+                    return newMedia;
+                }).Select(t => t.Result).ToList()
             };
-            _context.Add(hotel);
-            await _context.SaveChangesAsync();
+
+            context.Add(hotel);
+            await context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
-        // Recarregar amenities em caso de erro
-        var amenities = await _context.Amenities.ToListAsync();
-        viewModel.Amenities = amenities.Select(a => new AmenityCheckboxItem
+        catch
         {
-            Id = a.Id,
-            Name = a.Name,
-            Checked = viewModel.SelectedAmenityIds.Contains(a.Id)
-        }).ToList();
-        return View(viewModel);
+            var amenities = await context.Amenities.ToListAsync();
+            viewModel.Amenities = amenities.Select(a => new AmenityCheckboxItem
+            {
+                Id = a.Id,
+                Name = a.Name,
+                Checked = viewModel.SelectedAmenityIds.Contains(a.Id)
+            }).ToList();
+            return View(viewModel);
+        }
     }
 
-    // GET: Hotels/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
-        var hotel = await _context.Hotels.Include(h => h.Amenities).FirstOrDefaultAsync(h => h.Id == id);
+        
+        var hotel = await context.Hotels.Include(h => h.Amenities).FirstOrDefaultAsync(h => h.Id == id);
+        
         if (hotel == null)
-        {
             return NotFound();
-        }
-        var amenities = await _context.Amenities.ToListAsync();
+        
+        var amenities = await context.Amenities.ToListAsync();
+        
         var viewModel = new HotelEditViewModel
         {
             Id = hotel.Id,
@@ -125,37 +135,33 @@ public class MvcHotelsController : Controller
         return View(viewModel);
     }
 
-    // POST: Hotels/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, HotelEditViewModel viewModel)
     {
         if (id != viewModel.Id)
-        {
             return NotFound();
-        }
+    
         if (ModelState.IsValid)
         {
-            var hotel = await _context.Hotels.Include(h => h.Amenities).FirstOrDefaultAsync(h => h.Id == id);
+            var hotel = await context.Hotels.Include(h => h.Amenities).FirstOrDefaultAsync(h => h.Id == id);
+            
             if (hotel == null)
-            {
                 return NotFound();
-            }
+        
             hotel.Name = viewModel.Name;
             hotel.Description = viewModel.Description;
             hotel.Rating = viewModel.Rating;
             hotel.RoomsAvailable = viewModel.RoomsAvailable;
             hotel.Region = viewModel.Region;
             hotel.Address = viewModel.Address;
-            // Atualizar amenities
-            hotel.Amenities = await _context.Amenities.Where(a => viewModel.SelectedAmenityIds.Contains(a.Id)).ToListAsync();
-            await _context.SaveChangesAsync();
+            hotel.Amenities = await context.Amenities.Where(a => viewModel.SelectedAmenityIds.Contains(a.Id)).ToListAsync();
+            await context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        
         // Recarregar amenities em caso de erro
-        var amenities = await _context.Amenities.ToListAsync();
+        var amenities = await context.Amenities.ToListAsync();
         viewModel.Amenities = amenities.Select(a => new AmenityCheckboxItem
         {
             Id = a.Id,
@@ -165,38 +171,32 @@ public class MvcHotelsController : Controller
         return View(viewModel);
     }
 
-    // GET: Hotels/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
-        var hotel = await _context.Hotels
+        var hotel = await context.Hotels
             .FirstOrDefaultAsync(m => m.Id == id);
+        
         if (hotel == null)
-        {
             return NotFound();
-        }
-
+    
         return View(hotel);
     }
 
-    // POST: Hotels/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var hotel = await _context.Hotels.FindAsync(id);
+        var hotel = await context.Hotels.FindAsync(id);
+        
         if (hotel != null)
-        {
-            _context.Hotels.Remove(hotel);
-        }
-
+            context.Hotels.Remove(hotel);
+        
         try
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
         }
         catch (DbUpdateException)
         {
@@ -208,11 +208,10 @@ public class MvcHotelsController : Controller
             ModelState.AddModelError(string.Empty, "Erro ao excluir o pacote: " + e.Message);
             return View(hotel);
         }
+        
         return RedirectToAction(nameof(Index));
     }
 
     private bool HotelExists(int id)
-    {
-        return _context.Hotels.Any(e => e.Id == id);
-    }
+        => context.Hotels.Any(e => e.Id == id);
 }

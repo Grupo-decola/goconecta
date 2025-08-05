@@ -10,9 +10,9 @@ public class PackageRatingDataDto
     {
         return new PackageRatingDataDto
         {
-            AverageRating = package.AverageRating,
-            TotalRatings = package.TotalRatings,
-            RatingDistribution = package.RatingDistribution
+            AverageRating = package.AverageRating(),
+            TotalRatings = package.TotalRatings(),
+            RatingDistribution = package.RatingDistribution()
         };
     }
 }
