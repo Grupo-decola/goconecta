@@ -13,17 +13,19 @@ import { useState, useEffect } from "react";
 import PackageCard from "../../Components/PackageCard.jsx";
 import Filters from "../../Components/Filters.jsx";
 import { fetchPackages } from "../../services/PackageService.js";
+import { useSearchParams } from "react-router-dom";
 
 export default function Packages() {
   const [packages, setPackages] = useState([]);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchParams,setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setLoading(true);
     setError(null);
-    fetchPackages()
+    fetchPackages(searchParams)
       .then((data) => {
         console.log("Pacotes recebidos do servidor:", data);
         setPackages(data);
