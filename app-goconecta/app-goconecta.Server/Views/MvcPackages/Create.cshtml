@@ -16,22 +16,22 @@
                     <form asp-action="Create" enctype="multipart/form-data" novalidate>
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         <div class="mb-3">
-                            <label asp-for="Package.Title" class="form-label"></label>
+                            <label asp-for="Package.Title" class="form-label">Título</label>
                             <input asp-for="Package.Title" class="form-control" />
                             <span asp-validation-for="Package.Title" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.Description" class="form-label"></label>
+                            <label asp-for="Package.Description" class="form-label">Descrição</label>
                             <input asp-for="Package.Description" class="form-control" />
                             <span asp-validation-for="Package.Description" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.Destination" class="form-label"></label>
+                            <label asp-for="Package.Destination" class="form-label">Destino</label>
                             <input asp-for="Package.Destination" class="form-control" />
                             <span asp-validation-for="Package.Destination" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.HotelId" class="form-label"></label>
+                            <label asp-for="Package.HotelId" class="form-label">Hotel</label>
                             <select asp-for="Package.HotelId" class="form-select">
                                 @foreach (var hotel in Model.Hotels) {
                                     <option value="@hotel.Id">@hotel.Name</option>
@@ -40,30 +40,30 @@
                             <span asp-validation-for="Package.HotelId" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.DurationDays" class="form-label"></label>
+                            <label asp-for="Package.DurationDays" class="form-label">Duração (dias)</label>
                             <input asp-for="Package.DurationDays" class="form-control" />
                             <span asp-validation-for="Package.DurationDays" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.PriceAdults" class="form-label"></label>
+                                <label asp-for="Package.PriceAdults" class="form-label">Preço para adultos</label>
                                 <input asp-for="Package.PriceAdults" class="form-control" />
                                 <span asp-validation-for="Package.PriceAdults" class="invalid-feedback d-block"></span>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.PriceChildren" class="form-label"></label>
+                                <label asp-for="Package.PriceChildren" class="form-label">Preço para crianças</label>
                                 <input asp-for="Package.PriceChildren" class="form-control" />
                                 <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.AvailabilityStartDate" class="form-label"></label>
+                                <label asp-for="Package.AvailabilityStartDate" class="form-label">Data de início</label>
                                 <input asp-for="Package.AvailabilityStartDate" class="form-control" type="date"/>
                                 <span asp-validation-for="Package.AvailabilityStartDate" class="invalid-feedback d-block"></span>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.AvailabilityEndDate" class="form-label"></label>
+                                <label asp-for="Package.AvailabilityEndDate" class="form-label">Data de término</label>
                                 <input asp-for="Package.AvailabilityEndDate" class="form-control" type="date"/>
                                 <span asp-validation-for="Package.AvailabilityEndDate" class="invalid-feedback d-block"></span>
                             </div>

@@ -1,23 +1,34 @@
-﻿namespace app_goconecta.Server.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace app_goconecta.Server.Models;
 
 public class Reservation
 {
     public int Id { get; init; }
+    
+    [Display(Name = "Número da Reserva")]
     public string ReservationNumber { get; init; }
+    
+    [Display(Name = "Data da Reserva")]
     public DateTime ReservationDate { get; set; }
 
     private ReservationStatus _status;
+    
+    [Display(Name = "Status")]
     public required ReservationStatus Status
     {
         get => GetActualStatus();
         set => SetStatus(value);
     }
 
+    [Display(Name = "Hóspedes")]
     public IEnumerable<Guest> Guests { get; init; }
     
+    [Display(Name = "Usuário")]
     public int UserId { get; set; }
     public User? User { get; set; }
     
+    [Display(Name = "Pacote")]
     public int PackageId { get; set; }
     public Package? Package { get; set; }
 
