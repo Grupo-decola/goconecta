@@ -1,5 +1,6 @@
 using app_goconecta.Server.Data;
 using app_goconecta.Server.DTOs;
+using app_goconecta.Server.Models;
 using app_goconecta.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -23,7 +24,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
             .FirstOrDefaultAsync(r => r.Id == checkoutDto.ReservationId);
         
         if (reservation == null) return NotFound("Reserva não encontrada.");
-        if (reservation.Status != "Pending") return BadRequest("Reserva não está pendente para pagamento.");
+        if (reservation.Status != ReservationStatus.Pending) return BadRequest("Reserva não está pendente para pagamento.");
         
         var routePrefix = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/api/{ControllerContext.ActionDescriptor.RouteValues["controller"]}";
         var successUrl = $"{routePrefix}/success?sessionId={{CHECKOUT_SESSION_ID}}{(checkoutDto.SuccessUrl != null ? $"&redirectUrl={Uri.EscapeDataString(checkoutDto.SuccessUrl)}" : string.Empty)}";
@@ -42,7 +43,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
                         {
                             Name = reservation.Package!.Title,
                         },
-                        UnitAmount = (long) reservation.TotalPrice * 100 // Centavos
+                        UnitAmount = (long) reservation.GetTotalPrice() * 100 // Centavos
                     },
                     Quantity = 1,
                 }
@@ -75,7 +76,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
         var reservation = await context.Reservations.FirstOrDefaultAsync(r => r.Id == reservationId);
         if (reservation == null) return NotFound("Reserva não encontrada.");
         
-        reservation.Status = "Confirmed";
+        reservation.Status = ReservationStatus.Confirmed;
         context.Reservations.Update(reservation);
         await context.SaveChangesAsync();
         
@@ -92,7 +93,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
             <ul>
                 <li> Número da reserva: {reservation.ReservationNumber} </li>
                 <li> Data da reserva: {reservation.ReservationDate:dd/MM/yyyy} </li>
-                <li> Total pago: R$ {reservation.TotalPrice:F2} </li>
+                <li> Total pago: R$ {reservation.GetTotalPrice:F2} </li>
             </ul>
             Agradecemos por escolher a GoConecta para sua viagem. Estamos ansiosos para proporcionar uma experiência incrível!
             """);
@@ -117,7 +118,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
         var reservation = await context.Reservations.FirstOrDefaultAsync(r => r.Id == reservationId);
         if (reservation == null) return NotFound("Reserva não encontrada.");
         
-        reservation.Status = "Cancelled";
+        reservation.Status = ReservationStatus.Cancelled;
         context.Reservations.Update(reservation);
         await context.SaveChangesAsync();
 

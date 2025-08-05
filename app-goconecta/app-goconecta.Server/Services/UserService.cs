@@ -17,7 +17,11 @@ public class UserService(AppDbContext dbContext, EmailService emailService)
             Password = createDto.Password,
             Phone = createDto.Phone,
             CpfPassport = createDto.CpfPassport,
-            Role = role
+            Role = role.ToLower() switch
+            {
+                "admin" => UserRole.Admin,
+                _ => UserRole.User
+            }
         };
         
         return await CreateAsync(newUser);

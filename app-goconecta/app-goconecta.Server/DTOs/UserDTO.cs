@@ -20,7 +20,7 @@ public class UserDTO
             Email = user.Email,
             Phone = user.Phone,
             CpfPassport = user.CpfPassport,
-            Role = user.Role,
+            Role = user.Role.ToString()
         };
     }
 }

@@ -10,7 +10,7 @@ public class ReservationDTO
     public DateTime ReservationDate { get; set; }
     public required string Status { get; set; }
     public decimal TotalPrice { get; set; }
-    public PackageDTO Package { get; set; }
+    public required PackageDTO Package { get; set; }
     
     public static ReservationDTO FromModel(Reservation reservation)
     {
@@ -19,8 +19,8 @@ public class ReservationDTO
             Id = reservation.Id,
             ReservationNumber = reservation.ReservationNumber,
             ReservationDate = reservation.ReservationDate,
-            Status = reservation.Status,
-            TotalPrice = reservation.TotalPrice,
+            Status = reservation.Status.ToString(),
+            TotalPrice = reservation.GetTotalPrice(),
             Package = PackageDTO.FromModel(reservation.Package!)
         };
     }
