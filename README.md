@@ -41,7 +41,7 @@
 
 ### Backend (C# .NET)
 
-- `ASP.NET Core 7.0`
+- `ASP.NET Core 8.0`
 - `Entity Framework Core` + `SQL Server`
 - `JWT Authentication`
 - `DTOs`, `LINQ` e `Padrão Repositório`
@@ -87,7 +87,7 @@ app-goconecta/
 
 ### 📌 Pré-requisitos
 
-- [.NET 7 SDK](https://dotnet.microsoft.com/en-us/download)
+- [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
 - [Node.js](https://nodejs.org/) com `npm` ou `yarn`
 - SQL Server ou LocalDB
 
