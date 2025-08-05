@@ -54,7 +54,7 @@ public class MvcPackagesController(AppDbContext context) : Controller
                 {
                     Path =
                         $"assets/media/{m.File.GetExtensionType()}/{Guid.NewGuid()}-{m.File.GetName()}.{m.File.GetExtension()}",
-                    Title = m.File!.Name,
+                    Title = m.File!.FileName.Split('.')[0],
                     Type = m.File.GetExtensionType()
                 };
                 
