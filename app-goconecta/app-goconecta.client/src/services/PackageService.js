@@ -1,3 +1,4 @@
+// src/services/PackageService.js
 import { api } from "../api";
 
 export const fetchPackages = async (filters = {}) => {
@@ -8,11 +9,14 @@ export const fetchPackages = async (filters = {}) => {
   if (minPrice !== null && minPrice !== '') params.minPrice = minPrice;
   if (maxPrice !== null && maxPrice !== '') params.maxPrice = maxPrice;
   
- 
+  // CORREÇÃO:
+  // Se startDate existe E startDate é uma Date
   if (startDate && startDate instanceof Date) {
     params.availabilityStartDate = startDate.toISOString();
   }
   
+  // CORREÇÃO:
+  // Se endDate existe E endDate é uma Date
   if (endDate && endDate instanceof Date) {
     params.availabilityEndDate = endDate.toISOString();
   }
