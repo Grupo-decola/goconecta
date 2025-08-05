@@ -56,41 +56,13 @@ function MinhasReservas() {
       setModalOpen(false);
     }
   };
-  // Função para determinar status calculado (conclude)
-  function getStatusReserva(reserva) {
-    const statusApi = reserva.status?.toLowerCase();
-    const dataReserva = new Date(reserva.reservationDate);
-    const duracao = Number(reserva.package?.durationDays) || 0;
-    const dataFim = new Date(dataReserva);
-    dataFim.setDate(dataFim.getDate() + duracao);
-    const agora = new Date();
-
-    if (statusApi === "confirmed") {
-      // Se a data de fim já passou, vira concluída
-      if (agora > dataFim) {
-        return "conclude";
-      }
-      return "confirmed";
-    }
-    if (statusApi === "pending") {
-      return "pending";
-    }
-    // Se não for confirmada ou pendente, mas já passou do fim, considera concluída
-    if (agora > dataFim) {
-      return "conclude";
-    }
-    // Se não for concluída e não tiver status conhecido, mantém o original
-    return statusApi || "unknown";
-  }
 
   // Função para ordenar reservas por status: confirmed > pending > conclude > outros
   function ordenarReservas(reservas) {
     const statusOrder = { confirmed: 0, pending: 2, conclude: 1 };
     return [...reservas].sort((a, b) => {
-      const statusA = getStatusReserva(a);
-      const statusB = getStatusReserva(b);
-      const orderA = statusOrder[statusA] ?? 99;
-      const orderB = statusOrder[statusB] ?? 99;
+      const orderA = statusOrder[a.status] ?? 99;
+      const orderB = statusOrder[b.status] ?? 99;
       return orderA - orderB;
     });
   }
@@ -160,13 +132,10 @@ function MinhasReservas() {
       ) : (
         <Stack spacing="md">
           {reservas.map((reserva) => {
-            const status = getStatusReserva(reserva);
-            console.log(`Reserva #${reserva.reservationNumber} status:`, status);
             return (
               <ReservaCard
                 key={reserva.id}
                 reserva={reserva}
-                status={status}
                 onAvaliar={handleAvaliar}
               />
             );
