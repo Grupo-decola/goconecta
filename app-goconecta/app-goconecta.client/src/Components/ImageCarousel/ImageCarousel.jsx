@@ -5,7 +5,7 @@ import classes from "./ImageCarousel.module.css";
 export default function ImageCarousel({ images }) {
   const slides = images.map((image) => (
     <Carousel.Slide key={image.path}>
-      <Image radius="md" h={200} fit="cover" src={image.path} alt={image.title} />
+      <Image radius="md" h={450} fit="cover" src={image.path} alt={image.title} />
     </Carousel.Slide>
   ));
 
