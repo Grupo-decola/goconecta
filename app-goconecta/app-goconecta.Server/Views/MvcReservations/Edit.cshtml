@@ -1,3 +1,4 @@
+@using app_goconecta.Server.Models
 @model app_goconecta.Server.Models.Reservation
 
 @{
@@ -28,7 +29,7 @@
                         </div>
                         <div class="mb-3">
                             <label asp-for="Status" class="form-label"></label>
-                            <input asp-for="Status" class="form-control" />
+                            <select asp-for="Status" asp-items="@Html.GetEnumSelectList<ReservationStatus>()" class="form-select"></select>
                             <span asp-validation-for="Status" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">

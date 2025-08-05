@@ -1,5 +1,6 @@
 using System.Text;
 using app_goconecta.Server.Data;
+using app_goconecta.Server.Models;
 using app_goconecta.Server.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -79,7 +80,7 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("RequireAuthenticated", policy => policy.RequireAuthenticatedUser());
-    options.AddPolicy("RequireAdmin", policy => policy.RequireClaim("Store", "admin"));
+    options.AddPolicy("RequireAdmin", policy => policy.RequireClaim("Store", nameof(UserRole.Admin)));
 });
 
 

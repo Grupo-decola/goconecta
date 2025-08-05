@@ -23,7 +23,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(e => e.Password).IsRequired();
             entity.Property(e => e.Phone).HasMaxLength(20);
             entity.Property(e => e.CpfPassport).HasMaxLength(20);
-            entity.Property(e => e.Role).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.Role).IsRequired().HasMaxLength(20).HasConversion<string>();
         });
         
         modelBuilder.Entity<Hotel>(entity =>
@@ -68,7 +68,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
         {
             entity.HasKey(e => e.Id);
             entity.Property(e => e.ReservationNumber).IsRequired().HasMaxLength(50);
-            entity.Property(e => e.Status).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.Status).IsRequired().HasMaxLength(20).HasConversion<string>();
             entity.HasOne(r => r.User)
                 .WithMany(u => u.Reservations)
                 .HasForeignKey(r => r.UserId)

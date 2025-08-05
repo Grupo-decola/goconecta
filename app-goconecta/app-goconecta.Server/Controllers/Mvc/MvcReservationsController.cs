@@ -8,19 +8,12 @@ using Microsoft.AspNetCore.Authorization;
 namespace app_goconecta.Server.Controllers.Mvc;
 
 [Authorize (Policy="RequireAdmin")]
-public class MvcReservationsController : Controller
+public class MvcReservationsController(AppDbContext context) : Controller
 {
-    private readonly AppDbContext _context;
-
-    public MvcReservationsController(AppDbContext context)
-    {
-        _context = context;
-    }
-
     // GET: Reservations
     public async Task<IActionResult> Index()
     {
-        var appDbContext = _context.Reservations.Include(r => r.Package).Include(r => r.User);
+        var appDbContext = context.Reservations.Include(r => r.Package).Include(r => r.User);
         return View(await appDbContext.ToListAsync());
     }
 
@@ -32,7 +25,7 @@ public class MvcReservationsController : Controller
             return NotFound();
         }
 
-        var reservation = await _context.Reservations
+        var reservation = await context.Reservations
             .Include(r => r.Package)
             .Include(r => r.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -52,13 +45,13 @@ public class MvcReservationsController : Controller
             return NotFound();
         }
 
-        var reservation = await _context.Reservations.FindAsync(id);
+        var reservation = await context.Reservations.FindAsync(id);
         if (reservation == null)
         {
             return NotFound();
         }
-        ViewData["PackageId"] = new SelectList(_context.Packages, "Id", "Description", reservation.PackageId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", reservation.UserId);
+        ViewData["PackageId"] = new SelectList(context.Packages, "Id", "Description", reservation.PackageId);
+        ViewData["UserId"] = new SelectList(context.Users, "Id", "Email", reservation.UserId);
         return View(reservation);
     }
 
@@ -78,8 +71,8 @@ public class MvcReservationsController : Controller
         {
             try
             {
-                _context.Update(reservation);
-                await _context.SaveChangesAsync();
+                context.Update(reservation);
+                await context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -94,8 +87,8 @@ public class MvcReservationsController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["PackageId"] = new SelectList(_context.Packages, "Id", "Description", reservation.PackageId);
-        ViewData["UserId"] = new SelectList(_context.Users, "Id", "Email", reservation.UserId);
+        ViewData["PackageId"] = new SelectList(context.Packages, "Id", "Description", reservation.PackageId);
+        ViewData["UserId"] = new SelectList(context.Users, "Id", "Email", reservation.UserId);
         return View(reservation);
     }
 
@@ -107,7 +100,7 @@ public class MvcReservationsController : Controller
             return NotFound();
         }
 
-        var reservation = await _context.Reservations
+        var reservation = await context.Reservations
             .Include(r => r.Package)
             .Include(r => r.User)
             .FirstOrDefaultAsync(m => m.Id == id);
@@ -124,18 +117,18 @@ public class MvcReservationsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var reservation = await _context.Reservations.FindAsync(id);
+        var reservation = await context.Reservations.FindAsync(id);
         if (reservation != null)
         {
-            _context.Reservations.Remove(reservation);
+            context.Reservations.Remove(reservation);
         }
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
     private bool ReservationExists(int id)
     {
-        return _context.Reservations.Any(e => e.Id == id);
+        return context.Reservations.Any(e => e.Id == id);
     }
 }
