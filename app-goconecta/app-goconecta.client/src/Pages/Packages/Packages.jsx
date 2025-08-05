@@ -27,12 +27,10 @@ export default function Packages() {
     setError(null);
     fetchPackages(searchParams)
       .then((data) => {
-        console.log("Pacotes recebidos do servidor:", data);
         setPackages(data);
         setFilteredPackages(data);
       })
-      .catch((error) => {
-        console.error("Error loading packages:", error);
+      .catch(() => {
         setError("Erro ao carregar os pacotes. Tente novamente.");
       })
       .finally(() => setLoading(false));
