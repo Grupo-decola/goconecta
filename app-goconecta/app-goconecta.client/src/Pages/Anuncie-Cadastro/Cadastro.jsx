@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import './Cadastro.css'; 
+import './Cadastro.css';
+import axios from "axios";
+import {api} from "@/api.js"; 
 
 function CadastroPropriedade() {
   const [formData, setFormData] = useState({
@@ -23,15 +25,32 @@ function CadastroPropriedade() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aqui você pode enviar os dados para uma API ou backend
-    console.log('Dados enviados:', formData);
+    
+    let formDataCompiled = {
+      Name: formData.nomePropriedade,
+      Description: formData.descricao,
+      Rating: 0,
+      Region: `${formData.cidade}/${formData.estado}`,
+      Address: formData.endereco,
+    }
+    
+    api.post('Hotels', formDataCompiled)
+      .then(r => {
+        if (r.status === 201) {
+          console.log("Propriedade cadastrada com sucesso!");
+        }
+        else {
+          console.error("Erro ao cadastrar propriedade:", r.statusText);
+        }
+      }
+    );
   };
 
   
 return (
     <div className="form-container">
       <h2>Anuncie sua Propriedade</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} enctype="multipart/form-data">
         <label>Nome da Propriedade:</label>
         <input type="text" name="nomePropriedade" onChange={handleChange} required />
 
@@ -57,9 +76,6 @@ return (
         <select name="tipoPropriedade" onChange={handleChange} required>
           <option value="">Selecione</option>
           <option value="hotel">Hotel</option>
-          {/* <option value="apartamento">Apartamento</option>
-          <option value="chalé">Chalé</option>
-          <option value="fazenda">Fazenda</option> */}
         </select>
 
         <button type="submit">Cadastrar</button>
