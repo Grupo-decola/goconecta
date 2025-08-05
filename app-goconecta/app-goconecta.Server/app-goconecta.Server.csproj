@@ -57,10 +57,22 @@
     <_ContentIncludedByDefault Remove="Views\Grades\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Grades\Index.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Grades\StudentsByGrade.cshtml" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\0aefb646-3815-4b22-a748-1f78bc18a8d6-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\251c16fe-e38e-4278-a9c3-4f54ccf9bec1-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\3d1d9ce0-57b7-4bd3-8658-09b9ec669cd5-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\6b3fb510-2cd1-4f08-b67d-0f7ae3334c95-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\7f52cde1-46ae-4587-a2ec-a9ffb038ba41-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\8125517b-97af-4694-a214-882d33597278-99d50217-6769-41fb-9ea3-9b8a699d46f1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\8e1ce0a2-fbed-49d2-a0b8-ac27f1d8817a-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\92f1bd10-9c5a-4c37-8575-b87af03c4b01-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\c3c84137-386e-4891-b00f-22088f433bc9-99d50217-6769-41fb-9ea3-9b8a699d46f1.jpg" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\f53df39d-80ed-4449-baf2-8ef22b6fe9a2-logo-goconecta-lg.png" />
+    <_ContentIncludedByDefault Remove="wwwroot\assets\media\Image\fecbb864-0574-4b63-af95-50ba78781dd2-logo-goconecta-lg.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\assets\media\Image\" />
   </ItemGroup>
 
   <ItemGroup>

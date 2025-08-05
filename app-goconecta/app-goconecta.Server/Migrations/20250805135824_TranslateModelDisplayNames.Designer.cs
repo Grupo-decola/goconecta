@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using app_goconecta.Server.Data;
 
@@ -11,9 +12,11 @@ using app_goconecta.Server.Data;
 namespace app_goconecta.Server.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250805135824_TranslateModelDisplayNames")]
+    partial class TranslateModelDisplayNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -91,6 +94,38 @@ namespace app_goconecta.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Hotels");
+                });
+
+            modelBuilder.Entity("app_goconecta.Server.Models.Media", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("PackageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PackageId");
+
+                    b.ToTable("Media");
                 });
 
             modelBuilder.Entity("app_goconecta.Server.Models.Package", b =>
@@ -266,39 +301,15 @@ namespace app_goconecta.Server.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("app_goconecta.Server.Models.Hotel", b =>
+            modelBuilder.Entity("app_goconecta.Server.Models.Media", b =>
                 {
-                    b.OwnsMany("app_goconecta.Server.Models.Media", "Media", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
+                    b.HasOne("app_goconecta.Server.Models.Package", "Package")
+                        .WithMany("Media")
+                        .HasForeignKey("PackageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
-
-                            b1.Property<int>("OwnerId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Path")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Title")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Type")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("OwnerId");
-
-                            b1.ToTable("Hotels_Media");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OwnerId");
-                        });
-
-                    b.Navigation("Media");
+                    b.Navigation("Package");
                 });
 
             modelBuilder.Entity("app_goconecta.Server.Models.Package", b =>
@@ -309,39 +320,7 @@ namespace app_goconecta.Server.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.OwnsMany("app_goconecta.Server.Models.Media", "Media", b1 =>
-                        {
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("Id"));
-
-                            b1.Property<int>("OwnerId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Path")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Title")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<string>("Type")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("OwnerId");
-
-                            b1.ToTable("Packages_Media");
-
-                            b1.WithOwner()
-                                .HasForeignKey("OwnerId");
-                        });
-
                     b.Navigation("Hotel");
-
-                    b.Navigation("Media");
                 });
 
             modelBuilder.Entity("app_goconecta.Server.Models.Rating", b =>
@@ -428,6 +407,8 @@ namespace app_goconecta.Server.Migrations
 
             modelBuilder.Entity("app_goconecta.Server.Models.Package", b =>
                 {
+                    b.Navigation("Media");
+
                     b.Navigation("Ratings");
 
                     b.Navigation("Reservations");

@@ -5,48 +5,36 @@ using app_goconecta.Server.Extensions;
 using app_goconecta.Server.Models;
 using app_goconecta.Server.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace app_goconecta.Server.Controllers.Mvc;
 
 [Authorize (Policy="RequireAdmin")]
-public class MvcPackagesController : Controller
+public class MvcPackagesController(AppDbContext context) : Controller
 {
-    private readonly AppDbContext _context;
-
-    public MvcPackagesController(AppDbContext context)
-    {
-        _context = context;
-    }
-
-    // GET: Packages
     public async Task<IActionResult> Index()
     {
-        return View(await _context.Packages.ToListAsync());
+        return View(await context.Packages.ToListAsync());
     }
 
-    // GET: Packages/Details/5
     public async Task<IActionResult> Details(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
-        var package = await _context.Packages
+        var package = await context.Packages
             .Include(p=> p.Hotel)
             .FirstOrDefaultAsync(m => m.Id == id);
+        
         if (package == null)
-        {
             return NotFound();
-        }
 
         return View(package);
     }
 
-    // GET: Packages/Create
     public IActionResult Create()
     {
-        var hotels = _context.Hotels.ToList();
+        var hotels = context.Hotels.ToList();
         var viewModel = new PackageCreateViewModel()
         {
             Hotels = hotels
@@ -59,134 +47,138 @@ public class MvcPackagesController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(PackageCreateViewModel viewModel)
     {
-        await using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            _context.Add(viewModel.Package);
-            await _context.SaveChangesAsync();
-
-            foreach (var media in viewModel.Media)
+            viewModel.Package.Media = viewModel.Media.Where( m => m.File is {Length: > 0}).Select(async m =>
             {
-                if (media.File is not { Length: > 0 }) { continue; };
-
-                var filePath = $"assets/media/{media.File.GetExtensionType()}/{Guid.NewGuid()}-{media.File.GetName()}.{media.File.GetExtension()}";
-                var fullPath = $"wwwroot/{filePath}";
-                
-                if (!Directory.Exists(Path.GetDirectoryName(fullPath)))
-                {
-                    Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
-                }
-                
-                await using var stream = new FileStream(fullPath, FileMode.Create);
-                await media.File.CopyToAsync(stream);
-
                 var newMedia = new Media
                 {
-                    Path = filePath,
-                    Title = media.Title,
-                    Type = media.File.GetExtensionType(),
-                    PackageId = viewModel.Package.Id,
+                    Path =
+                        $"assets/media/{m.File.GetExtensionType()}/{Guid.NewGuid()}-{m.File.GetName()}.{m.File.GetExtension()}",
+                    Title = m.File!.FileName.Split('.')[0],
+                    Type = m.File.GetExtensionType()
                 };
                 
-                _context.Media.Add(newMedia);
-            }
+                var fullPath = $"wwwroot/{newMedia.Path}";
+                
+                if (!Directory.Exists(Path.GetDirectoryName(fullPath)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+                
+                await using var stream = new FileStream(fullPath, FileMode.Create);
+                await m.File!.CopyToAsync(stream);
+                
+                return newMedia;
+            }).Select(t => t.Result).ToList();
             
-            await _context.SaveChangesAsync();
-            await transaction.CommitAsync();
-
+            context.Add(viewModel.Package);
+            await context.SaveChangesAsync();
+            
             return RedirectToAction(nameof(Index));
         }
         catch
         {
-            await transaction.RollbackAsync();
-            viewModel.Hotels = _context.Hotels.ToList();
+            viewModel.Hotels = context.Hotels.ToList();
             return View(viewModel);
         }
     }
 
-    // GET: Packages/Edit/5
     public async Task<IActionResult> Edit(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
-        var package = await _context.Packages.FindAsync(id);
+        var package = await context.Packages.FindAsync(id);
+        
         if (package == null)
-        {
             return NotFound();
-        }
+        
         var editViewModel = new PackageEditViewModel
         {
             Package = package,
-            Hotels = _context.Hotels.ToList()
+            Hotels = context.Hotels.ToList(),
+            Media = package.Media.ToList()
         };
+        
         return View(editViewModel);
     }
 
-    // POST: Packages/Edit/5
-    // To protect from overposting attacks, enable the specific properties you want to bind to.
-    // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(PackageEditViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        var package = viewModel.Package;
+        
+        if (!ModelState.IsValid)
         {
-            try
-            {
-                _context.Update(viewModel.Package);
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!PackageExists(viewModel.Package.Id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-            return RedirectToAction(nameof(Index));
+            viewModel.Hotels = await context.Hotels.ToListAsync();
+            viewModel.Package = package;
+            return View(viewModel);
         }
-        return View(viewModel);
+        try
+        {
+            if (viewModel.NewMediaFile is { Length: > 0 })
+            {
+                var newMedia = new Media
+                {
+                    Path =
+                        $"assets/media/{viewModel.NewMediaFile.GetExtensionType()}/{Guid.NewGuid()}-{viewModel.NewMediaFile.GetName()}.{viewModel.NewMediaFile.GetExtension()}",
+                    Title = viewModel.NewMediaFile!.FileName.Split('.')[0],
+                    Type = viewModel.NewMediaFile.GetExtensionType()
+                };
+                    
+                var fullPath = $"wwwroot/{newMedia.Path}";
+                    
+                if (!Directory.Exists(Path.GetDirectoryName(fullPath)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+                    
+                await using var stream = new FileStream(fullPath, FileMode.Create);
+                await viewModel.NewMediaFile!.CopyToAsync(stream);
+                
+                package.Media.Add(newMedia);
+            }
+            
+            context.Update(viewModel.Package);
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!PackageExists(viewModel.Package.Id))
+                return NotFound();
+        }
+        
+        return RedirectToAction(nameof(Index));
     }
 
-    // GET: Packages/Delete/5
     public async Task<IActionResult> Delete(int? id)
     {
         if (id == null)
-        {
             return NotFound();
-        }
 
-        var package = await _context.Packages
+        var package = await context.Packages
             .FirstOrDefaultAsync(m => m.Id == id);
+        
         if (package == null)
-        {
             return NotFound();
-        }
 
         return View(package);
     }
 
-    // POST: Packages/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var package = await _context.Packages.FindAsync(id);
+        var package = await context.Packages.FindAsync(id);
         if (package != null)
-        {
-            _context.Packages.Remove(package);
-        }
+            context.Packages.Remove(package);
 
         try
         {
-            await _context.SaveChangesAsync();
+            await context.SaveChangesAsync();
+            foreach (var packageMedia in package!.Media)
+            {
+                var fullPath = $"wwwroot/{packageMedia.Path}";
+                System.IO.File.Delete(fullPath);
+            }
         }
         catch (DbUpdateException)
         {
@@ -203,7 +195,5 @@ public class MvcPackagesController : Controller
     }
 
     private bool PackageExists(int id)
-    {
-        return _context.Packages.Any(e => e.Id == id);
-    }
+        => context.Packages.Any(e => e.Id == id);
 }

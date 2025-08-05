@@ -1,9 +1,12 @@
-import React, { useState } from "react";
-import "./Cadastro.css";
-import { api } from "@/api.js";
-import { notifications } from "@mantine/notifications";
+import React, { useState } from 'react';
+import './Cadastro.css';
+import { notifications } from '@mantine/notifications';
+import {api} from "@/api.js";
+import {useNavigate} from "react-router-dom"; 
 
 function CadastroPropriedade() {
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     nomePropriedade: "",
     descricao: "",
@@ -32,27 +35,31 @@ function CadastroPropriedade() {
       Rating: 0,
       Region: `${formData.cidade}/${formData.estado}`,
       Address: formData.endereco,
-    };
-
-    api
-      .post("Hotels", formDataCompiled)
-      .then(() => {
-        notifications.show({
-          title: "Cadastro realizado!",
-          message: "Propriedade cadastrada com sucesso!",
-          color: "success",
-          autoClose: 4000,
-        });
-      })
-      .catch(() => {
-        notifications.show({
-          title: "Erro ao cadastrar",
-          message:
-            "Erro ao conectar com o servidor. Tente novamente mais tarde.",
-          color: "error",
-          autoClose: 4000,
-        });
-      });
+    }
+    
+    api.post('Hotels', formDataCompiled)
+      .then(r => {
+        if (r.status === 201) {
+          console.log("Propriedade cadastrada com sucesso!");
+          notifications.show({
+            title: "Cadastro realizado!",
+            message: "Propriedade cadastrada com sucesso!",
+            color: "success",
+            autoClose: 2000,
+          });
+          navigate("/");
+        }
+        else {
+          console.error("Erro ao cadastrar propriedade:", r.statusText);
+          notifications.show({
+            title: "Falha ao cadastrar propriedade.",
+            message: "Erro ao cadastrar propriedade. Por favor, tente novamente.",
+            color: "error",
+            autoClose: 2000,
+          });
+        }
+      }
+    );
   };
 
   return (

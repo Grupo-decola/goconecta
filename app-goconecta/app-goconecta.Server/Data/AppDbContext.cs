@@ -9,7 +9,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<Hotel> Hotels { get; set; }
     public DbSet<Package> Packages { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
-    public DbSet<Media> Media { get; set; }
     public DbSet<Amenity> Amenities { get; set; }
     public DbSet<Rating> Ratings { get; set; }
     
@@ -39,11 +38,16 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                 .WithOne(e => e.Hotel)
                 .HasForeignKey(e => e.HotelId)
                 .OnDelete(DeleteBehavior.Restrict);
+            entity.HasMany(h => h.Amenities)
+                .WithMany(a => a.Hotels)
+                .UsingEntity(j => j.ToTable("HotelAmenities"));
+            entity.OwnsMany<Media>(e => e.Media, a =>
+            {
+                a.WithOwner().HasForeignKey("OwnerId");
+                a.Property<int>("Id");
+                a.HasKey("Id");
+            });
         });
-        modelBuilder.Entity<Hotel>()
-            .HasMany(h => h.Amenities)
-            .WithMany(a => a.Hotels)
-            .UsingEntity(j => j.ToTable("HotelAmenities"));
 
         modelBuilder.Entity<Package>(entity =>
         {
@@ -53,15 +57,17 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             entity.Property(e => e.Description).IsRequired();
             entity.Property(e => e.PriceAdults).HasColumnType("decimal(18,2)");
             entity.Property(e => e.PriceChildren).HasColumnType("decimal(18,2)");
-            entity.HasMany<Media>(e => e.Media)
-                .WithOne(e => e.Package)
-                .HasForeignKey(e => e.PackageId)
-                .OnDelete(DeleteBehavior.Cascade);
             entity.HasOne(e => e.Hotel)
                 .WithMany(h => h.Packages)
                 .HasForeignKey(e => e.HotelId)
                 .OnDelete(DeleteBehavior.Restrict);
             entity.Navigation(e => e.Media).AutoInclude();
+            entity.OwnsMany<Media>(e => e.Media, a =>
+            {
+                a.WithOwner().HasForeignKey("OwnerId");
+                a.Property<int>("Id");
+                a.HasKey("Id");
+            });
         });
 
         modelBuilder.Entity<Reservation>(entity =>
@@ -88,18 +94,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     guest.Property(g => g.Email).HasMaxLength(100);
                     guest.Property(g => g.Cpf).IsRequired();
                 });
-        });
-        
-        modelBuilder.Entity<Media>(entity =>
-        {
-            entity.HasKey(e => e.Id);
-            entity.Property(e => e.Path).IsRequired().HasMaxLength(500);
-            entity.Property(e => e.Title).HasMaxLength(100);
-            entity.Property(e => e.Type).IsRequired().HasMaxLength(20);
-            entity.HasOne(m => m.Package)
-                .WithMany(tp => tp.Media)
-                .HasForeignKey(m => m.PackageId)
-                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Rating>(entity =>

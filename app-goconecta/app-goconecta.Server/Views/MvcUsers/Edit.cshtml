@@ -18,32 +18,32 @@
                         <input type="hidden" asp-for="Id" />
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         <div class="mb-3">
-                            <label asp-for="Name" class="form-label"></label>
+                            <label asp-for="Name" class="form-label">Nome</label>
                             <input asp-for="Name" class="form-control" />
                             <span asp-validation-for="Name" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Email" class="form-label"></label>
+                            <label asp-for="Email" class="form-label">E-mail</label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Password" class="form-label"></label>
+                            <label asp-for="Password" class="form-label">Senha</label>
                             <input asp-for="Password" class="form-control" />
                             <span asp-validation-for="Password" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Phone" class="form-label"></label>
+                            <label asp-for="Phone" class="form-label">Telefone</label>
                             <input asp-for="Phone" class="form-control" />
                             <span asp-validation-for="Phone" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="CpfPassport" class="form-label"></label>
+                            <label asp-for="CpfPassport" class="form-label">CPF/Passaporte</label>
                             <input asp-for="CpfPassport" class="form-control" />
                             <span asp-validation-for="CpfPassport" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Role" class="form-label"></label>
+                            <label asp-for="Role" class="form-label">Função</label>
                             <select asp-for="Role" asp-items="@Html.GetEnumSelectList<UserRole>()" class="form-select"></select>
                             <span asp-validation-for="Role" class="invalid-feedback d-block"></span>
                         </div>

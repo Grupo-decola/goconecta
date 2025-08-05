@@ -25,11 +25,19 @@ public class HotelsController(AppDbContext context) : ControllerBase
             query = query.Where(h => amenitiesIds.All(id => h.Amenities.Any(a => a.Id == id)));
         }
 
-        return (await query.ToListAsync()).Select(HotelDTO.FromModel).ToList();
+        var hotelDtos= (await query.ToListAsync()).Select(HotelDTO.FromModel).ToList();
+        
+        foreach (var hotelDto in hotelDtos)
+        {
+            if (hotelDto.Image == null || string.IsNullOrWhiteSpace(hotelDto.Image.Path)) continue;
+            hotelDto.Image!.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{hotelDto.Image.Path!}";
+        }
+        
+        return Ok(hotelDtos);
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<HotelDTO>> GetById(int id)
+    public async Task<ActionResult<HotelDetailDto>> GetById(int id)
     {
         var hotel = await context.Hotels
             .Include(h => h.Amenities)
@@ -37,8 +45,16 @@ public class HotelsController(AppDbContext context) : ControllerBase
 
         if (hotel == null)
             return NotFound();
+        
+        var hotelDetailDto = HotelDetailDto.FromModel(hotel);
+        
+        foreach (var mediaDto in hotelDetailDto.Images)
+        {
+            if (mediaDto.Path == null || string.IsNullOrWhiteSpace(mediaDto.Path)) continue;
+            mediaDto.Path = $"{Request.Scheme}://{Request.Host}{Request.PathBase}/{mediaDto.Path}";
+        }
 
-        return HotelDTO.FromModel(hotel);
+        return Ok(hotelDetailDto);
     }
 
     [HttpPost]

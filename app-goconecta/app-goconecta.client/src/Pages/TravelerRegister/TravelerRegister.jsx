@@ -59,16 +59,16 @@ export default function TravelerRegister() {
 
   let idx = 0;
   return packageId ? (
-    <Stack>
+    <Stack mt={"xl"} gap="xl">
       {Array.from({ length: adults }).map((_, i) => (
         <Stack key={`adult-stack-${i}`}>
-          <Title order={3}>Adulto {i + 1}</Title>
+          <Title order={3} ta={"center"}>Adulto {i + 1}</Title>
           <TravelerForm ref={formRefs[idx++]} IsChild={false} />
         </Stack>
       ))}
       {Array.from({ length: childs }).map((_, i) => (
         <Stack key={`child-stack-${i}`}>
-          <Title order={3}>Criança {i + 1}</Title>
+          <Title order={3} ta={"center"}>Criança {i + 1}</Title>
           <TravelerForm ref={formRefs[idx++]} IsChild />
         </Stack>
       ))}

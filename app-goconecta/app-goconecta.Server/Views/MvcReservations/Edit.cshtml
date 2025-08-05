@@ -18,27 +18,27 @@
                         <input type="hidden" asp-for="Id" />
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         <div class="mb-3">
-                            <label asp-for="ReservationNumber" class="form-label"></label>
+                            <label asp-for="ReservationNumber" class="form-label">Número da Reserva</label>
                             <input asp-for="ReservationNumber" class="form-control" />
                             <span asp-validation-for="ReservationNumber" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="ReservationDate" class="form-label"></label>
+                            <label asp-for="ReservationDate" class="form-label">Data da Reserva</label>
                             <input asp-for="ReservationDate" class="form-control" type="date" />
                             <span asp-validation-for="ReservationDate" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Status" class="form-label"></label>
+                            <label asp-for="Status" class="form-label">Status</label>
                             <select asp-for="Status" asp-items="@Html.GetEnumSelectList<ReservationStatus>()" class="form-select"></select>
                             <span asp-validation-for="Status" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="UserId" class="form-label"></label>
+                            <label asp-for="UserId" class="form-label">Usuário</label>
                             <select asp-for="UserId" class="form-select" asp-items="ViewBag.UserId"></select>
                             <span asp-validation-for="UserId" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="PackageId" class="form-label"></label>
+                            <label asp-for="PackageId" class="form-label">Pacote</label>
                             <select asp-for="PackageId" class="form-select" asp-items="ViewBag.PackageId"></select>
                             <span asp-validation-for="PackageId" class="invalid-feedback d-block"></span>
                         </div>

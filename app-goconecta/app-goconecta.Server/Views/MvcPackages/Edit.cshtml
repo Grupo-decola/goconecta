@@ -13,26 +13,26 @@
                     <span>Editar Pacote</span>
                 </div>
                 <div class="card-body">
-                    <form asp-action="Edit" novalidate>
+                    <form asp-action="Edit" method="post" novalidate id="edit-package-form" enctype="multipart/form-data">
                         <input type="hidden" asp-for="Package.Id" />
                         <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         <div class="mb-3">
-                            <label asp-for="Package.Title" class="form-label"></label>
+                            <label asp-for="Package.Title" class="form-label">Título</label>
                             <input asp-for="Package.Title" class="form-control" />
                             <span asp-validation-for="Package.Title" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.Description" class="form-label"></label>
+                            <label asp-for="Package.Description" class="form-label">Descrição</label>
                             <input asp-for="Package.Description" class="form-control" />
                             <span asp-validation-for="Package.Description" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.Destination" class="form-label"></label>
+                            <label asp-for="Package.Destination" class="form-label">Destino</label>
                             <input asp-for="Package.Destination" class="form-control" />
                             <span asp-validation-for="Package.Destination" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.HotelId" class="form-label"></label>
+                            <label asp-for="Package.HotelId" class="form-label">Hotel</label>
                             <select asp-for="Package.HotelId" class="form-select">
                                 @foreach (var hotel in Model.Hotels) {
                                     <option value="@hotel.Id">@hotel.Name</option>
@@ -41,47 +41,75 @@
                             <span asp-validation-for="Package.HotelId" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Package.DurationDays" class="form-label"></label>
+                            <label asp-for="Package.DurationDays" class="form-label">Duração (dias)</label>
                             <input asp-for="Package.DurationDays" class="form-control" />
                             <span asp-validation-for="Package.DurationDays" class="invalid-feedback d-block"></span>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.PriceAdults" class="form-label"></label>
+                                <label asp-for="Package.PriceAdults" class="form-label">Preço para adultos</label>
                                 <input asp-for="Package.PriceAdults" class="form-control" />
                                 <span asp-validation-for="Package.PriceAdults" class="invalid-feedback d-block"></span>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.PriceChildren" class="form-label"></label>
-                                <input asp-for="Package.PriceChildren" class="form-control" />
-                                <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Package.PriceAdults" class="form-label"></label>
-                                <input asp-for="Package.PriceAdults" class="form-control" />
-                                <span asp-validation-for="Package.PriceAdults" class="invalid-feedback d-block"></span>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label asp-for="Package.PriceChildren" class="form-label"></label>
+                                <label asp-for="Package.PriceChildren" class="form-label">Preço para crianças</label>
                                 <input asp-for="Package.PriceChildren" class="form-control" />
                                 <span asp-validation-for="Package.PriceChildren" class="invalid-feedback d-block"></span>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.AvailabilityStartDate" class="form-label"></label>
+                                <label asp-for="Package.AvailabilityStartDate" class="form-label">Data de início</label>
                                 <input asp-for="Package.AvailabilityStartDate" class="form-control" type="date"/>
                                 <span asp-validation-for="Package.AvailabilityStartDate" class="invalid-feedback d-block"></span>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label asp-for="Package.AvailabilityEndDate" class="form-label"></label>
+                                <label asp-for="Package.AvailabilityEndDate" class="form-label">Data de término</label>
                                 <input asp-for="Package.AvailabilityEndDate" class="form-control" type="date"/>
                                 <span asp-validation-for="Package.AvailabilityEndDate" class="invalid-feedback d-block"></span>
                             </div>
                         </div>
+                        <!-- Bloco de imagens anexadas, fora do form principal -->
+                        @* <div class="mb-4"> *@
+                        @*     <label class="form-label">Imagens anexadas</label> *@
+                        @*     <div class="row g-3"> *@
+                        @*         @if (Model.Media.Any()) *@
+                        @*         { *@
+                        @*             foreach (var image in Model.Media) *@
+                        @*             { *@
+                        @*                 <div class="col-6 col-md-4 col-lg-3"> *@
+                        @*                     <div class="card h-100 shadow-sm position-relative"> *@
+                        @*                         <img src="@Url.Content(image.Path != null && (image.Path.StartsWith("~") || image.Path.StartsWith("/")) ? image.Path : "~/" + image.Path)" class="card-img-top" alt="@image.Title" style="object-fit:cover; height:160px;" /> *@
+                        @*                         <div class="card-body p-2"> *@
+                        @*                             <span class="small text-truncate" title="@image.Title">@image.Title</span> *@
+                        @*                         </div> *@
+                        @*                         <form asp-action="DeleteMedia" asp-route-packageId="@Model.Package.Id" asp-route-imageId="@image.Id" method="post"> *@
+                        @*                             <button type="submit" class="btn btn-sm btn-danger position-absolute top-0 end-0 m-2" aria-label="Remover imagem" form="remove-image-@image.Id"> *@
+                        @*                                 <i class="bi bi-trash" aria-hidden="true"></i> *@
+                        @*                             </button> *@
+                        @*                         </form> *@
+                        @*                     </div> *@
+                        @*                 </div> *@
+                        @*             } *@
+                        @*         } *@
+                        @*         else *@
+                        @*         { *@
+                        @*             <div class="col-12"> *@
+                        @*                 <span class="text-muted">Nenhuma imagem anexada.</span> *@
+                        @*             </div> *@
+                        @*         } *@
+                        @*     </div> *@
+                        @* </div> *@
+                        <!-- Upload de nova imagem -->
+                        <div class="mb-4">
+                            <label class="form-label">Adicionar nova imagem</label>
+                            <div class="row g-2 align-items-end">
+                                <div class="col-md-5">
+                                    <input asp-for="NewMediaFile" class="form-control mb-2" type="file" accept="image/*" />
+                                </div>
+                            </div>
+                        </div>
+                        @* Botões de ação *@
                         <div class="d-flex justify-content-between align-items-center mt-4">
                             <a asp-action="Index" class="btn btn-outline-secondary">
                                 <i class="bi bi-arrow-left me-2" aria-hidden="true"></i>Voltar
@@ -91,6 +119,16 @@
                             </button>
                         </div>
                     </form>
+                    <!-- Forms de remoção de imagem fora do form principal -->
+                    @if (Model.Media != null && Model.Media.Any())
+                    {
+                        foreach (var image in Model.Media)
+                        {
+                            <form asp-action="RemoveImage" asp-route-id="@image.Id" method="post" id="remove-image-@image.Id">
+                                @Html.AntiForgeryToken()
+                            </form>
+                        }
+                    }
                 </div>
             </div>
         </div>
