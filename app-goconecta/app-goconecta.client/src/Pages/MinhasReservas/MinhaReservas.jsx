@@ -17,6 +17,8 @@ import { createRating } from "../../services/RatingService";
 import ReservaCard from "./ReservaCard";
 import ModalAvaliacao from "./ModalAvaliacao";
 
+import { notifications } from "@mantine/notifications";
+
 function MinhasReservas() {
   const [reservas, setReservas] = useState([]);
   const [carregando, setCarregando] = useState(true);
@@ -29,12 +31,8 @@ function MinhasReservas() {
       .then((data) => {
         const ordenadas = ordenarReservas(data);
         setReservas(ordenadas);
-        // console.log(ordenadas);
       })
-      .catch((error) => {
-        // Pode-se adicionar um toast de erro aqui
-        // console.error("Erro ao buscar reservas:", error);
-      })
+      .catch((error) => {})
       .finally(() => setCarregando(false));
   }, []);
 
@@ -49,9 +47,20 @@ function MinhasReservas() {
         rating: values.rating,
         comment: values.comment,
       });
-      // Sucesso: pode exibir um toast
+      notifications.show({
+        title: "Avaliação enviada!",
+        message: "Sua avaliação foi registrada com sucesso.",
+        color: "success",
+        autoClose: 4000,
+      });
     } catch (error) {
-      // Erro: pode exibir um toast
+      notifications.show({
+        title: "Erro ao enviar avaliação",
+        message:
+          "Não foi possível enviar sua avaliação. Tente novamente mais tarde.",
+        color: "error",
+        autoClose: 4000,
+      });
     } finally {
       setModalOpen(false);
     }

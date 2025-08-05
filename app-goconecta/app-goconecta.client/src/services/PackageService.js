@@ -1,8 +1,8 @@
 import { api } from "../api";
 
-export const fetchPackages = async () => {
+export const fetchPackages = async (params = {}) => {
   try {
-    const response = await api.get("/packages");
+    const response = await api.get("/packages", { params });
     return response.data;
   } catch (error) {
     console.error("Erro ao buscar pacotes da API:", error);

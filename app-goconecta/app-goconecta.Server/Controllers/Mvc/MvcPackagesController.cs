@@ -5,6 +5,7 @@ using app_goconecta.Server.Extensions;
 using app_goconecta.Server.Models;
 using app_goconecta.Server.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using System.IO;
 
 namespace app_goconecta.Server.Controllers.Mvc;
 
@@ -94,7 +95,8 @@ public class MvcPackagesController(AppDbContext context) : Controller
         var editViewModel = new PackageEditViewModel
         {
             Package = package,
-            Hotels = context.Hotels.ToList()
+            Hotels = context.Hotels.ToList(),
+            Media = package.Media.ToList()
         };
         
         return View(editViewModel);
@@ -104,9 +106,37 @@ public class MvcPackagesController(AppDbContext context) : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(PackageEditViewModel viewModel)
     {
-        if (!ModelState.IsValid) return View(viewModel);
+        var package = viewModel.Package;
+        
+        if (!ModelState.IsValid)
+        {
+            viewModel.Hotels = await context.Hotels.ToListAsync();
+            viewModel.Package = package;
+            return View(viewModel);
+        }
         try
         {
+            if (viewModel.NewMediaFile is { Length: > 0 })
+            {
+                var newMedia = new Media
+                {
+                    Path =
+                        $"assets/media/{viewModel.NewMediaFile.GetExtensionType()}/{Guid.NewGuid()}-{viewModel.NewMediaFile.GetName()}.{viewModel.NewMediaFile.GetExtension()}",
+                    Title = viewModel.NewMediaFile!.FileName.Split('.')[0],
+                    Type = viewModel.NewMediaFile.GetExtensionType()
+                };
+                    
+                var fullPath = $"wwwroot/{newMedia.Path}";
+                    
+                if (!Directory.Exists(Path.GetDirectoryName(fullPath)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
+                    
+                await using var stream = new FileStream(fullPath, FileMode.Create);
+                await viewModel.NewMediaFile!.CopyToAsync(stream);
+                
+                package.Media.Add(newMedia);
+            }
+            
             context.Update(viewModel.Package);
             await context.SaveChangesAsync();
         }
@@ -144,6 +174,11 @@ public class MvcPackagesController(AppDbContext context) : Controller
         try
         {
             await context.SaveChangesAsync();
+            foreach (var packageMedia in package!.Media)
+            {
+                var fullPath = $"wwwroot/{packageMedia.Path}";
+                System.IO.File.Delete(fullPath);
+            }
         }
         catch (DbUpdateException)
         {
