@@ -1,4 +1,6 @@
-﻿namespace app_goconecta.Server.DTOs.Package;
+﻿using app_goconecta.Server.DTOs.Hotel;
+
+namespace app_goconecta.Server.DTOs.Package;
 
 public class PackageDTO
 {

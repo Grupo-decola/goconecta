@@ -1,8 +1,4 @@
-using System.Collections.Generic;
-using System.Linq;
-using app_goconecta.Server.Models;
-
-namespace app_goconecta.Server.DTOs;
+namespace app_goconecta.Server.DTOs.Hotel;
 
 public class HotelDTO
 {
@@ -16,7 +12,7 @@ public class HotelDTO
     public string? Address { get; set; }
     public List<AmenityDTO> Amenities { get; set; }
 
-    public static HotelDTO FromModel(Hotel hotel)
+    public static HotelDTO FromModel(Models.Hotel hotel)
     {
         return new HotelDTO
         {

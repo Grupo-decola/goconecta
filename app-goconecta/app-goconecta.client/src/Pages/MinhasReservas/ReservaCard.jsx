@@ -5,7 +5,7 @@ import {
   IconClock,
   IconCalendar,
   IconMapPin,
-  IconStar,
+  IconStar, IconCross, IconCancel,
 } from "@tabler/icons-react";
 
 /**
@@ -15,7 +15,7 @@ import {
  * @param {string} props.status - Status calculado (confirmed, pending, conclude)
  * @param {function} props.onAvaliar - Função chamada ao clicar em "Avaliar pacote"
  */
-function ReservaCard({ reserva, status, onAvaliar }) {
+function ReservaCard({ reserva, onAvaliar }) {
   // Feedback visual baseado no status
   let badgeProps = {
     color: "gray",
@@ -24,8 +24,8 @@ function ReservaCard({ reserva, status, onAvaliar }) {
   };
   let cardBorder = undefined;
   let cardBg = undefined;
-  switch (status) {
-    case "confirmed":
+  switch (reserva.status) {
+    case "Confirmed":
       badgeProps = {
         color: "green",
         leftSection: <IconCheck size={12} />,
@@ -34,7 +34,7 @@ function ReservaCard({ reserva, status, onAvaliar }) {
       cardBorder = "2px solid #51cf66";
       cardBg = "#f0fff4";
       break;
-    case "pending":
+    case "Pending":
       badgeProps = {
         color: "orange",
         leftSection: <IconClock size={12} />,
@@ -43,7 +43,7 @@ function ReservaCard({ reserva, status, onAvaliar }) {
       cardBorder = "2px solid #fab005";
       cardBg = "#fff9f0";
       break;
-    case "conclude":
+    case "Completed":
       badgeProps = {
         color: "blue",
         leftSection: <IconCheck size={12} />,
@@ -52,8 +52,17 @@ function ReservaCard({ reserva, status, onAvaliar }) {
       cardBorder = "2px solid #228be6";
       cardBg = "#f0f4ff";
       break;
+    case "Cancelled":
+      badgeProps = {
+        color: "red",
+        leftSection: <IconCancel size={12} />,
+        children: "Cancelada",
+      };
+      cardBorder = "2px solid #DC3545";
+      cardBg = "#F7D5D9";
+      break;
     default:
-      badgeProps = { color: "gray", leftSection: null, children: status };
+      badgeProps = { color: "gray", leftSection: null, children: reserva.status };
       cardBorder = undefined;
       cardBg = undefined;
   }
