@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import './Cadastro.css';
-import axios from "axios";
-import {api} from "@/api.js"; 
+import { notifications } from '@mantine/notifications';
+import {api} from "@/api.js";
+import {useNavigate} from "react-router-dom"; 
 
 function CadastroPropriedade() {
+  const navigate = useNavigate();
+  
   const [formData, setFormData] = useState({
     nomePropriedade: '',
     descricao: '',
@@ -38,9 +41,22 @@ function CadastroPropriedade() {
       .then(r => {
         if (r.status === 201) {
           console.log("Propriedade cadastrada com sucesso!");
+          notifications.show({
+            title: "Cadastro realizado!",
+            message: "Propriedade cadastrada com sucesso!",
+            color: "success",
+            autoClose: 2000,
+          });
+          navigate("/");
         }
         else {
           console.error("Erro ao cadastrar propriedade:", r.statusText);
+          notifications.show({
+            title: "Falha ao cadastrar propriedade.",
+            message: "Erro ao cadastrar propriedade. Por favor, tente novamente.",
+            color: "error",
+            autoClose: 2000,
+          });
         }
       }
     );
