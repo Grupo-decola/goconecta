@@ -60,7 +60,7 @@ const Header = () => {
             flexWrap: "wrap",
           }}
         >
-          <span className="phone">Televendas <b>0800 123 4567</b></span>
+          <span className="phone">Televendas <b className="number">0800 123 4567</b></span>
           <div className="header-menu-links">
             <a href="/anuncie" className="action-link" aria-label="Anuncie sua propriedade">
               Anuncie

@@ -7,6 +7,11 @@
   margin-right: 8px;
   display: inline-flex;
   align-items: center;
+
+  .number {
+    margin-left: 6px;
+  }
+
 }
 @media (max-width: 1000px) {
   .phone {
