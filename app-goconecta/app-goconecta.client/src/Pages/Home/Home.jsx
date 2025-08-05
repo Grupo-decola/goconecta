@@ -9,53 +9,51 @@ import {
   SimpleGrid,
   Card,
   Grid,
-  Group,
   Rating,
   Stack,
 } from "@mantine/core";
-import { IconMapPin } from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 import rioImage from "../../assets/img/rio-de-janeiro.jpg";
 import amazonasImage from "../../assets/img/amazonas.jpg";
 import minasImage from "../../assets/img/minas-gerais.jpg";
 import cearaImage from "../../assets/img/ceara.jpg";
-import saoPauloImage from "../../assets/img/sao-paulo.jpg";
 import { useEffect, useState } from "react";
 import { fetchPackages } from "../../services/PackageService";
+import PackageCard from "@/Components/PackageCard.jsx";
 
-function PackageCard({ pkg }) {
-  const navigate = useNavigate();
-  return (
-    <Card shadow="sm" p="lg" radius="md" withBorder>
-      <Image
-        src={pkg.image?.path || ""}
-        height={160}
-        alt={pkg.image?.title || ""}
-      />
-      <Stack mt="md">
-        <Group justify="space-between" mt="md" mb="xs">
-          <Text fw={700} lineClamp={1}>
-            {pkg.title}
-          </Text>
-        </Group>
-        <Group gap="xs" c="dimmed">
-          <IconMapPin size={14} />
-          <Text size="sm">{pkg.destination}</Text>
-        </Group>
-        <Button
-          variant="filled"
-          fullWidth
-          mt="md"
-          color="#DA7818"
-          onClick={() => navigate(`/pacote/${pkg.id}`)}
-        >
-          Ver Detalhes
-        </Button>
-      </Stack>
-    </Card>
-  );
-}
+// function PackageCard({ pkg }) {
+//   const navigate = useNavigate();
+//   return (
+//     <Card shadow="sm" p="lg" radius="md" withBorder>
+//       <Image
+//         src={pkg.image?.path || ""}
+//         height={160}
+//         alt={pkg.image?.title || ""}
+//       />
+//       <Stack mt="md">
+//         <Group justify="space-between" mt="md" mb="xs">
+//           <Text fw={700} lineClamp={1}>
+//             {pkg.title}
+//           </Text>
+//         </Group>
+//         <Group gap="xs" c="dimmed">
+//           <IconMapPin size={14} />
+//           <Text size="sm">{pkg.destination}</Text>
+//         </Group>
+//         <Button
+//           variant="filled"
+//           fullWidth
+//           mt="md"
+//           color="#DA7818"
+//           onClick={() => navigate(`/pacote/${pkg.id}`)}
+//         >
+//           Ver Detalhes
+//         </Button>
+//       </Stack>
+//     </Card>
+//   );
+// }
 
 function ReviewView({ title }) {
   return (
@@ -169,7 +167,7 @@ export default function HomePage() {
         </Title>
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="xl">
           {packages.map((pkg) => (
-            <PackageCard key={pkg.id} pkg={pkg} />
+            <PackageCard key={pkg.id} package={pkg} />
           ))}
         </SimpleGrid>
       </Box>
