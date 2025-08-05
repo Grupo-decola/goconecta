@@ -10,7 +10,7 @@ import {
   Divider,
 } from "@mantine/core";
 
-import { FaHotel, FaPlane, FaSuitcase } from "react-icons/fa";
+import { FaHome, FaPlane, FaSuitcase } from "react-icons/fa";
 import { IconUser, IconLogout } from "@tabler/icons-react";
 
 import Button from "../Buttons/Button";
@@ -186,12 +186,12 @@ const Header = () => {
         <ul style={{ display: "flex", flexWrap: "nowrap", gap: 18, minWidth: 320, width: "max-content", padding: "10px 0", margin: 0, listStyle: "none", justifyContent: "flex-start", alignItems: "center" }}>
           <li>
             <a
-              href="/hospedagens"
-              className={`nav-link ${isActive("/hospedagens") || isActive("/") ? "active" : ""}`}
-              aria-label="Hospedagens"
+              href="/"
+              className={`nav-link ${isActive("/") ? "active" : ""}`}
+              aria-label="Home"
             >
-              <FaHotel className="nav-icon" />
-              <span>Hospedagens</span>
+              <FaHome className="nav-icon" />
+              <span>Home</span>
             </a>
           </li>
           <li>
