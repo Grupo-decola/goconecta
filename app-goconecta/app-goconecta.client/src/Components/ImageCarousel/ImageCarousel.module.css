@@ -1,0 +1,9 @@
+.carousel {
+    height: 25rem;
+}
+
+@media (max-width: 576px) {
+    .carousel {
+        height: 15rem;
+    }
+}
