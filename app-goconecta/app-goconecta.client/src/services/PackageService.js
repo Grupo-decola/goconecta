@@ -7,12 +7,19 @@ export const fetchPackages = async (filters = {}) => {
   if (destination) params.destination = destination;
   if (minPrice !== null && minPrice !== '') params.minPrice = minPrice;
   if (maxPrice !== null && maxPrice !== '') params.maxPrice = maxPrice;
-  if (startDate) params.startDate = startDate.toISOString();
-  if (endDate) params.endDate = endDate.toISOString();
+  
+ 
+  if (startDate && startDate instanceof Date) {
+    params.availabilityStartDate = startDate.toISOString();
+  }
+  
+  if (endDate && endDate instanceof Date) {
+    params.availabilityEndDate = endDate.toISOString();
+  }
 
   try {
     const response = await api.get("/packages", { params });
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error("Erro ao buscar pacotes da API:", error);
     throw error;
