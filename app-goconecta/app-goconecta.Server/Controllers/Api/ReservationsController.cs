@@ -85,7 +85,7 @@ public class ReservationsController(AppDbContext context, IConfiguration configu
                  <li> Número da reserva: {reservation.ReservationNumber} </li>
                  <li> Data da reserva: {reservation.ReservationDate:dd/MM/yyyy} </li>
                  <li> Hotel: {reservation.Package.Hotel!.Name} </li>
-                 <li> Total: {reservation.GetTotalPrice:C} </li>
+                 <li> Total: {reservation.GetTotalPrice():C} </li>
              </ul>
              Agora, basta acessar a página <a href="{_spaProxyUrl}/minhasreservas">Minhas Reservas</a> para completar o pagamento.
              Agradecemos por viajar conosco!
