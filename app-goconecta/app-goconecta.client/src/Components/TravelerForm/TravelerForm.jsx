@@ -1,19 +1,11 @@
-import { forwardRef, useImperativeHandle, useState } from "react";
-import {
-  TextInput,
-  Stack,
-  Button,
-  Group,
-  Grid,
-  Box,
-  Card,
-  Text,
-} from "@mantine/core";
-import { DateInput } from "@mantine/dates";
+import { Box, Card, Grid, TextInput } from "@mantine/core";
+import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { IconUser, IconAt, IconId, IconCalendar } from "@tabler/icons-react";
+import { IconAt, IconCalendar, IconId, IconUser } from "@tabler/icons-react";
+import { forwardRef, useImperativeHandle } from "react";
+import { IMaskInput } from "react-imask";
 
-const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
+const TravelerForm = forwardRef(({ IsChild }, ref) => {
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -103,21 +95,27 @@ const TravelerForm = forwardRef(({ IsChild, travelerIndex }, ref) => {
           <Grid.Col span={{ base: 12, sm: 6 }}>
             <TextInput
               withAsterisk
-              label="CPF/Passaporte"
-              placeholder="CPF ou Passaporte"
-              key={form.key("cpf")}
-              {...form.getInputProps("cpf")}
+              label="CPF ou Passaporte"
+              placeholder="123.456.789-00 ou AB123456"
+              component={IMaskInput}
+              mask={
+                /^[0-9]/.test(form.values.cpfPassport)
+                  ? "000.000.000-00"
+                  : false
+              }
+              {...form.getInputProps("cpfPassport")}
               leftSection={<IconId size={16} />}
             />
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, sm: 6 }}>
-            <DateInput
+            <DatePickerInput
               withAsterisk
               label="Data de nascimento"
-              placeholder="Selecione a data de nascimento"
+              placeholder="selecione a data de nascimento"
               key={form.key("birthDate")}
               maxDate={new Date()}
+              valueFormat="DD/MM/YYYY"
               {...form.getInputProps("birthDate")}
               leftSection={<IconCalendar size={16} />}
             />

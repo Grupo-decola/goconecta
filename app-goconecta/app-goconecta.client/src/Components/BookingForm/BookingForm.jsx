@@ -94,10 +94,7 @@ export default function BookingForm({
           minDate={startDate}
           maxDate={endDate}
           {...form.getInputProps("date")}
-          onChange={(value) => {
-            form.setFieldValue("date", value);
-            form.validateField("date");
-          }}
+          valueFormat="DD/MM/YYYY"
           leftSection={<IconCalendar size={16} />}
           style={{ width: "100%" }}
         />
@@ -165,7 +162,6 @@ export default function BookingForm({
             Total:
           </Text>
           <Group gap="xs">
-            <IconCurrencyDollar size={16} color="#DA7818" />
             <Text fw={700} style={{ color: "#182348", fontSize: 18 }}>
               {getTotalPrice()}
             </Text>

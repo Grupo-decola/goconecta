@@ -22,11 +22,15 @@ import {
   IconPhone,
   IconId,
 } from "@tabler/icons-react";
+import { IMaskInput } from "react-imask";
 import { useNavigate } from "react-router-dom";
 
 function CadastroFormulario() {
   const navigate = useNavigate();
-
+  const passportRegex = /^(?!\d{6,9}$)[A-Za-z0-9]{3,20}$/;
+  const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/;
+  // Aceita formatos como +55 11999999999 ou +55 21987654321
+  const phoneRegex = /^\d{2}\s?\d{8,11}$/;
   const form = useForm({
     initialValues: {
       name: "",
@@ -39,11 +43,18 @@ function CadastroFormulario() {
     validate: {
       name: (value) =>
         value.length < 2 ? "Nome deve ter pelo menos 2 letras" : null,
-      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Email inválido"),
+      email: (value) =>
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? null : "Email inválido",
       password: (value) =>
         value.length < 6 ? "A senha deve ter no mínimo 6 caracteres" : null,
       cpfPassport: (value) =>
-        value.trim() !== "" ? null : "Informe CPF ou Passaporte",
+        passportRegex.test(value) || cpfRegex.test(value)
+          ? null
+          : "Informe um documento válido",
+      phone: (value) =>
+        phoneRegex.test(value)
+          ? null
+          : "Telefone deve estar no formato +55 11999999999",
     },
   });
 
@@ -110,22 +121,25 @@ function CadastroFormulario() {
                 />
                 <TextInput
                   label="Telefone"
-                  placeholder="(99) 99999-9999"
+                  placeholder="(99) 11999999999"
+                  component={IMaskInput}
+                  mask="(00) 00000000000"
                   {...form.getInputProps("phone")}
                   leftSection={<IconPhone size={16} />}
                 />
                 <TextInput
                   label="CPF ou Passaporte"
-                  placeholder="123.456.789-00 ou ABC123"
+                  placeholder="123.456.789-00 ou AB123456"
+                  component={IMaskInput}
+                  mask={
+                    /^[0-9]/.test(form.values.cpfPassport)
+                      ? "000.000.000-00"
+                      : false
+                  }
                   {...form.getInputProps("cpfPassport")}
                   leftSection={<IconId size={16} />}
                 />
-                <Button 
-                  type="submit" 
-                  fullWidth 
-                  mt="sm" 
-                  color="#DA7818"
-                >
+                <Button type="submit" fullWidth mt="sm" color="#DA7818">
                   Cadastrar
                 </Button>
               </Stack>
