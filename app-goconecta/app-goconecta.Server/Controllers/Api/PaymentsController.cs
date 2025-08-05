@@ -93,7 +93,7 @@ public class PaymentsController(AppDbContext context, IConfiguration configurati
             <ul>
                 <li> Número da reserva: {reservation.ReservationNumber} </li>
                 <li> Data da reserva: {reservation.ReservationDate:dd/MM/yyyy} </li>
-                <li> Total pago: R$ {reservation.GetTotalPrice:F2} </li>
+                <li> Total pago: R$ {reservation.GetTotalPrice():F2} </li>
             </ul>
             Agradecemos por escolher a GoConecta para sua viagem. Estamos ansiosos para proporcionar uma experiência incrível!
             """);
