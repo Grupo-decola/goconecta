@@ -183,7 +183,7 @@ const Header = () => {
       </div>
       {/* Navegação Principal */}
       <nav className="main-nav" style={{ width: "100%", overflowX: "auto", marginTop: 2 }}>
-        <ul style={{ display: "flex", flexWrap: "nowrap", gap: 18, minWidth: 320, width: "max-content", padding: "10px 0", margin: 0, listStyle: "none", justifyContent: "flex-start", alignItems: "center" }}>
+        <ul style={{ display: "flex", flexWrap: "nowrap", gap: 18, minWidth: 320, width: "max-content", padding: "10px 0", margin: 0, listStyle: "none", justifyContent: "center", alignItems: "center" }}>
           <li>
             <a
               href="/"
