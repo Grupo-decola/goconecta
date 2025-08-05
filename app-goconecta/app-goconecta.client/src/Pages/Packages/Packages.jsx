@@ -9,71 +9,36 @@ import {
   Alert,
 } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons-react";
-import { useState, useEffect } from "react";
-import PackageCard from "../../Components/PackageCard.jsx";
-import Filters from "../../Components/Filters.jsx";
+import { useState, useEffect, useCallback } from "react";
+import PackageCard from "../../components/PackageCard.jsx";
+import Filters from "../../components/Filters.jsx";
 import { fetchPackages } from "../../services/PackageService.js";
 
 export default function Packages() {
-  const [packages, setPackages] = useState([]);
   const [filteredPackages, setFilteredPackages] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
+  const getPackages = useCallback(async (filters) => {
     setLoading(true);
     setError(null);
-    fetchPackages()
-      .then((data) => {
-        console.log("Pacotes recebidos do servidor:", data);
-        setPackages(data);
-        setFilteredPackages(data);
-      })
-      .catch((error) => {
-        console.error("Error loading packages:", error);
-        setError("Erro ao carregar os pacotes. Tente novamente.");
-      })
-      .finally(() => setLoading(false));
+    try {
+      const data = await fetchPackages(filters);
+      setFilteredPackages(data);
+    } catch (err) {
+      console.error("Erro ao carregar pacotes:", err);
+      setError("Erro ao carregar os pacotes. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  const handleFilterChange = ({
-    destination,
-    minPrice,
-    maxPrice,
-    startDate,
-    endDate,
-  }) => {
-    let filtered = packages;
+  useEffect(() => {
+    getPackages({}); 
+  }, [getPackages]);
 
-    if (destination) {
-      filtered = filtered.filter(
-        (pkg) =>
-          pkg.destination.toLowerCase().includes(destination.toLowerCase()) ||
-          pkg.title.toLowerCase().includes(destination.toLowerCase())
-      );
-    }
-
-    if (minPrice !== null) {
-      filtered = filtered.filter((pkg) => pkg.priceAdults >= minPrice);
-    }
-    if (maxPrice !== null) {
-      filtered = filtered.filter((pkg) => pkg.priceAdults <= maxPrice);
-    }
-
-    if (startDate) {
-      filtered = filtered.filter((pkg) => {
-        const pkgStartDate = new Date(pkg.startDate);
-        return pkgStartDate >= startDate;
-      });
-    }
-    if (endDate) {
-      filtered = filtered.filter((pkg) => {
-        const pkgEndDate = new Date(pkg.endDate);
-        return pkgEndDate <= endDate;
-      });
-    }
-
-    setFilteredPackages(filtered);
+  const handleFilterChange = (filters) => {
+    getPackages(filters);
   };
 
   if (loading) {
@@ -118,8 +83,7 @@ export default function Packages() {
                 Nenhum pacote encontrado
               </Text>
               <Text size="sm" c="dimmed" ta="center" maw={400} px="sm">
-                Tente ajustar os filtros ou explore outros destinos para
-                encontrar o pacote ideal para sua viagem.
+                Tente ajustar os filtros ou explore outros destinos.
               </Text>
             </Stack>
           </Center>
