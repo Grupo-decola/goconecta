@@ -5,8 +5,13 @@ import {
   IconClock,
   IconCalendar,
   IconMapPin,
-  IconStar, IconCross, IconCancel,
+  IconStar,
+  IconCross,
+  IconCancel,
+  IconCurrencyReal,
+  IconHomeDollar,
 } from "@tabler/icons-react";
+import { FaHotel } from "react-icons/fa";
 
 /**
  * Componente de apresentação de uma reserva individual.
@@ -62,7 +67,11 @@ function ReservaCard({ reserva, onAvaliar }) {
       cardBg = "#F7D5D9";
       break;
     default:
-      badgeProps = { color: "gray", leftSection: null, children: reserva.status };
+      badgeProps = {
+        color: "gray",
+        leftSection: null,
+        children: reserva.status,
+      };
       cardBorder = undefined;
       cardBg = undefined;
   }
@@ -98,7 +107,10 @@ function ReservaCard({ reserva, onAvaliar }) {
           <IconMapPin size={16} />
           <Text size="sm">Destino: {reserva.package.destination}</Text>
         </Group>
-        <Text size="sm">Hotel: {reserva.package.hotel?.name}</Text>
+        <Group spacing="xs">
+          <FaHotel size={16} />
+          <Text size="sm">Hotel: {reserva.package.hotel?.name}</Text>
+        </Group>
         <Group spacing="xs">
           <IconCalendar size={16} />
           <Text size="sm">
@@ -106,15 +118,15 @@ function ReservaCard({ reserva, onAvaliar }) {
             {new Date(reserva.reservationDate).toLocaleDateString("pt-BR")}
           </Text>
         </Group>
-        <Text size="sm">
-          Preço (Adulto): R$ {reserva.package.priceAdults.toFixed(2)}
-        </Text>
+        <Group spacing="xs">
+          <IconHomeDollar size={16} />
+          <Text size="sm">Preço total: R$ {reserva.totalPrice.toFixed(2)}</Text>
+        </Group>
         <Group position="right" mt="xs">
           {reserva.status === "Completed" ? (
             <Button
               leftSection={<IconStar size={16} />}
               color="yellow"
-              S
               variant="light"
               onClick={() => onAvaliar(reserva.package.id)}
             >

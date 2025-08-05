@@ -1,4 +1,13 @@
-import { Box, Grid, Stack, Text, Title, Center, Loader } from "@mantine/core";
+import {
+  Box,
+  Grid,
+  Stack,
+  Text,
+  Title,
+  Center,
+  Loader,
+  Group,
+} from "@mantine/core";
 import ImageCarousel from "../../Components/ImageCarousel/ImageCarousel";
 import Attractions from "../../Components/Attractions/Attractions";
 import ReviewView from "../../Components/ReviewView/ReviewView";
@@ -10,6 +19,7 @@ import { useParams } from "react-router-dom";
 import { fetchPackageDetail } from "../../services/PackageService";
 import { useState, useEffect } from "react";
 import { fetchRatings } from "../../services/RatingService";
+import { IconMapPin } from "@tabler/icons-react";
 
 export default function InfoPage() {
   const [packageDetail, setPackageDetail] = useState(null);
@@ -83,9 +93,12 @@ export default function InfoPage() {
           <Stack gap="md">
             <ImageCarousel images={packageDetail.images} />
             <Title order={1}>Detalhes do pacote</Title>
-            <Text c="gray-medium.4" size="xs">
-              {packageDetail?.destination}
-            </Text>
+            <Group gap="xs" c="dimmed" wrap="nowrap">
+              <IconMapPin />
+              <Text c="gray-medium.4" size="sm">
+                {packageDetail?.destination}
+              </Text>
+            </Group>
             {(() => {
               return (
                 <ReviewView

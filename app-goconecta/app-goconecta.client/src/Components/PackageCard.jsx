@@ -10,13 +10,16 @@ import {
   Rating,
 } from "@mantine/core";
 import styles from "./PackageCard.module.css";
-import { IconMapPin, IconCalendar, IconUsers } from "@tabler/icons-react";
+import {
+  IconMapPin,
+  IconCalendar,
+  IconClock24,
+} from "@tabler/icons-react";
 import { useNavigate } from "react-router-dom";
 
 export default function PackageCard({ package: pkg }) {
   const navigate = useNavigate();
 
-  console.log(pkg)
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat("pt-BR", {
@@ -30,7 +33,13 @@ export default function PackageCard({ package: pkg }) {
   };
 
   return (
-    <Card className={styles.cardHotel} padding={0} radius="md" withBorder h="auto">
+    <Card
+      className={styles.cardHotel}
+      padding={0}
+      radius="md"
+      withBorder
+      h="auto"
+    >
       <Image
         src={pkg.image?.path || ""}
         height={{ base: 160, sm: 200 }}
@@ -65,7 +74,7 @@ export default function PackageCard({ package: pkg }) {
           </Group>
 
           <Group gap="xs" c="dimmed" wrap="nowrap">
-            <IconUsers size={14} />
+            <IconClock24 size={14} />
             <Text size="sm">{pkg.durationDays} dias</Text>
           </Group>
 

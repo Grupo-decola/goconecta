@@ -8,13 +8,13 @@ function CadastroPropriedade() {
   const navigate = useNavigate();
   
   const [formData, setFormData] = useState({
-    nomePropriedade: '',
-    descricao: '',
-    endereco: '',
-    cidade: '',
-    estado: '',
-    precoPorNoite: '',
-    tipoPropriedade: '',
+    nomePropriedade: "",
+    descricao: "",
+    endereco: "",
+    cidade: "",
+    estado: "",
+    precoPorNoite: "",
+    tipoPropriedade: "",
     imagem: null,
   });
 
@@ -28,8 +28,8 @@ function CadastroPropriedade() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
-    let formDataCompiled = {
+
+    const formDataCompiled = {
       Name: formData.nomePropriedade,
       Description: formData.descricao,
       Rating: 0,
@@ -62,19 +62,28 @@ function CadastroPropriedade() {
     );
   };
 
-  
-return (
+  return (
     <div className="form-container">
       <h2>Anuncie sua Propriedade</h2>
       <form onSubmit={handleSubmit} enctype="multipart/form-data">
         <label>Nome da Propriedade:</label>
-        <input type="text" name="nomePropriedade" onChange={handleChange} required />
+        <input
+          type="text"
+          name="nomePropriedade"
+          onChange={handleChange}
+          required
+        />
 
         <label>Descrição:</label>
         <textarea name="descricao" onChange={handleChange} required />
 
         <label>Imagem da Propriedade:</label>
-        <input type="file" name="imagem" accept="image/*" onChange={handleChange} />
+        <input
+          type="file"
+          name="imagem"
+          accept="image/*"
+          onChange={handleChange}
+        />
 
         <label>Endereço:</label>
         <input type="text" name="endereco" onChange={handleChange} required />
@@ -86,7 +95,12 @@ return (
         <input type="text" name="estado" onChange={handleChange} required />
 
         <label>Preço por Noite (R$):</label>
-        <input type="number" name="precoPorNoite" onChange={handleChange} required />
+        <input
+          type="number"
+          name="precoPorNoite"
+          onChange={handleChange}
+          required
+        />
 
         <label>Tipo de Propriedade:</label>
         <select name="tipoPropriedade" onChange={handleChange} required>
