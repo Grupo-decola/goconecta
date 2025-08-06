@@ -51,10 +51,6 @@ function CadastroFormulario() {
         passportRegex.test(value) || cpfRegex.test(value)
           ? null
           : "Informe um documento válido",
-      phone: (value) =>
-        phoneRegex.test(value)
-          ? null
-          : "Telefone deve estar no formato +55 11999999999",
     },
   });
 
