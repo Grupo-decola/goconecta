@@ -90,7 +90,37 @@ app-goconecta/
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download)
 - [Node.js](https://nodejs.org/) com `npm` ou `yarn`
 - SQL Server ou LocalDB
+- Clone o repositório:
+```bash 
+git clone https://github.com/Grupo-decola/goconecta.git
+```
+- Criar um appsettings.Development.json na pasta app-goconecta.server com a string de conexão correta:
 
+```json example
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "SpaProxyServerUrl": "https://localhost:51808",
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=SEU_BANCO_DE_DADOS\\SQLEXPRESS;Database=GOCONECTA-DB;Trusted_Connection=True;TrustServerCertificate=True;MultipleActiveResultSets=True"
+  },
+  "Stripe": {
+    "ApiKey": "sk_test_SUA_CHAVE_AQUI"
+  },
+  "Smtp": {
+    "Host": "sandbox.smtp.mailtrap.io",
+    "Port": 587,
+    "Username": "USERNAME",
+    "Password": "P455WORD",
+    "FromEmail": "nomeprojeto@demomailtrap.co",
+    "FromName": "NomeProjeto"
+  }
+}
+```
 ---
 
 ### ⚙️ Backend
@@ -100,38 +130,33 @@ cd app-goconecta.server
 dotnet restore
 dotnet ef database update
 dotnet run
-
-
-cd app-goconecta.client
-npm install
-npm run dev
-
-
-💻 Frontend
-
-cd app-goconecta.client
-npm install
-npm run dev
-
-
-Acesse a aplicação: http://localhost:5173
-A API estará disponível em: https://localhost:xxxx (ver porta no console)
-
-
-👥 Autores 
-Naiara Santos de Oliveira
-
-Pedro Ghiotti Martins
-
-Rafael Decothé de Oliveira
-
-Rosilene Farias Domingues
-
-Samantha Ellen Gonçalves Araújo
-
-Vitor Marques Rodrigues
-
-William Lima da Silva
-
-Projeto desenvolvido em equipe durante o programa Avanade DecolaTech 6– 2025
 ```
+
+### 💻 Frontend
+```bash
+cd app-goconecta.client
+npm install
+npm run dev
+```
+
+**Acesse a aplicação: http://localhost:5173**
+
+**API estará disponível em: https://localhost:xxxx (ver porta no console)**
+
+___
+## 👥 Autores 
+_Naiara Santos de Oliveira_
+
+_Pedro Ghiotti Martins_
+
+_Rafael Decothé de Oliveira_
+
+_Rosilene Farias Domingues_
+
+_Samantha Ellen Gonçalves Araújo_
+
+_Vitor Marques Rodrigues_
+
+_William Lima da Silva_
+
+***Projeto desenvolvido em equipe durante o programa Avanade DecolaTech 6 / 2025***
