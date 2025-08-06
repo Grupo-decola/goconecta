@@ -128,7 +128,7 @@ function MinhasReservas() {
               </Text>
               <Button
                 onClick={() => navigate("/pacotes")}
-                color="orange"
+                color="#DA7818"
                 radius="md"
                 fullWidth
                 mt="sm"

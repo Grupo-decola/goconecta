@@ -18,7 +18,7 @@
 - Pagamento online
 - Histórico de reservas
 - Programa de fidelidade: **Passaporte GoConecta**
-- Página de ajuda com IA básica para dúvidas
+- Página de ajuda básica para dúvidas
 
 ### 🔐 Administrador
 
