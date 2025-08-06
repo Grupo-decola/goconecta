@@ -22,7 +22,6 @@ export default function Filters({
   minPrice,
   maxPrice,
   startDate,
-  endDate,
   onFieldChange,
 }) {
   const handleFilterChange = () => {
@@ -51,7 +50,7 @@ export default function Filters({
         Filtros
       </Text>
 
-      <Grid gutter={{ base: "sm", md: "md" }}>
+      <Grid gutter={{ base: "sm", md: "md" }} grow>
         <Grid.Col span={{ base: 12, sm: 6, md: 6, lg: 3 }}>
           <TextInput
             leftSection={<IconMapPin size={16} />}
@@ -96,22 +95,10 @@ export default function Filters({
         <Grid.Col span={{ base: 12, sm: 6, md: 6, lg: 3 }}>
           <DateInput
             leftSection={<IconCalendar size={16} />}
-            label="Data de Ida"
+            label="Quando você quer viajar?"
             placeholder="Selecione a data"
             value={startDate}
             onChange={(value) => onFieldChange("startDate", value)}
-            size="sm"
-          />
-        </Grid.Col>
-
-        <Grid.Col span={{ base: 12, sm: 6, md: 6, lg: 3 }}>
-          <DateInput
-            leftSection={<IconCalendar size={16} />}
-            label="Data de Volta"
-            placeholder="Selecione a data"
-            value={endDate}
-            onChange={(value) => onFieldChange("endDate", value)}
-            minDate={startDate}
             size="sm"
           />
         </Grid.Col>
