@@ -1,3 +1,8 @@
+<div>
+<div align="center">
+<img src="app-goconecta/app-goconecta.client/src/assets/img/logo-goconecta-lg.png" horizontal-align="center" width="600" alt="Logo GoConecta">
+</div>
+
 # ✈️ GoConecta - Plataforma Web de Reservas de Viagens
 
 **GoConecta** é uma aplicação web fullstack desenvolvida para facilitar a busca, reserva e gerenciamento de pacotes de viagens, oferecendo uma experiência moderna, intuitiva e responsiva para clientes e administradores.
@@ -160,3 +165,4 @@ _Vitor Marques Rodrigues_
 _William Lima da Silva_
 
 ***Projeto desenvolvido em equipe durante o programa Avanade DecolaTech 6 / 2025***
+</div>
