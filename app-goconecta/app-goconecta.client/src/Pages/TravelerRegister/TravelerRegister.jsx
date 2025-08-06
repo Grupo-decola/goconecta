@@ -53,6 +53,7 @@ export default function TravelerRegister() {
           console.log("Resposta do createReservation:", res);
           const sripePayload = {
             reservationId: res.id,
+            successUrl: "https://localhost:51808/minhasreservas",
           };
           console.log("Payload para CheckoutReservation:", sripePayload);
           CheckoutReservation(sripePayload);

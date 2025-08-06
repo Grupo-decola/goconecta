@@ -58,7 +58,7 @@ export default function Filters({
         </Grid.Col>
 
         <Grid.Col span={{ base: 12, sm: 6, md: 6, lg: 3 }}>
-          <Stack gap="xs">
+          <Stack gap={5}>
             <Text size="sm" fw={500}>
               Faixa de Preço
             </Text>
