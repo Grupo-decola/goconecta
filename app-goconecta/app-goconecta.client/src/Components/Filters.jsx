@@ -25,22 +25,15 @@ export default function Filters({
   onFieldChange,
 }) {
   const handleFilterChange = () => {
-    onFilterChange({
-      destination,
-      minPrice,
-      maxPrice,
-      startDate,
-      endDate,
-    });
+    const filterObj = { destination, startDate, minPrice, maxPrice };
+    onFilterChange(filterObj);
   };
-
   const handleClearFilters = () => {
     onFilterChange({
       destination: "",
-      minPrice: null,
       maxPrice: null,
+      minPrice: null,
       startDate: null,
-      endDate: null,
     });
   };
 

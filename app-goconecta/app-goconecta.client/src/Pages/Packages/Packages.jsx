@@ -16,7 +16,6 @@ import { fetchPackages } from "../../services/PackageService.js";
 import { useSearchParams } from "react-router-dom";
 
 export default function Packages() {
-  const [packages, setPackages] = useState([]);
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -25,26 +24,20 @@ export default function Packages() {
   // Estado local dos filtros
   const getFiltersFromParams = () => ({
     destination: searchParams.get("Destination") || "",
-    minPrice: searchParams.get("MinPrice") || "",
-    maxPrice: searchParams.get("MaxPrice") || "",
-    startDate: searchParams.get("AvailabilityStartDate") || null,
-    endDate: searchParams.get("AvailabilityEndDate") || null,
+    minPrice: searchParams.get("MinPrice") || null,
+    maxPrice: searchParams.get("MaxPrice") || null,
+    startDate: searchParams.get("AvailabilityEndDate") || null,
   });
 
   const [filterValues, setFilterValues] = useState(getFiltersFromParams());
-
-  // Sincroniza estado local com searchParams ao montar e ao navegar
-  useEffect(() => {
-    setFilterValues(getFiltersFromParams());
-  }, [searchParams]);
 
   useEffect(() => {
     setLoading(true);
     setError(null);
     fetchPackages(searchParams)
       .then((data) => {
-        setPackages(data);
         setFilteredPackages(data);
+        setFilterValues(getFiltersFromParams());
       })
       .catch(() => {
         setError("Erro ao carregar os pacotes. Tente novamente.");
@@ -52,22 +45,20 @@ export default function Packages() {
       .finally(() => setLoading(false));
   }, [searchParams]);
 
-  // Atualiza estado local dos filtros conforme usuário interage
   const handleFieldChange = (field, value) => {
     setFilterValues((prev) => ({ ...prev, [field]: value }));
   };
 
-  // Aplica filtros e atualiza searchParams
   const handleFilterChange = (values) => {
     setFilterValues(values);
     const params = {};
     if (values.destination) {
       params.Destination = values.destination;
     }
-    if (values.minPrice !== null && values.minPrice !== undefined) {
+    if (values.minPrice !== null) {
       params.MinPrice = values.minPrice;
     }
-    if (values.maxPrice !== null && values.maxPrice !== undefined) {
+    if (values.maxPrice !== null) {
       params.MaxPrice = values.maxPrice;
     }
     if (values.startDate) {
@@ -75,25 +66,9 @@ export default function Packages() {
         values.startDate instanceof Date
           ? values.startDate
           : new Date(values.startDate);
-      if (
-        dateObj &&
-        typeof dateObj.toISOString === "function" &&
-        !isNaN(dateObj)
-      ) {
-        params.AvailabilityStartDate = dateObj.toISOString().split("T")[0];
-      }
-    }
-    if (values.endDate) {
-      const dateObj =
-        values.endDate instanceof Date
-          ? values.endDate
-          : new Date(values.endDate);
-      if (
-        dateObj &&
-        typeof dateObj.toISOString === "function" &&
-        !isNaN(dateObj)
-      ) {
+      {
         params.AvailabilityEndDate = dateObj.toISOString().split("T")[0];
+        params.AvailabilityStartDate = new Date().toISOString().split("T")[0];
       }
     }
     setSearchParams(params);
@@ -137,7 +112,6 @@ export default function Packages() {
           minPrice={filterValues.minPrice}
           maxPrice={filterValues.maxPrice}
           startDate={filterValues.startDate}
-          endDate={filterValues.endDate}
           onFieldChange={handleFieldChange}
         />
 
