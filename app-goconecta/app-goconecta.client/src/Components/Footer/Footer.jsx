@@ -46,7 +46,7 @@ export default function Footer() {
                 <Anchor href="/" size="sm" style={{ color: '#182348' }}>Início</Anchor>
                 <Anchor href="/pacotes" size="sm" style={{ color: '#182348' }}>Pacotes</Anchor>
                 <Anchor href="/hospedagens" size="sm" style={{ color: '#182348' }}>Hospedagens</Anchor>
-                <Anchor href="/contato" size="sm" style={{ color: '#182348' }}>Contato</Anchor>
+                
               </Stack>
             </div>
 
