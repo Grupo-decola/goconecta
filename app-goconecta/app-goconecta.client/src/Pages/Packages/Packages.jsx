@@ -20,7 +20,23 @@ export default function Packages() {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchParams,setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Estado local dos filtros
+  const getFiltersFromParams = () => ({
+    destination: searchParams.get("Destination") || "",
+    minPrice: searchParams.get("MinPrice") || "",
+    maxPrice: searchParams.get("MaxPrice") || "",
+    startDate: searchParams.get("AvailabilityStartDate") || null,
+    endDate: searchParams.get("AvailabilityEndDate") || null,
+  });
+
+  const [filterValues, setFilterValues] = useState(getFiltersFromParams());
+
+  // Sincroniza estado local com searchParams ao montar e ao navegar
+  useEffect(() => {
+    setFilterValues(getFiltersFromParams());
+  }, [searchParams]);
 
   useEffect(() => {
     setLoading(true);
@@ -34,46 +50,53 @@ export default function Packages() {
         setError("Erro ao carregar os pacotes. Tente novamente.");
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [searchParams]);
 
-  const handleFilterChange = ({
-    destination,
-    minPrice,
-    maxPrice,
-    startDate,
-    endDate,
-  }) => {
-    let filtered = packages;
+  // Atualiza estado local dos filtros conforme usuário interage
+  const handleFieldChange = (field, value) => {
+    setFilterValues((prev) => ({ ...prev, [field]: value }));
+  };
 
-    if (destination) {
-      filtered = filtered.filter(
-        (pkg) =>
-          pkg.destination.toLowerCase().includes(destination.toLowerCase()) ||
-          pkg.title.toLowerCase().includes(destination.toLowerCase())
-      );
+  // Aplica filtros e atualiza searchParams
+  const handleFilterChange = (values) => {
+    setFilterValues(values);
+    const params = {};
+    if (values.destination) {
+      params.Destination = values.destination;
     }
-
-    if (minPrice !== null) {
-      filtered = filtered.filter((pkg) => pkg.priceAdults >= minPrice);
+    if (values.minPrice !== null && values.minPrice !== undefined) {
+      params.MinPrice = values.minPrice;
     }
-    if (maxPrice !== null) {
-      filtered = filtered.filter((pkg) => pkg.priceAdults <= maxPrice);
+    if (values.maxPrice !== null && values.maxPrice !== undefined) {
+      params.MaxPrice = values.maxPrice;
     }
-
-    if (startDate) {
-      filtered = filtered.filter((pkg) => {
-        const pkgStartDate = new Date(pkg.startDate);
-        return pkgStartDate >= startDate;
-      });
+    if (values.startDate) {
+      const dateObj =
+        values.startDate instanceof Date
+          ? values.startDate
+          : new Date(values.startDate);
+      if (
+        dateObj &&
+        typeof dateObj.toISOString === "function" &&
+        !isNaN(dateObj)
+      ) {
+        params.AvailabilityStartDate = dateObj.toISOString().split("T")[0];
+      }
     }
-    if (endDate) {
-      filtered = filtered.filter((pkg) => {
-        const pkgEndDate = new Date(pkg.endDate);
-        return pkgEndDate <= endDate;
-      });
+    if (values.endDate) {
+      const dateObj =
+        values.endDate instanceof Date
+          ? values.endDate
+          : new Date(values.endDate);
+      if (
+        dateObj &&
+        typeof dateObj.toISOString === "function" &&
+        !isNaN(dateObj)
+      ) {
+        params.AvailabilityEndDate = dateObj.toISOString().split("T")[0];
+      }
     }
-
-    setFilteredPackages(filtered);
+    setSearchParams(params);
   };
 
   if (loading) {
@@ -108,7 +131,15 @@ export default function Packages() {
           Pacotes de Viagem
         </Title>
 
-        <Filters onFilterChange={handleFilterChange} />
+        <Filters
+          onFilterChange={handleFilterChange}
+          destination={filterValues.destination}
+          minPrice={filterValues.minPrice}
+          maxPrice={filterValues.maxPrice}
+          startDate={filterValues.startDate}
+          endDate={filterValues.endDate}
+          onFieldChange={handleFieldChange}
+        />
 
         {filteredPackages.length === 0 ? (
           <Center py={{ base: 40, sm: 60 }}>
