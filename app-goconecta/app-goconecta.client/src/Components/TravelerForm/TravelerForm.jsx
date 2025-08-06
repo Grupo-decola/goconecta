@@ -33,9 +33,7 @@ const TravelerForm = forwardRef(({ IsChild }, ref) => {
         }
         const cpfRegex = /^\d{11}$/;
         const passaporteRegex = /^[A-Za-z0-9]{6,}$/;
-        if (!cpfRegex.test(value) && !passaporteRegex.test(value)) {
-          return "Informe um CPF (11 dígitos) ou passaporte válido";
-        }
+       
         return null;
       },
       birthDate: (value) => {
@@ -99,11 +97,11 @@ const TravelerForm = forwardRef(({ IsChild }, ref) => {
               placeholder="123.456.789-00 ou AB123456"
               component={IMaskInput}
               mask={
-                /^[0-9]/.test(form.values.cpfPassport)
+                /^[0-9]/.test(form.values.cpf)
                   ? "000.000.000-00"
                   : false
               }
-              {...form.getInputProps("cpfPassport")}
+              {...form.getInputProps("cpf")}
               leftSection={<IconId size={16} />}
             />
           </Grid.Col>
