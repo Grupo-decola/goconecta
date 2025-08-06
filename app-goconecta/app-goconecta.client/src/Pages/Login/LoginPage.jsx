@@ -1,5 +1,5 @@
 import React from "react";
-import LoginForm from "../../Components/Login/LoginForm"; // Caminho correto
+import LoginForm from "../../Components/Auth/Login/LoginForm"; // Caminho correto
 import { useAuth } from "../../Context/AuthContext";
 import { Navigate } from "react-router-dom";
 

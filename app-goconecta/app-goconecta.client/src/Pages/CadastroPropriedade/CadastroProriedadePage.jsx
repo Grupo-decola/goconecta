@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import './Cadastro.css';
-import { notifications } from '@mantine/notifications';
-import {api} from "@/api.js";
-import {useNavigate} from "react-router-dom"; 
+import React, { useState } from "react";
+import "./CadastroPropriedadePage.css";
+import { notifications } from "@mantine/notifications";
+import { api } from "@/api.js";
+import { useNavigate } from "react-router-dom";
 
-function CadastroPropriedade() {
+function CadastroPropriedadePage() {
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     nomePropriedade: "",
     descricao: "",
@@ -35,31 +35,28 @@ function CadastroPropriedade() {
       Rating: 0,
       Region: `${formData.cidade}/${formData.estado}`,
       Address: formData.endereco,
-    }
-    
-    api.post('Hotels', formDataCompiled)
-      .then(r => {
-        if (r.status === 201) {
-          console.log("Propriedade cadastrada com sucesso!");
-          notifications.show({
-            title: "Cadastro realizado!",
-            message: "Propriedade cadastrada com sucesso!",
-            color: "success",
-            autoClose: 2000,
-          });
-          navigate("/");
-        }
-        else {
-          console.error("Erro ao cadastrar propriedade:", r.statusText);
-          notifications.show({
-            title: "Falha ao cadastrar propriedade.",
-            message: "Erro ao cadastrar propriedade. Por favor, tente novamente.",
-            color: "error",
-            autoClose: 2000,
-          });
-        }
+    };
+
+    api.post("Hotels", formDataCompiled).then((r) => {
+      if (r.status === 201) {
+        console.log("Propriedade cadastrada com sucesso!");
+        notifications.show({
+          title: "Cadastro realizado!",
+          message: "Propriedade cadastrada com sucesso!",
+          color: "success",
+          autoClose: 2000,
+        });
+        navigate("/");
+      } else {
+        console.error("Erro ao cadastrar propriedade:", r.statusText);
+        notifications.show({
+          title: "Falha ao cadastrar propriedade.",
+          message: "Erro ao cadastrar propriedade. Por favor, tente novamente.",
+          color: "error",
+          autoClose: 2000,
+        });
       }
-    );
+    });
   };
 
   return (
@@ -114,4 +111,4 @@ function CadastroPropriedade() {
   );
 }
 
-export default CadastroPropriedade;
+export default CadastroPropriedadePage;

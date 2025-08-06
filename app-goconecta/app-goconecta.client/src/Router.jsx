@@ -1,25 +1,25 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import CadastroLogin from "./Pages/Cadastro/CadastroLogin";
+import CadastroLogin from "./Pages/CadastroUser/CadastroUserPage";
 import LoginPage from "./Pages/Login/LoginPage";
-import Home from "./Pages/Home/Home";
-import Packages from "./Pages/Packages/Packages";
+import Home from "./Pages/Home/HomePage";
+import PackagesPage from "./Pages/Packages/PackagesPage";
 import InfoPage from "./Pages/InfoPage/InfoPage";
-import TravelerRegister from "./Pages/TravelerRegister/TravelerRegister";
-import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
+import TravelerRegisterPage from "./Pages/TravelerRegister/TravelerRegisterPage";
+import ProtectedRoute from "./Components/Auth/ProtectedRoute/ProtectedRoute";
 import LogoutPage from "./Pages/Logout/LogoutPage";
-import BeneficiosPage from "./Pages/Pontos/BeneficiosPages";
-import ComingSoonPage from "./Pages/passagens/ComingSoonPage"; 
-import MinhasReservas from "./Pages/MinhasReservas/MinhaReservas";
-import Ajuda from "./Pages/ajuda/AjudaPage";
-import AnuncieSuaPropriedade from "./Pages/Anuncie/Anuncie";
-import CadastroPropriedade from "./Pages/Anuncie-Cadastro/Cadastro";
+import BeneficiosPage from "./Pages/Beneficios/BeneficiosPages";
+import PassagensPage from "./Pages/Passagens/PassagensPage";
+import MinhasReservasPage from "./Pages/MinhasReservas/MinhaReservasPage";
+import AjudaPage from "./Pages/Ajuda/AjudaPage";
+import AnunciePage from "./Pages/Anuncie/AnunciePage";
+import CadastroPropriedadePage from "./Pages/CadastroPropriedade/CadastroProriedadePage";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/hospedagens", element: <Home /> },
-  
+
   // Adiciona a nova rota para a página de passagens "em breve"
-  { path: "/passagens", element: <ComingSoonPage /> },
+  { path: "/passagens", element: <PassagensPage /> },
 
   {
     path: "/cadastro",
@@ -29,23 +29,23 @@ const router = createBrowserRouter([
     path: "/login",
     element: <LoginPage />,
   },
-   {
+  {
     path: "/minhasreservas",
-    element: <MinhasReservas />,
+    element: <MinhasReservasPage />,
   },
 
   {
     path: "/logout",
     element: <LogoutPage />,
   },
-  { path: "/pacotes", element: <Packages /> },
+  { path: "/pacotes", element: <PackagesPage /> },
   { path: "/pacote/:id", element: <InfoPage /> },
   {
     element: <ProtectedRoute />, // wrapper para rotas protegidas
     children: [
       {
         path: "/passageiros",
-        element: <TravelerRegister />,
+        element: <TravelerRegisterPage />,
       },
     ],
   },
@@ -59,21 +59,18 @@ const router = createBrowserRouter([
     element: <BeneficiosPage />,
   },
 
-
- {
+  {
     path: "/ajuda",
-    element: <Ajuda />,
+    element: <AjudaPage />,
   },
   {
     path: "/anuncie",
-    element: <AnuncieSuaPropriedade />,
+    element: <AnunciePage />,
   },
   {
     path: "/anuncie/cadastro",
-    element: <CadastroPropriedade />,
-  }
-
- 
+    element: <CadastroPropriedadePage />,
+  },
 ]);
 
 export function Router() {

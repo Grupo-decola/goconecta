@@ -10,17 +10,8 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 
-
-/**
- * Componente para criação de review de pacote com texto e avaliação por estrelas.
- * Utiliza Mantine para UI e validação.
- */
-
 const MAX_REVIEW_LENGTH = 500;
 
-/**
- * Formulário para criar um review de pacote.
- */
 export default function ReviewCreate({ onSubmit }) {
   const [submitting, setSubmitting] = useState(false);
   const form = useForm({

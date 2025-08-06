@@ -10,12 +10,12 @@ import {
 } from "@mantine/core";
 import { IconInfoCircle } from "@tabler/icons-react";
 import { useState, useEffect } from "react";
-import PackageCard from "../../Components/PackageCard.jsx";
-import Filters from "../../Components/Filters.jsx";
+import PackageCard from "../../Components/Packages/PackageCard.jsx";
+import Filters from "../../Components/Packages/Filters.jsx";
 import { fetchPackages } from "../../services/PackageService.js";
 import { useSearchParams } from "react-router-dom";
 
-export default function Packages() {
+export default function PackagesPage() {
   const [filteredPackages, setFilteredPackages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);

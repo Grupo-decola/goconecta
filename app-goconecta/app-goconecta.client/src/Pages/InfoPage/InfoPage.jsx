@@ -8,11 +8,11 @@ import {
   Loader,
   Group,
 } from "@mantine/core";
-import ImageCarousel from "../../Components/ImageCarousel/ImageCarousel";
-import Attractions from "../../Components/Attractions/Attractions";
-import ReviewView from "../../Components/ReviewView/ReviewView";
-import BookingForm from "../../Components/BookingForm/BookingForm";
-import UserReview from "../../Components/UserReview/UserReview";
+import ImageCarousel from "../../Components/PackageInfo/ImageCarousel/ImageCarousel";
+import Attractions from "../../Components/PackageInfo/Attractions/Attractions";
+import ReviewView from "../../Components/PackageInfo/ReviewView/ReviewView";
+import BookingForm from "../../Components/PackageInfo/BookingForm/BookingForm";
+import UserReview from "../../Components/PackageInfo/UserReview/UserReview";
 
 import { PackageDetailDTO } from "../../dtos/PackageDetailsDTO";
 import { useParams } from "react-router-dom";

@@ -14,12 +14,12 @@ import { useNavigate } from "react-router-dom";
 import { getReservationsByUserId } from "../../services/ReservationService";
 import noReservation from "../../assets/img/undraw_travelers_kud9.svg";
 import { createRating } from "../../services/RatingService";
-import ReservaCard from "./ReservaCard";
-import ModalAvaliacao from "./ModalAvaliacao";
+import ReservaCard from "../../Components/Reservations/ReservaCard";
+import ModalAvaliacao from "../../Components/Reservations/ModalAvaliacao";
 
 import { notifications } from "@mantine/notifications";
 
-function MinhasReservas() {
+function MinhasReservasPage() {
   const [reservas, setReservas] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
@@ -155,4 +155,4 @@ function MinhasReservas() {
   );
 }
 
-export default MinhasReservas;
+export default MinhasReservasPage;

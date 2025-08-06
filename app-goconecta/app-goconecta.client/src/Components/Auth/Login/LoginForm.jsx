@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 import {
   TextInput,
   PasswordInput,
@@ -13,7 +13,7 @@ import {
   Grid,
 } from "@mantine/core";
 import { IconAt, IconLock } from "@tabler/icons-react";
-import { useAuth } from "../../Context/AuthContext";
+import { useAuth } from "../../../Context/AuthContext";
 import { notifications } from "@mantine/notifications";
 function LoginForm() {
   const [form, setForm] = useState({

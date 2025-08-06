@@ -6,18 +6,12 @@ import {
   Stack,
   Button,
   Text,
-  Grid,
   Flex,
 } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useNavigate } from "react-router-dom";
-import {
-  IconCalendar,
-  IconUsers,
-  IconUser,
-  IconCurrencyDollar,
-} from "@tabler/icons-react";
+import { IconCalendar, IconUsers, IconUser } from "@tabler/icons-react";
 
 export default function BookingForm({
   priceAdults,

@@ -13,8 +13,8 @@ import {
 } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { registerUser } from "../../services/RegisterService";
-import RegisterUserDTO from "../../dtos/RegisterUserDTO";
+import { registerUser } from "../../../services/RegisterService";
+import RegisterUserDTO from "../../../dtos/RegisterUserDTO";
 import {
   IconUser,
   IconAt,
@@ -30,7 +30,7 @@ function CadastroFormulario() {
   const passportRegex = /^(?!\d{6,9}$)[A-Za-z0-9]{3,20}$/;
   const cpfRegex = /^\d{3}\.?\d{3}\.?\d{3}-?\d{2}$/;
   // Aceita formatos como +55 11999999999 ou +55 21987654321
-const phoneRegex = /^\(?\d{2}\)?\s?\d{8,9}$/;
+  const phoneRegex = /^\(?\d{2}\)?\s?\d{8,9}$/;
 
   const form = useForm({
     initialValues: {

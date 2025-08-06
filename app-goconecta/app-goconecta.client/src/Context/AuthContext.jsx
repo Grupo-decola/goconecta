@@ -1,4 +1,4 @@
-// AuthContext.jsx
+
 import { createContext, useContext, useState, useEffect } from "react";
 import { login, logout, getToken } from "../services/AuthService";
 export const AuthContext = createContext();
@@ -6,7 +6,7 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // Carrega usuário do localStorage ao iniciar
+ 
   useEffect(() => {
     const token = getToken();
     if (token) {
@@ -15,8 +15,6 @@ export function AuthProvider({ children }) {
     }
     setLoading(false);
   }, []);
-
-  // Função de login
 
   const handleLogin = async (email, password) => {
     const data = await login(email, password);
@@ -29,11 +27,8 @@ export function AuthProvider({ children }) {
     setUser(null);
   };
 
-  // Retorna se está autenticado
+  
   const isAuthenticated = !!user;
-
-  // Retorna o token
-  // getToken já importado
 
   return (
     <AuthContext.Provider

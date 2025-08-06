@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal } from "@mantine/core";
-import ReviewCreate from "../../Components/ReviewCreate/ReviewCreate";
+import ReviewCreate from "../ReviewCreate/ReviewCreate";
 
 /**
  * Modal de avaliação de pacote.
@@ -19,11 +19,7 @@ function ModalAvaliacao({ opened, onClose, packageId, onSubmit }) {
       centered
       size="lg"
     >
-      {packageId && (
-        <ReviewCreate
-          onSubmit={onSubmit}
-        />
-      )}
+      {packageId && <ReviewCreate onSubmit={onSubmit} />}
     </Modal>
   );
 }

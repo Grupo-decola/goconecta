@@ -5,7 +5,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { createReservation } from "../../services/ReservationService";
 import { CheckoutReservation } from "../../services/StripeService";
 
-export default function TravelerRegister() {
+export default function TravelerRegisterPage() {
   const location = useLocation();
   const [submitting, setSubmitting] = useState(false);
 
