@@ -22,48 +22,12 @@ import { useEffect, useState } from "react";
 import { fetchPackages } from "../../services/PackageService";
 import PackageCard from "@/Components/PackageCard.jsx";
 
-// function PackageCard({ pkg }) {
-//   const navigate = useNavigate();
-//   return (
-//     <Card shadow="sm" p="lg" radius="md" withBorder>
-//       <Image
-//         src={pkg.image?.path || ""}
-//         height={160}
-//         alt={pkg.image?.title || ""}
-//       />
-//       <Stack mt="md">
-//         <Group justify="space-between" mt="md" mb="xs">
-//           <Text fw={700} lineClamp={1}>
-//             {pkg.title}
-//           </Text>
-//         </Group>
-//         <Group gap="xs" c="dimmed">
-//           <IconMapPin size={14} />
-//           <Text size="sm">{pkg.destination}</Text>
-//         </Group>
-//         <Button
-//           variant="filled"
-//           fullWidth
-//           mt="md"
-//           color="#DA7818"
-//           onClick={() => navigate(`/pacote/${pkg.id}`)}
-//         >
-//           Ver Detalhes
-//         </Button>
-//       </Stack>
-//     </Card>
-//   );
-// }
-
-function ReviewView({ title }) {
+function ReviewView({ title, score }) {
   return (
     <Card shadow="sm" padding="lg" radius="md" withBorder>
       <Stack align="center" gap="xs">
         <Title order={3}>{title}</Title>
-        <Rating value={4.8} fractions={4} readOnly size="xl" />
-        <Text size="sm" c="dimmed">
-          Baseado em 400 avaliações
-        </Text>
+        <Rating value={score} fractions={4} readOnly size="xl" />
       </Stack>
     </Card>
   );
@@ -106,6 +70,19 @@ export default function HomePage() {
     });
   }, []);
 
+  function getAverageScore(packages) {
+    let total = 0;
+    let sum = 0;
+    for (const p of packages) {
+      sum += p.averageRating;
+      total += 1;
+    }
+    if (total === 0) {
+      return 0;
+    }
+    return sum / total;
+  }
+  console.log(getAverageScore(packages));
   const slides = carouselImages.map((image) => (
     <Carousel.Slide key={image.src}>
       <Box style={{ position: "relative" }}>
@@ -172,12 +149,12 @@ export default function HomePage() {
         </SimpleGrid>
       </Box>
       <Box my="xl">
-        <Grid>
+        <Grid grow>
           <Grid.Col span={{ base: 12, md: 6 }}>
-            <ReviewView title="Avaliações dos Clientes" />
-          </Grid.Col>
-          <Grid.Col span={{ base: 12, md: 6 }}>
-            <ReviewView title="Nossa pontuação média" />
+            <ReviewView
+              title="Avaliações dos Clientes"
+              score={getAverageScore(packages)}
+            />
           </Grid.Col>
         </Grid>
       </Box>

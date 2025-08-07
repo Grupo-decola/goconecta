@@ -14,7 +14,7 @@ import { AuthProvider } from "./Context/AuthContext.jsx";
 function App() {
   return (
     <MantineProvider theme={theme}>
-      <Notifications position="bottom-center" />
+      <Notifications position="top-center" />
       <AuthProvider>
         <Header />
         <Router />
